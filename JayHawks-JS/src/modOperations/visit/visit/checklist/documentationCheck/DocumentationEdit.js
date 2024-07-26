@@ -1,0 +1,47 @@
+import React from "react";
+import { useParams } from "react-router-dom";
+import TopHeader from "../../../../../components/TopHeader";
+import { useGetData } from "../../../../../hooks/dataApi";
+import Error from "../../../../../components/Error";
+import { HashLoading } from "../../../../../components/Loading";
+import DocumentationForm from "./DocumentationForm";
+
+const DocumentationEdit = () => {
+  const { id } = useParams();
+  const {
+    data: list,
+    error,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetData("allDocCheckdetails", `/allDocCheck/details/${id}`);
+
+  if (isLoading) return <HashLoading />;
+
+  if (isError) return <Error message={error.message} />;
+
+  return (
+    <div className="card w-full max-w-screen-xl">
+      <TopHeader
+        title="5.Edit	Documentation Check "
+        btn="Return"
+        path={`/ops/visit/preview/${list.data.allVisitId}`}
+      />
+      <DocumentationForm
+        defaultValues={{
+          docCheckId: list.data.docCheckId,
+          workToBeDone: list.data.workToBeDone,
+          status: list.data.status,
+          identifiedMajor: list.data.identifiedMajor,
+          takenSteps: list.data.takenSteps
+        }}
+        action={refetch}
+        btnText="Update"
+        path="/allDocCheck/update"
+        returnPath={`/ops/visit/preview/${list.data.allVisitId}`}
+      />
+    </div>
+  );
+};
+
+export default DocumentationEdit;

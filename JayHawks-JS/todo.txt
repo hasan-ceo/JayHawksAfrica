@@ -1,0 +1,69 @@
+Issues Status
+
+1) bulk upload of allowance and deduction
+2) 18 Months contract renew 3,6,12,18,24,
+3) email, attachment, read receipt, upload file
+4) Leave overlap planing
+5) RM and AM staff leave register
+6) Salary arrears and trainee arrears Salary calculation - Accounts already share calculation
+7) reports - who is rejected - reject list
+8) layer a RM/AM - select RM/AM before complete
+9) decipline reply print notification
+
+
+1) circular upload - notice - done
+2) appointment letter receive - umoja values copy - done, highlight in bold 
+3) show cause in deceipline - need notification in email. - done
+4) notice - done
+5) Evaluation manager email notification - done
+6) Done - Bank sheet excel has stop salary (MBABAI christine)
+7) Done - Transfer & promotion togehter
+8) Done - Feedback notification not receive by HRkj
+9) Done - Happy birthday to HR
+10) Done - Bank sheet without format
+11) done - Administration staff not match with loans office
+12) Done - Employee Attendance Summary
+13) done - from date - till date - designation wise search
+14) Done - Present report
+15) Done - Sacco reduce by accounts
+16) Done - Evaluation -  Hr will share, also need design diagram to align with the process
+17) Done - sacco return - sacco balance 
+18) Done - End of year Evaluation for everyone
+19) Done - HrLeave balance need check again. 
+20) Done - Leave deduction - work in progress
+21) Done - Leave list two level of approval
+22) Done - Sacco balance format update
+23) notice expired date - done
+24) Mother's contact - done
+25) Father's contact - done
+26) Next of Kin's name - done
+27) Next of kin's Address - done
+28) Typo Appointment add T - done
+29) Signature in Appointment - done
+30) buttons at the beginning instead of scrolling - done
+31) Then also can we increase space of the columns so its easier to read than export the file all the time - done
+32) Transfer and promotion together
+
+
+Monitoring
+1) RM and AM mapping for reporting for Reporting 
+2) Edit option can open for - 2 days
+3) Group visit summary
+4) Suggestion: management comments on group visit
+
+1) Designation wise visit history
+2) Photo upload for specific findings
+3) Monitoring findings and general findings
+4) implementation supervisor bm/
+5) autosave
+
+
+
+1) action followup 
+2) action auto email remainder
+3) feedback add
+4) observation assign
+5) review notification
+6) ranking / Assign score
+7) check list not showing
+8) audit tracker

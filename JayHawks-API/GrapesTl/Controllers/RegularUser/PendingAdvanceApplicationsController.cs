@@ -1,0 +1,169 @@
+﻿using Dapper;
+using GrapesTl.Models;
+using GrapesTl.Service;
+using GrapesTl.Utility;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Data;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace GrapesTl.Controllers;
+
+[Authorize(Roles = "IT Manager,Area Manager,Operations Manager,Super Admin,Branch Manager,Regional Manager,Operations Head, Country Team Leader,HR Manager,Audit Manager,Accounts Manager")]
+[Route("api/[controller]")]
+[ApiController]
+public class PendingAdvanceApplicationsController(IUnitOfWork unitOfWork, IEmailSender emailSender, ILogger<PendingAdvanceApplicationsController> logger) : ControllerBase
+{
+
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IEmailSender _emailSender = emailSender;
+    private readonly ILogger<PendingAdvanceApplicationsController> _logger = logger;
+    private string _userId;
+
+
+
+    [HttpGet("List")]
+    public async Task<IActionResult> List()
+    {
+
+        try
+        {
+            _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+            var parameter = new DynamicParameters();
+            parameter.Add("@AuthorityId", user.EmployeeId);
+
+            var data = await _unitOfWork.SP_Call.List<EmpAdvanceView>("hrEmpAdvanceGetAllPending", parameter);
+
+            return Ok(data);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+           "Error retrieve list of data." + e.Message);
+        }
+    }
+
+    [HttpPost("Update")]
+    public async Task<IActionResult> Update([FromBody] EmpAdvanceUpdate model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(SD.Message_Model_Error);
+
+        try
+        {
+            _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+
+            var parameter = new DynamicParameters();
+            parameter.Add("@EmployeeId", user.EmployeeId);
+            parameter.Add("@AdvanceId", model.AdvanceId);
+            parameter.Add("@AdvanceStatus", model.AdvanceStatus);
+            parameter.Add("@Comments", model.Comments);
+            parameter.Add("@EmailTo", "", dbType: DbType.String, direction: ParameterDirection.Output);
+            parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
+            await _unitOfWork.SP_Call.Execute("hrEmpAdvanceUpdateByAuthority", parameter);
+            var message = parameter.Get<string>("Message");
+            var emailTo = parameter.Get<string>("EmailTo");
+
+            if (message == "Not found")
+                return NotFound(message);
+
+            if (string.IsNullOrEmpty(message) == false && string.IsNullOrEmpty(emailTo) == false)
+            {
+                try
+                {
+                    await _emailSender.SendEmailAsync(
+                        "hr@umojamicrofinance.com;" + emailTo,
+                        "Leave Recommendation",
+                        message);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogInformation("Remote work Error at: {ex}", ex.Message);
+                }
+            }
+
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+           "Error updating data." + e.Message);
+        }
+    }
+
+    [HttpGet("Recommendedlist")]
+    public async Task<IActionResult> Recommendedlist()
+    {
+
+        try
+        {
+            var data = await _unitOfWork.SP_Call.List<EmpAdvanceView>("hrEmpAdvanceSalaryGetAllRecommended");
+
+            return Ok(data);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+           "Error retrieve list of data." + e.Message);
+        }
+    }
+
+
+    [HttpPost("HrUpdate")]
+    public async Task<IActionResult> HrUpdate([FromBody] EmpAdvanceUpdate model)
+    {
+        _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+
+        if (!ModelState.IsValid)
+            return BadRequest(SD.Message_Model_Error);
+
+        try
+        {
+            var parameter = new DynamicParameters();
+            parameter.Add("@AdvanceId", model.AdvanceId);
+            parameter.Add("@AdvanceStatus", model.AdvanceStatus);
+            parameter.Add("@Comments", model.Comments);
+            parameter.Add("@HrId", user.EmployeeId);
+            parameter.Add("@InstalmentNo", model.InstalmentNo);
+            parameter.Add("@EmailTo", "", dbType: DbType.String, direction: ParameterDirection.Output);
+            parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
+            await _unitOfWork.SP_Call.Execute("hrEmpAdvanceSalaryUpdateByHr", parameter);
+            var message = parameter.Get<string>("Message");
+            var emailTo = parameter.Get<string>("EmailTo");
+
+            if (message == "Not found")
+                return NotFound(message);
+
+            if (string.IsNullOrEmpty(message) == false && string.IsNullOrEmpty(emailTo) == false)
+            {
+                try
+                {
+                    await _emailSender.SendEmailAsync(
+                        "hr@umojamicrofinance.com;" + emailTo,
+                        "Leave Approved",
+                        message);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogInformation("Remote work Error at: {ex}", ex.Message);
+                }
+            }
+
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+           "Error updating data." + e.Message);
+        }
+    }
+
+}
