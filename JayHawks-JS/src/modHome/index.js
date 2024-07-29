@@ -1,6 +1,7 @@
 import { lazy } from "react";
 
 const Landing = lazy(() => import("./landing/Landing"));
+const LoginPage = lazy(() => import("./landing/LoginPage"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const ExitInterview = lazy(() => import("./pages/ExitInterview"));
@@ -10,6 +11,7 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 
 export {
   Landing,
+  LoginPage,
   ForgotPassword,
   ResetPassword,
   NotFound,

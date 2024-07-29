@@ -33,8 +33,8 @@ module.exports = {
         // print: { raw: "print" },
       },
       backgroundImage: {
-        termsofservice: "url('./images/termsofservice.jpg')",
-        privacypolicy: "url('./images/privacypolicy.jpg')",
+        // termsofservice: "url('./images/termsofservice.jpg')",
+        // privacypolicy: "url('./images/privacypolicy.jpg')",
       },
     },
   },
