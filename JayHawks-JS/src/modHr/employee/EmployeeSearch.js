@@ -17,7 +17,7 @@ const EmployeeSearch = ({ query }) => {
     refetch,
   } = useGetData("employeessearch", `/employees/search/${query}`);
 
-  console.log(query);
+
 
   if (isLoading) return <HashLoading />;
 

@@ -5,12 +5,12 @@ import LedgerForm from "./LedgerForm";
 const LedgerAdd = () => {
   const defaultValues = {
     ledgerId: "",
+    subGroupId:"",
     ledgerName: "",
-    subHeadId: "",
-    descriptions: "",
-    locationId: "",
-    projectId: "",
-    isActive: "Yes",
+    displayAt:"",
+    voucherType:"",
+    accountType:""
+    
   };
   return (
     <div className="card w-full max-w-screen-xl">
@@ -23,7 +23,7 @@ const LedgerAdd = () => {
         defaultValues={defaultValues}
         action={() => {}}
         btnText="Save"
-        path="/ledger/create"
+        path="/acLedger/create"
         returnPath="/ac/settings/ledger/list"
       />
     </div>

@@ -38,7 +38,6 @@ function RemarksForm({
   const { particulars } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     // if (!imageUrl || imageUrl === "1vyhSgRVvN5Y7FaTX2HBLGse7i2BmkDN6") {
     //   toast.error("Image Not uploaded");
     //   return;

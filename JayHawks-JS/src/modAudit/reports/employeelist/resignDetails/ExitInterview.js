@@ -1,9 +1,7 @@
 import React from "react";
 
 const ExitInterview = ({ interview }) => {
-  // console.log(interview[0]);
-  // console.log(interview[0].informSupervisor);
-  // console.log(interview.length);
+
   const isVisable = interview.length > 0 ? true : false;
   return (
     <>

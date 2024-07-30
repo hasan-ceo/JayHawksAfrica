@@ -5,7 +5,7 @@ public class SubMenuAssign
     public int SubMenuId { get; set; }
 }
 
-public class SubMenuAssignView: SubMenuAssign
+public class SubMenuAssignView : SubMenuAssign
 {
     public int SubMenuAssignId { get; set; }
     public int MenuId { get; set; }

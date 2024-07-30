@@ -14,7 +14,7 @@ const LedgerEdit = () => {
     isLoading,
     isError,
     refetch,
-  } = useGetData("ledgerdetails", `/ledger/details/${id}`);
+  } = useGetData("ledgerDetails", `/acLedger/details/${id}`);
 
   if (isLoading) return <HashLoading />;
 
@@ -31,15 +31,14 @@ const LedgerEdit = () => {
         defaultValues={{
           ledgerId: list.data.ledgerId,
           ledgerName: list.data.ledgerName,
-          subHeadId: list.data.subHeadId,
-          descriptions: list.data.descriptions,
-          locationId: list.data.locationId,
-          projectId: list.data.projectId,
-          isActive: list.data.isActive,
+          displayAt: list.data.displayAt,
+          subGroupId: list.data.subGroupId,
+          voucherType:list.data.voucherType,
+          accountType:list.data.accountType
         }}
         action={refetch}
         btnText="Update"
-        path="/ledger/update"
+        path="/acLedger/update"
         returnPath="/ac/settings/ledger/list"
       />
     </div>

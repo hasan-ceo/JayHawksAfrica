@@ -1,19 +1,19 @@
 import React from "react";
-import { HashLoading } from "../../components/Loading";
-import Error from "../../components/Error";
+// import { HashLoading } from "../../components/Loading";
+// import Error from "../../components/Error";
 import TopHeader from "../../components/TopHeader";
-import { useGetData } from "../../hooks/dataApi";
+//import { useGetData } from "../../hooks/dataApi";
 import { ListHeader, ListCol } from "../../components/ListColWithHeader";
 import DeleteButton from "../../components/button/DeleteButton";
 
 const ReverseVoucherList = () => {
-  const {
-    data: list,
-    error,
-    isLoading,
-    isError,
-    refetch,
-  } = useGetData("reverseVoucher", "/ac/reverseVoucher/list");
+  // const {
+  //   data: list,
+  //   error,
+  //   isLoading,
+  //   isError,
+  //   refetch,
+  // } = useGetData("reverseVoucher", "/ac/reverseVoucher/list");
 
   const data = [
     {
@@ -29,14 +29,14 @@ const ReverseVoucherList = () => {
     },
   ];
 
-  if (isLoading) return <HashLoading />;
+  // if (isLoading) return <HashLoading />;
 
-  if (isError) return <Error message={error.message} />;
+  // if (isError) return <Error message={error.message} />;
 
   return (
     <div className="card w-full max-w-screen-xl">
       <TopHeader
-        title="Requisition Approve"
+        title="Reverse Voucher"
         btn="Save"
         path="/ac/reverseVoucher/add"
       />
@@ -46,10 +46,10 @@ const ReverseVoucherList = () => {
           <ListHeader label="Vno" />
           <ListHeader label="Sub Head Name" />
           <ListHeader label="Transaction Type" />
-          <ListHeader label="DR" />
-          <ListHeader label="CR" />
           <ListHeader label="Particulars" />
           <ListHeader label="Voucher Type" />
+          <ListHeader label="DR" className="flex justify-end" />
+          <ListHeader label="CR" className="flex justify-end" />
           <ListHeader label="" />
         </div>
         {data.length > 0 &&
@@ -65,13 +65,22 @@ const ReverseVoucherList = () => {
                 label="Transaction Type::"
                 value={item.transactionType}
               />
-              <ListCol label="DR:" value={item.dr} />
-              <ListCol label="CR:" value={item.cr} />
+
               <ListCol label="Particulars:" value={item.particulars} />
               <ListCol label="Voucher Type:" value={item.voucherType} />
+              <ListCol
+                label="DR:"
+                value={item.dr}
+                className="flex justify-start md:justify-end"
+              />
+              <ListCol
+                label="CR:"
+                value={item.cr}
+                className="flex justify-start md:justify-end"
+              />
               <div className="flex justify-end space-x-2">
                 <DeleteButton
-                  action={refetch}
+                  // action={refetch}
                   path={`/receiveVoucher/delete/${item.receiveVoucherId}`}
                 />
               </div>
@@ -80,7 +89,7 @@ const ReverseVoucherList = () => {
         <div className="list-footer">
           <div className="col-span-10"></div>
           <div className="flex justify-center">
-            <span className="font-semibold">Total : {list.data.length}</span>
+            <span className="font-semibold">Total : {data.length}</span>
           </div>
         </div>
       </div>

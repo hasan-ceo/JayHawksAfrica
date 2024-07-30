@@ -31,7 +31,7 @@ const BillDetailsList = ({ id, isSubmit }) => {
       .reduce((sum, val) => sum + val, 0);
   }
 
-  // console.log(list.data);
+  //
   return (
     <div>
       <TopHeader

@@ -42,7 +42,6 @@ const InvestigationForm = ({
   const { title, branchId, departmentId, investigationDate } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
     var datainfo = new FormData();
     datainfo.append("investigationId", formData.investigationId);

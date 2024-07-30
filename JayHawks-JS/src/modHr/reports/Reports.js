@@ -5,7 +5,7 @@ import { useGlobalContext } from "../../hooks/context";
 
 const Reports = () => {
   const value = useGlobalContext();
-  console.log(value.subMenus);
+
   const hrbasic = value.subMenus.filter((item) => {
     if (
       item.moduleName.toLowerCase() === "Hr".toLowerCase() &&

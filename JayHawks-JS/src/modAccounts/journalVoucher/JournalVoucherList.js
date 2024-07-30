@@ -1,34 +1,30 @@
 import React from "react";
-import DeleteButton from "../../components/button/DeleteButton";
-import TopHeader from "../../components/TopHeader";
 import Error from "../../components/Error";
 import { useGetData } from "../../hooks/dataApi";
 import { HashLoading } from "../../components/Loading";
 import { ListHeader, ListCol } from "../../components/ListColWithHeader";
+import { format } from "date-fns";
+import TopHeader from "../../components/TopHeader";
 
-const LedgerList = () => {
+const JournalVoucherList = () => {
   const {
     data: list,
     error,
     isLoading,
     isError,
-    refetch,
-  } = useGetData("journalVoucher", "/journalVoucher/list");
-
-  const data = [
-    {
-      journalVoucherId: "111",
-      amount: "11",
-      particulars: "Dhaka",
-      accountHeadDr: "11",
-      accountHeadCr: "Dhaka",
-    },
-  ];
-
+  } = useGetData("JournalVoucher", "/accountGl/journalList");
   if (isLoading) return <HashLoading />;
 
   if (isError) return <Error message={error.message} />;
+  let sumDeposit = 0;
+  let sumWithdraw = 0;
 
+  if (list.data.length > 0) {
+    sumDeposit = list.data.map((item) => item.dr).reduce((sum, val) => sum + val, 0);
+    sumWithdraw = list.data
+      .map((item) => item.cr)
+      .reduce((sum, val) => sum + val, 0);
+  }
   return (
     <div className="card w-full max-w-screen-xl">
       <TopHeader
@@ -37,36 +33,74 @@ const LedgerList = () => {
         path={"/ac/journalVoucher/add"}
       />
       <div className="list-wrapper">
-        <div className="md:grid grid-cols-5 list-header">
-          <ListHeader label="AccountHeadDr" />
-          <ListHeader label="AccountHeadCr" />
-          <ListHeader label="Amount" />
+        <div className="md:grid grid-cols-9 list-header">
+          <ListHeader label="Date" />
+          <ListHeader label="Voucher Type" />
+          <ListHeader label="Voucher Number" />
+          <ListHeader label="Trans Type" />
           <ListHeader label="Particulars" />
-          <ListHeader label="" />
+          <ListHeader label="Status" />
+          <ListHeader label="Ledger Name" />
+          <ListHeader label="Debit" className="flex justify-end" />
+          <ListHeader label="Credit" className="flex justify-end" />
         </div>
-        {data.length > 0 &&
-          data.map((item) => (
-            <div
-              key={item.journalVoucherId}
-              className="grid grid-cols-1 md:grid-cols-5 list-body"
-            >
-              <ListCol label="AccountHeadDr : " value={item.accountHeadDr} />
-              <ListCol label="AccountHeadCr : " value={item.accountHeadCr} />
-              <ListCol label="Amount : " value={item.amount} />
+        {list.data.length > 0 &&
+          list.data.map((item, i) => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-9 list-body">
+              <ListCol
+                label="Date : "
+                value={format(new Date(item.workDate), "dd/MMM/yyyy")}
+              />
+              <ListCol label="Voucher Type : " value={item.voucherType} />
+              <ListCol label="Voucher Number : " value={item.voucherNumber} />
+              <ListCol label="Trans Type : " value={item.transType} />
               <ListCol label="Particulars : " value={item.particulars} />
-              <div className="flex justify-end space-x-2">
-                <DeleteButton
-                  action={refetch}
-                  path={`/journalVoucher/delete/${item.journalVoucherId}`}
-                />
-              </div>
+              <ListCol
+                label="Status : "
+                value={item.isReverse === true ? "Reverse" : ""}
+              />
+              <ListCol label="Ledger Name : " value={item.ledgerName} />
+              <ListCol
+                className="flex justify-start md:justify-end"
+                label="Debit : "
+                value={item.dr.toLocaleString("en-US")}
+              />
+              <ListCol
+                className="flex justify-start md:justify-end"
+                label="Credit : "
+                value={item.cr.toLocaleString("en-US")}
+              />
             </div>
           ))}
 
-        <div className="list-footer">
+        {/* <div className="list-footer">
           <div className="col-span-10"></div>
           <div className="flex justify-center">
             <span className="font-semibold">TOTAL : {list.data.length}</span>
+          </div>
+        </div> */}
+        <div className="list-footer font-bold">
+          <div className="grid grid-cols-1 md:grid-cols-9">
+            <ListCol
+              label="Total Debit :  "
+              value={`Total ${list.data.length} Transactions`}
+            />
+            <ListCol />
+            <ListCol />
+            <ListCol />
+            <ListCol />
+            <ListCol />
+            <ListCol />
+            <ListCol
+              label="Total  :  "
+              value={`Total :${sumDeposit.toLocaleString("en-US")}`}
+              className="flex justify-start md:justify-end"
+            />
+            <ListCol
+              label="Total  :  "
+              value={`Total : ${sumWithdraw.toLocaleString("en-US")}`}
+              className="flex justify-start md:justify-end"
+            />
           </div>
         </div>
       </div>
@@ -74,4 +108,4 @@ const LedgerList = () => {
   );
 };
 
-export default LedgerList;
+export default JournalVoucherList;

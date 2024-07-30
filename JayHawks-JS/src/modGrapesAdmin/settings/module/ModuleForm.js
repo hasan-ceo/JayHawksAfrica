@@ -76,7 +76,6 @@ const ModuleForm = ({ defaultValues, action, btnText, path, returnPath }) => {
           label="Icon Name"
           type="text"
           register={register}
-          isAutoFocus={true}
           errorMessage={icon?.message}
         />
         <Input
@@ -84,7 +83,6 @@ const ModuleForm = ({ defaultValues, action, btnText, path, returnPath }) => {
           label="Link"
           type="text"
           register={register}
-          isAutoFocus={true}
           errorMessage={link?.message}
         />
         <SaveButton btnText={btnText} disabled={submitting} />

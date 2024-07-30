@@ -49,7 +49,6 @@ const EvaluationForm = ({
         formData: datas,
       });
 
-      // console.log(data);
       if (status === 201) {
         toast.success("Saved successfully!");
         reset();

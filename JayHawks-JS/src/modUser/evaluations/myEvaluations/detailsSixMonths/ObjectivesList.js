@@ -57,7 +57,6 @@ const ObjectivesList = ({ defaultValues, action }) => {
     answer3,
   } = errors;
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
 
     var data = new FormData();

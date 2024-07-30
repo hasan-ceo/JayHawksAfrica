@@ -51,7 +51,7 @@ const schema = yup
     saccoDeduction: yup
       .number()
       .min(0, "Must be greater than or equal to 0")
-      .typeError("Positive number required"), 
+      .typeError("Positive number required"),
     motherName: yup.string().required("Required").max(50),
     fatherName: yup.string().required("Required").max(50),
     religion: yup.string().max(50),
@@ -138,7 +138,6 @@ const EmployeeForm = ({
   } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
     var data = new FormData();
     data.append("employeeId", formData.employeeId);

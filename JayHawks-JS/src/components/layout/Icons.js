@@ -73,7 +73,7 @@ import {
   AiOutlineCheckSquare,
   AiOutlineHome,
 } from "react-icons/ai";
-import { RiFolderReceivedFill } from "react-icons/ri";
+import { RiFolderReceivedFill, RiBankCardLine } from "react-icons/ri";
 import { IoTrailSignOutline } from "react-icons/io5";
 import { SiCountingworkspro } from "react-icons/si";
 import {
@@ -82,6 +82,8 @@ import {
   MdOutlineTravelExplore,
   MdOutlineRequestQuote,
   MdSummarize,
+  MdOutlineAccountBalanceWallet,
+  MdPayment,
 } from "react-icons/md";
 import { BiBookContent, BiReceipt } from "react-icons/bi";
 import {
@@ -92,13 +94,28 @@ import {
 } from "react-icons/bs";
 
 import { ImAttachment } from "react-icons/im";
+import { GiIncomingRocket } from "react-icons/gi";
+import { SiHyperledger } from "react-icons/si";
+import { FaLayerGroup, FaObjectUngroup } from "react-icons/fa";
 
 const Icons = ({ name, size = 30 }) => {
   switch (name) {
     case "IoTrailSignOutline":
       return <IoTrailSignOutline size={size} />;
+    case "MdPayment":
+      return <MdPayment size={size} />;
+    case "FaObjectUngroup":
+      return <FaObjectUngroup size={size} />;
+    case "SiHyperledger":
+      return <SiHyperledger size={size} />;
+    case "FaLayerGroup":
+      return <FaLayerGroup size={size} />;
+    case "GiIncomingRocket":
+      return <GiIncomingRocket size={size} />;
     case "MdSummarize":
       return <MdSummarize size={size} />;
+    case "AiOutlineBank":
+      return <AiOutlineBank size={size} />;
     case "AiOutlineHome":
       return <AiOutlineHome size={size} />;
     case "AiOutlineCompress":
@@ -135,6 +152,10 @@ const Icons = ({ name, size = 30 }) => {
       return <AiFillCarryOut size={size} />;
     case "AiOutlineAudit":
       return <AiOutlineAudit size={size} />;
+    case "MdOutlineAccountBalanceWallet":
+      return <MdOutlineAccountBalanceWallet size={size} />;
+    case "RiBankCardLine":
+      return <RiBankCardLine size={size} />;
     case "AiOutlineExpand":
       return <AiOutlineExpand size={size} />;
     case "AiOutlinePlayCircle":
@@ -175,8 +196,6 @@ const Icons = ({ name, size = 30 }) => {
       return <AiOutlineBorderOuter size={size} />;
     case "AiOutlineCalculator":
       return <AiOutlineCalculator size={size} />;
-    case "AiOutlineBank":
-      return <AiOutlineBank size={size} />;
     case "AiOutlineCarryOut":
       return <AiOutlineCarryOut size={size} />;
     case "AiOutlineBgColors":

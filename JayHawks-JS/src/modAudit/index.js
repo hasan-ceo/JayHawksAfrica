@@ -215,6 +215,25 @@ const DepartmentalInvestigationList = lazy(() =>
   import("./settings/departmentalInvestigation/DepartmentalInvestigationList")
 );
 
+const AuditDepartmentReportAdd = lazy(() =>
+  import("./auditDepartmentReport/AuditDepartmentReportAdd")
+);
+const AuditDepartmentReportEdit = lazy(() =>
+  import("./auditDepartmentReport/AuditDepartmentReportEdit")
+);
+const AuditDepartmentReportList = lazy(() =>
+  import("./auditDepartmentReport/AuditDepartmentReportList")
+);
+const AuditSpecialInvestigationReportAdd = lazy(() =>
+  import("./auditSpecialInvestigationReport/AuditSpecialInvestigationReportAdd")
+);
+const AuditSpecialInvestigationReportEdit = lazy(() =>
+  import("./auditSpecialInvestigationReport/AuditSpecialInvestigationReportEdit")
+);
+const AuditSpecialInvestigationReportList = lazy(() =>
+  import("./auditSpecialInvestigationReport/AuditSpecialInvestigationReportList")
+);
+
 
 export {
   Dashboard,
@@ -302,4 +321,10 @@ export {
   DepartmentAuditTestList,
   DepartmentAuditTestAdd,
   DepartmentAuditTestEdit,
+  AuditDepartmentReportAdd,
+  AuditDepartmentReportEdit,
+  AuditDepartmentReportList,
+  AuditSpecialInvestigationReportList,
+  AuditSpecialInvestigationReportEdit,
+  AuditSpecialInvestigationReportAdd,
 };

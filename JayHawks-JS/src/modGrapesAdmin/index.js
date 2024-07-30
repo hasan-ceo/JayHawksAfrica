@@ -29,7 +29,11 @@ const SubMenuList = lazy(() => import("./settings/subMenu/SubMenuList"));
 const MenuAssignList = lazy(() =>
   import("./settings/menuAssign/MenuAssignList")
 );
+const MenuAssignAdd = lazy(() => import("./settings/menuAssign/MenuAssignAdd"));
 
+const SubMenuAssignAdd = lazy(() =>
+  import("./settings/subMenuAssign/SubMenuAssignAdd")
+);
 const SubMenuAssignList = lazy(() =>
   import("./settings/subMenuAssign/SubMenuAssignList")
 );
@@ -53,6 +57,8 @@ export {
   SubMenuAdd,
   SubMenuEdit,
   SubMenuList,
+  MenuAssignAdd,
   MenuAssignList,
   SubMenuAssignList,
+  SubMenuAssignAdd,
 };

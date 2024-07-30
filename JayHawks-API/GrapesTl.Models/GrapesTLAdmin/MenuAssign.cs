@@ -5,7 +5,7 @@ public class MenuAssign
     public string UserId { get; set; }
 }
 
-public class MenuAssignView: MenuAssign
+public class MenuAssignView : MenuAssign
 {
     public int MenuAssignId { get; set; }
     public string EmployeeName { get; set; }

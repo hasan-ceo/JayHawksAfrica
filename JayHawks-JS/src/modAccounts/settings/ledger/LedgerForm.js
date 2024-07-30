@@ -7,21 +7,19 @@ import toast from "react-hot-toast";
 import { usePostData } from "../../../hooks/dataApi";
 import SaveButton from "../../../components/button/SaveButton";
 import Input from "../../../components/Input";
-import TextArea from "../../../components/TextArea";
 import {
   SelectFromDb,
   SelectFromOptions,
 } from "../../../components/SelectList";
+import RadioButtons from "../../../components/RadioButtons";
 
 const schema = yup.object({
   ledgerId: yup.string(),
-  ledgerCode: yup.string().required("Required.").max(50),
+  subGroupId: yup.string().required("Required.").max(50),
   ledgerName: yup.string().required("Required.").max(50),
-  subHeadId: yup.string().required("Required.").max(50),
-  descriptions: yup.string().required("Required.").max(250),
-  locationId: yup.string().required("Required.").max(50),
-  projectId: yup.string().required("Required.").max(50),
-  isActive: yup.string().required("Required.").max(50),
+  displayAt: yup.string().required("Required.").max(50),
+  voucherType: yup.string().required("Required.").max(50),
+  accountType: yup.string().required("Required.").max(50),
 });
 
 const LedgerForm = ({ defaultValues, action, btnText, path, returnPath }) => {
@@ -38,15 +36,8 @@ const LedgerForm = ({ defaultValues, action, btnText, path, returnPath }) => {
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  const {
-    ledgerCode,
-    ledgerName,
-    subHeadId,
-    descriptions,
-    locationId,
-    projectId,
-    isActive,
-  } = errors;
+  const { ledgerName, displayAt, subGroupId, voucherType, accountType } =
+    errors;
 
   const onSubmit = async (formData) => {
     setSubmitting(true);
@@ -79,21 +70,14 @@ const LedgerForm = ({ defaultValues, action, btnText, path, returnPath }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="hidden" {...register("ledgerId")} />
+      <input type="hidden" {...register("subGroupId")} />
       <div className="form-col">
         <SelectFromDb
           control={control}
-          label="Sub Head"
-          path="/subHead/select"
-          name="subHeadId"
-          errorMessage={subHeadId?.message}
-        />
-        <Input
-          name="ledgerCode"
-          label="Ledger Code"
-          type="text"
-          register={register}
-          errorMessage={ledgerCode?.message}
+          label="Sub Group Name"
+          path="/acSubGroup/select"
+          name="subGroupId"
+          errorMessage={subGroupId?.message}
         />
         <Input
           name="ledgerName"
@@ -102,32 +86,32 @@ const LedgerForm = ({ defaultValues, action, btnText, path, returnPath }) => {
           register={register}
           errorMessage={ledgerName?.message}
         />
-        <TextArea
-          control={control}
-          name="descriptions"
-          label="Descriptions"
-          errorMessage={descriptions?.message}
-        />
-        <SelectFromDb
-          control={control}
-          label="Location"
-          path="/location/select"
-          name="locationId"
-          errorMessage={locationId?.message}
-        />
-        <SelectFromDb
-          control={control}
-          label="Project"
-          path="/project/select"
-          name="projectId"
-          errorMessage={projectId?.message}
-        />
+
         <SelectFromOptions
           register={register}
-          options={["Yes", "No"]}
-          label="Active"
-          name="isActive"
-          errorMessage={isActive?.message}
+          options={["HO", "BR"]}
+          label="Display At"
+          name="displayAt"
+          errorMessage={displayAt?.message}
+        />
+        <RadioButtons
+          register={register}
+          options={[
+            "Payment Voucher",
+            "Receive Voucher",
+            "Payment and Receive Voucher",
+            "Not Applicable",
+          ]}
+          label="Select Voucher Type"
+          name="voucherType"
+          errorMessage={voucherType?.message}
+        />
+        <RadioButtons
+          register={register}
+          options={["Cash", "Bank", "Non Bank Or Cash"]}
+          label="Select AccountType"
+          name="accountType"
+          errorMessage={accountType?.message}
         />
         <SaveButton btnText={btnText} disabled={submitting} />
       </div>

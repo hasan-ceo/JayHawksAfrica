@@ -42,6 +42,20 @@ public class EmployeesController(IUnitOfWork unitOfWork, IMailSender mailSender,
         }
     }
 
+    [HttpGet("SelectAll")]
+    public async Task<IActionResult> SelectAll()
+    {
+        try
+        {
+            var data = await _unitOfWork.SP_Call.List<EmpForSelect>("hrEmployeeGetForSelectAll");
+            return Ok(data.Select(a => new { listId = a.EmployeeId, listName = a.EmployeePin + " - " + a.EmployeeName }));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+           "Error retrieve list of data." + e.Message);
+        }
+    }
 
 
     //[HttpGet("SelectManager")]

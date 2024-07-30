@@ -18,7 +18,7 @@ const AdvanceSalaryView = () => {
   if (isLoading) return <HashLoading />;
 
   if (isError) return <Error message={error.message} />;
-  console.log(list.data);
+
   return (
     <div className="card w-full max-w-screen-xl gap-5">
       <TopHeader

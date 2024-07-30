@@ -9,7 +9,7 @@ const Menu = () => {
     else return null;
   });
 
-  console.log(data);
+
 
   return (
     <div className="flex flex-col w-56 items-center h-full overflow-hidden text-gray-400">

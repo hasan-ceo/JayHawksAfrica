@@ -8,7 +8,7 @@ import SaveButton from "../../../components/button/SaveButton";
 import { SelectFromDb } from "../../../components/SelectList";
 
 const schema = yup.object({
-  userId: yup.string().required("Required.").max(50),
+  userId: yup.string().required("Required."),
   menuId: yup.number().required("Required."),
 });
 
@@ -28,7 +28,6 @@ const MenuAssignForm = ({ defaultValues, action, btnText, path }) => {
   const { userId, menuId } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
     try {
       const { status } = await mutateAsync({
@@ -62,13 +61,13 @@ const MenuAssignForm = ({ defaultValues, action, btnText, path }) => {
           label="Select User"
           path="/usercreate/select"
           errorMessage={userId?.message}
+          isAutoFocus={true}
         />
         <SelectFromDb
           control={control}
           name="menuId"
           label="Select menu"
           path="/adMenu/select"
-          isAutoFocus={true}
           errorMessage={menuId?.message}
         />
         <SaveButton btnText={btnText} disabled={submitting} />

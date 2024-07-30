@@ -10,7 +10,7 @@ public class AdMenu
 
 }
 
-public class AdMenuView: AdMenu
+public class AdMenuView : AdMenu
 {
     public string ModuleName { get; set; }
 }

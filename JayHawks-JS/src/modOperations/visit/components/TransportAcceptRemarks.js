@@ -32,7 +32,6 @@ const TransportAcceptRemarks = ({
   const { acceptRemarks } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
     var data = new FormData();
     data.append("travelId", formData.travelId);

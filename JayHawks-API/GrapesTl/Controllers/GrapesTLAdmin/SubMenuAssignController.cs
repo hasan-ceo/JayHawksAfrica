@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using GrapesTl.Models;
 using GrapesTl.Models.Admin;
 using GrapesTl.Service;
 using GrapesTl.Utility;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GrapesTl.Controllers;
@@ -21,12 +19,14 @@ public class SubMenuAssignController(IUnitOfWork unitOfWork) : ControllerBase
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
 
-    [HttpGet("List")]
-    public async Task<IActionResult> List()
+    [HttpGet("Search/{id}")]
+    public async Task<IActionResult> Search(string id)
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<SubMenuAssignView>("AdSubMenuAssignGetAll");
+            var parameter = new DynamicParameters();
+            parameter.Add("@Search", id);
+            var data = await _unitOfWork.SP_Call.List<SubMenuAssignView>("AdSubMenuAssignGetAll", parameter);
 
             return Ok(data);
         }

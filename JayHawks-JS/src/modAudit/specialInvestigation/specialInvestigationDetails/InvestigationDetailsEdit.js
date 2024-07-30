@@ -22,9 +22,7 @@ const InvestigationDetailsEdit = () => {
   if (isLoading) return <HashLoading />;
 
   if (isError) return <Error message={error.message} />;
-  // console.log(id);
 
-  console.log(list.data);
 
   return (
     <div className="card w-full max-w-screen-xl ">

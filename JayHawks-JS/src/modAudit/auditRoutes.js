@@ -270,6 +270,33 @@ const auditRoutes = (
         path="audit/departmentalInvestigation/details/edit/:id/"
         element={<ModAudit.DepartmentalInvestigationDetailsEdit />}
       />
+       
+
+       <Route
+        path="audit/auditDepartmentReport/list"
+        element={<ModAudit.AuditDepartmentReportList />}
+      />
+      <Route
+        path="audit/auditDepartmentReport/add"
+        element={<ModAudit.AuditDepartmentReportAdd />}
+      />
+      <Route
+        path="audit/auditBranchDepartmentAuditReport/edit/:id"
+        element={<ModAudit.AuditDepartmentReportEdit />}
+      />
+
+       <Route
+        path="audit/auditSpecialInvestigationReport/list"
+        element={<ModAudit.AuditSpecialInvestigationReportList />}
+       />
+       <Route
+        path="audit/auditSpecialInvestigationReport/add"
+        element={<ModAudit.AuditSpecialInvestigationReportAdd />}
+       />
+       <Route
+        path="audit/AuditSpecialInvestigationAuditReport/edit/:id"
+        element={<ModAudit.AuditSpecialInvestigationReportEdit />}
+       />
 
     </Route>
   </Route>

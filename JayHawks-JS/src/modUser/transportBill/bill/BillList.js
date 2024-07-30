@@ -40,7 +40,7 @@ const BillList = ({ dataForm }) => {
       submitRemarks,
     })
   );
-  console.log(list.data);
+
   return (
     <>
       <PrintHeader title="" fileName="myBillList.csv" data={data} />
@@ -96,9 +96,7 @@ const BillList = ({ dataForm }) => {
                 />
                 {(item.isSubmit === 0 || item.isSubmit === 3) && (
                   <>
-                    <EditButton
-                      path={`/transportBill/edit/${item.travelId}`}
-                    />
+                    <EditButton path={`/transportBill/edit/${item.travelId}`} />
                     <DeleteButton
                       action={refetch}
                       path={`/userMyTravelingBill/delete/${item.travelId}`}

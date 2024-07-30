@@ -1,10 +1,10 @@
 import React from "react";
-import DeleteButton from "../../components/button/DeleteButton";
-import TopHeader from "../../components/TopHeader";
 import Error from "../../components/Error";
 import { useGetData } from "../../hooks/dataApi";
 import { HashLoading } from "../../components/Loading";
 import { ListHeader, ListCol } from "../../components/ListColWithHeader";
+import TextButton from "../../components/button/TextButton";
+import { format } from "date-fns";
 
 const TransferVoucherList = () => {
   const {
@@ -12,18 +12,7 @@ const TransferVoucherList = () => {
     error,
     isLoading,
     isError,
-    refetch,
-  } = useGetData("transferVoucher", "/transferVoucher/list");
-
-  const data = [
-    {
-      transferVoucherId: "111",
-      transactionType: "11",
-      bank: "Dhaka",
-      amount: "11",
-      particulars: "Dhaka",
-    },
-  ];
+  } = useGetData("transferVoucher", "/accountGl/transferList");
 
   if (isLoading) return <HashLoading />;
 
@@ -31,38 +20,80 @@ const TransferVoucherList = () => {
 
   return (
     <div className="card w-full max-w-screen-xl">
-      <TopHeader
-        title="Receive Voucher"
-        btn="Save"
-        path={"/ac/transferVoucher/add"}
-      />
+      <div className="flex  justify-between px-0 py-2 items-center">
+        <h1 className="text-xl lg:text-2xl font-bold lg:text-semibold text-gray-600 capitalize">
+          Transfer Voucher List
+        </h1>
+        <div className="mb-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <TextButton
+              path="/ac/transferVoucher/BankToBank"
+              title="Bank To Bank"
+            />
+          </div>
+          <div className="">
+            <TextButton
+              path="/ac/transferVoucher/BankToCash"
+              title="Bank To Cash"
+            />
+          </div>
+          <div>
+            {" "}
+            <TextButton
+              path="/ac/transferVoucher/CashToBank"
+              title="Cash To Bank"
+            />
+          </div>
+          <div className="">
+            <TextButton
+              path="/ac/transferVoucher/CashToCash"
+              title="Cash To Cash"
+            />
+          </div>
+        </div>
+      </div>
       <div className="list-wrapper">
-        <div className="md:grid grid-cols-5 list-header">
-          <ListHeader label="Transaction Type " />
-          <ListHeader label="Cash/Bank" />
-          <ListHeader label="Amount" />
+        <div className="md:grid grid-cols-10 list-header">
+          <ListHeader label="Date" />
+          <ListHeader label="Voucher Type" />
+          <ListHeader label="Voucher Number" />
+          <ListHeader label="Trans Type" />
           <ListHeader label="Particulars" />
+          <ListHeader label="Status" />
+          <ListHeader label="Ledger Name" />
+          <ListHeader label="Debit" className="flex justify-end" />
+          <ListHeader label="Credit" className="flex justify-end" />
           <ListHeader label="" />
         </div>
-        {data.length > 0 &&
-          data.map((item) => (
+        {list.data.length > 0 &&
+          list.data.map((item) => (
             <div
-              key={item.transferVoucherId}
-              className="grid grid-cols-1 md:grid-cols-5 list-body"
+              key={item.trnsId}
+              className="grid grid-cols-1 md:grid-cols-10 list-body"
             >
               <ListCol
-                label="Transaction Type : "
-                value={item.transactionType}
+                label="Date : "
+                value={format(new Date(item.workDate), "dd/MMM/yyyy")}
               />
-              <ListCol label="Cash/Bank : " value={item.bank} />
-              <ListCol label="Amount : " value={item.amount} />
+              <ListCol label="Voucher Type : " value={item.voucherType} />
+              <ListCol label="Voucher Number : " value={item.voucherNumber} />
+              <ListCol label="Trans Type : " value={item.transType} />
               <ListCol label="Particulars : " value={item.particulars} />
-              <div className="flex justify-end space-x-2">
-                <DeleteButton
-                  action={refetch}
-                  path={`/transferVoucher/delete/${item.transferVoucherId}`}
-                />
-              </div>
+              <ListCol
+                label="Status : "
+                value={item.isReverse === true ? "Reverse" : ""}
+              />
+              <ListCol label="Ledger Name : " value={item.ledgerName} />
+              <ListCol
+                label="Debit : "
+                value={item.dr}
+                className="flex justify-start md:justify-end"
+              />
+              <ListCol
+                label="Credit : "
+                value={item.cr}
+                className="flex justify-start md:justify-end"
+              />
             </div>
           ))}
 

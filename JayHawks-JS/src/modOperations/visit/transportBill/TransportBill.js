@@ -1,21 +1,32 @@
 import React from "react";
-import { menuOperations } from "../../../data/menuOperations";
+import { useGlobalContext } from "../../../hooks/context";
+import SettingsItemOnline from "../../../components/layout/SettingsItemOnline";
 import TopHeader from "../../../components/TopHeader";
-import SettingsItem from "../../../components/layout/SettingsItem";
 
 const TransportBill = () => {
-  const data = menuOperations.travelingData;
+  const value = useGlobalContext();
+
+  const data = value.subMenus.filter((item) => {
+    if (
+      item.moduleName.toLowerCase() === "Operations".toLowerCase() &&
+      item.menuName.toLowerCase() === "Transport Bill".toLowerCase() &&
+      item.section.toLowerCase() === "N/A".toLowerCase()
+    )
+      return item;
+    else return null;
+  });
+
   return (
     <div className="card w-full max-w-screen-xl gap-2">
       <TopHeader title="Transport Bill" />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {data.length > 0 &&
           data.map((item, index) => (
-            <SettingsItem
+            <SettingsItemOnline
               key={index}
-              name={item.name}
+              name={item.subMenuName}
               link={item.link}
-              Icon={item.Icon}
+              icon={item.icon}
             />
           ))}
       </div>

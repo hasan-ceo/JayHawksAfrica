@@ -1,31 +1,39 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { usePostData } from "../../hooks/dataApi";
 import toast from "react-hot-toast";
-import Input from "../../components/Input";
+import * as yup from "yup";
+import InputNumber from "../../components/InputNumber";
+import { SelectFromDb } from "../../components/SelectList";
 import TextArea from "../../components/TextArea";
 import SaveButton from "../../components/button/SaveButton";
-import { SelectFromDb, SelectFromOptions } from "../../components/SelectList";
+import { usePostData } from "../../hooks/dataApi";
 
 const schema = yup.object({
-  receiveVoucherId: yup.string(),
-  amount: yup
+  bankOrCashId: yup
     .number()
     .min(0, "Must be greater than or equal to 0")
     .typeError("Positive number required"),
-  particulars: yup.string().min(10).max(4000).required("Required"),
-  cashOrBank: yup.string().required("Required"),
-  accountHead: yup.string().required("Required"),
+  ledgerId: yup
+    .number()
+    .min(0, "Must be greater than or equal to 0")
+    .typeError("Positive number required"),
+  amount: yup
+    .number()
+    .min(0, "Must be greater than or equal to 0")
+    .typeError("Positive number required")
+    .transform((o, v) => parseInt(v.replace(/,/g, ""))),
+
+  particulars: yup.string().max(250).required("Required"),
 });
 
 const ReceiveVoucherForm = ({
   defaultValues,
+  selectPath,
+  label,
   action,
   btnText,
   path,
-  returnPath,
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const { mutateAsync } = usePostData();
@@ -39,14 +47,19 @@ const ReceiveVoucherForm = ({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  const { amount, particulars, cashOrBank, accountHead } = errors;
+  const { bankOrCashId, ledgerId, amount, particulars } = errors;
 
   const onSubmit = async (formData) => {
     setSubmitting(true);
+    var data = new FormData();
+    data.append("bankOrCashId", formData.bankOrCashId);
+    data.append("ledgerId", formData.ledgerId);
+    data.append("amount", formData.amount);
+    data.append("particulars", formData.particulars);
     try {
       const { status } = await mutateAsync({
-        path: "/accounts/journalVoucher",
-        formData: formData,
+        path: path,
+        formData: data,
       });
       if (status === 201) {
         toast.success("Saved successfully!");
@@ -70,25 +83,25 @@ const ReceiveVoucherForm = ({
   };
 
   return (
-    <div className="card w-full max-w-screen-xl">
+    <div className="">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-col">
-          <SelectFromOptions
-            register={register}
-            options={["Bank", "Cash"]}
-            label="Cash/Bank"
-            name="cashOrBank"
-            errorMessage={cashOrBank?.message}
+          <SelectFromDb
+            control={control}
+            label={label}
+            path={selectPath}
+            name="bankOrCashId"
+            errorMessage={bankOrCashId?.message}
           />
           <SelectFromDb
             control={control}
-            label="Account Head"
-            // path="/accountHeadCr/select"
-            path={["Yes", "No"]}
-            name="accountHead"
-            errorMessage={accountHead?.message}
+            label="Select Account Head"
+            path="/acLedger/selectByReceive"
+            name="ledgerId"
+            errorMessage={ledgerId?.message}
           />
-          <Input
+
+          <InputNumber
             name="amount"
             label="Amount"
             type="text"
@@ -103,7 +116,7 @@ const ReceiveVoucherForm = ({
             errorMessage={particulars?.message}
           />
 
-          <SaveButton btnText="Save" disabled={submitting} />
+          <SaveButton btnText={btnText} disabled={submitting} />
         </div>
       </form>
     </div>

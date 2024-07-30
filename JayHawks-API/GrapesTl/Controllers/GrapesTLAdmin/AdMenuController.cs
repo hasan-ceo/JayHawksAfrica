@@ -17,7 +17,7 @@ namespace GrapesTl.Controllers;
 [ApiController]
 public class AdMenuController(IUnitOfWork unitOfWork) : ControllerBase
 {
-   
+
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     [HttpGet("List")]
@@ -42,7 +42,7 @@ public class AdMenuController(IUnitOfWork unitOfWork) : ControllerBase
         try
         {
             var data = await _unitOfWork.SP_Call.List<AdMenuView>("AdMenuGetAll");
-            return Ok(data.Select(a => new { listId = a.MenuId, listName = a.ModuleName+ " - "+ a.MenuName }));
+            return Ok(data.Select(a => new { listId = a.MenuId, listName = a.ModuleName + " - " + a.MenuName }));
         }
         catch (Exception e)
         {
@@ -86,7 +86,7 @@ public class AdMenuController(IUnitOfWork unitOfWork) : ControllerBase
         try
         {
             var parameter = new DynamicParameters();
-       
+
             parameter.Add("@ModuleId", model.ModuleId);
             parameter.Add("@MenuName", model.MenuName);
             parameter.Add("@Icon", model.Icon);

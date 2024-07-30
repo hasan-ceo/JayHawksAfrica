@@ -253,8 +253,6 @@ const MenuModulesFlat = () => {
   const value = useGlobalContext();
   const data = value.modules;
 
-  // console.log(data);
-
   return (
     <div className="flex space-x-1">
       {data.length > 0 &&

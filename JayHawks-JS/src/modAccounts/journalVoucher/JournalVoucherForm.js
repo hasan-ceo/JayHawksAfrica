@@ -2,33 +2,34 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { usePostData } from "../../hooks/dataApi";
-import toast from "react-hot-toast";
 import Input from "../../components/Input";
-import TextArea from "../../components/TextArea";
-import SaveButton from "../../components/button/SaveButton";
 import { SelectFromDb } from "../../components/SelectList";
+import RadioButtons from "../../components/RadioButtons";
+import { useGlobalContext } from "../../hooks/context";
 
 const schema = yup.object({
-  journalVoucherId: yup.string(),
-  accountHeadDr: yup.string().required("Required"),
-  accountHeadCr: yup.string().required("Required"),
-  amount: yup
+  ledgerId: yup.string().max(250),
+  dr: yup
     .number()
     .min(0, "Must be greater than or equal to 0")
     .typeError("Positive number required"),
-  particulars: yup.string().min(10).max(4000).required("Required"),
+  cr: yup
+    .number()
+    .min(0, "Must be greater than or equal to 0")
+    .typeError("Positive number required"),
+
+  particulars: yup.string().max(250).required("Required"),
 });
 
-const JournalVoucherForm = ({
-  defaultValues,
-  action,
-  btnText,
-  path,
-  returnPath,
-}) => {
-  const [submitting, setSubmitting] = useState(false);
-  const { mutateAsync } = usePostData();
+const JournalVoucherForm = ({ selectPath, btnText }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const value = useGlobalContext();
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+  };
+
   const {
     register,
     handleSubmit,
@@ -36,76 +37,108 @@ const JournalVoucherForm = ({
     control,
     formState: { errors },
   } = useForm({
-    defaultValues: defaultValues,
+    defaultValues: {
+      trId: "",
+      ledgerId: "",
+      particulars: "",
+      dr: 0,
+      cr: 0,
+    },
     resolver: yupResolver(schema),
   });
-  const { accountHeadDr, accountHeadCr, amount, particulars } = errors;
+  const { ledgerId, dr, cr, particulars } = errors;
 
-  const onSubmit = async (formData) => {
-    setSubmitting(true);
-    try {
-      const { status } = await mutateAsync({
-        path: "/accounts/journalVoucher",
-        formData: formData,
-      });
-      if (status === 201) {
-        toast.success("Saved successfully!");
-        reset();
-      }
-      if (status === 204) {
-        toast.success("Update successful!");
-      }
-    } catch (error) {
-      if (error.response) {
-        toast.error("Response : " + error.response.data);
-      } else if (error.request) {
-        toast.error("Request : " + error.message);
-      } else {
-        toast.error("Error :", error.message);
-      }
-    } finally {
-      action();
-      setSubmitting(false);
-    }
+  const cartHandler = (formData) => {
+    const currentProduct = {
+      trId: Math.random() * 100,
+      ledgerId: formData.ledgerId,
+      particulars: formData.particulars,
+      dr: formData.dr,
+      cr: formData.cr,
+    };
+
+    value.addToCart(currentProduct);
+
+    setSelectedOption(null);
+    reset();
   };
 
   return (
-    <div className="card w-full max-w-screen-xl">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-col">
-          <SelectFromDb
-            control={control}
-            label="Account Head Dr"
-            // path="/accountHeadDr/select"
-            path={["Yes", "No"]}
-            name="accountHeadDr"
-            errorMessage={accountHeadDr?.message}
-          />
-          <SelectFromDb
-            control={control}
-            label="Account Head Cr"
-            // path="/accountHeadCr/select"
-            path={["Yes", "No"]}
-            name="accountHeadCr"
-            errorMessage={accountHeadCr?.message}
-          />
-          <Input
-            name="amount"
-            label="Amount"
-            type="text"
+    <div>
+      <form onSubmit={handleSubmit(cartHandler)}>
+        <div className="form-col-4 py-2">
+          <RadioButtons
             register={register}
-            errorMessage={amount?.message}
+            options={["Debit"]}
+            label="Select Voucher Type"
+            name="type"
+            onChange={() => handleOptionChange("Debit")}
           />
-          <TextArea
-            control={control}
+          <RadioButtons
+            register={register}
+            options={["Credit"]}
+            label="Select Voucher Type"
+            name="type"
+            onChange={() => handleOptionChange("Credit")}
+          />
+        </div>
+
+        <div className="form-col-4 py-2">
+          {selectedOption === "Debit" && (
+            <SelectFromDb
+              control={control}
+              name="ledgerId"
+              label="Select Ledger"
+              path="/acLedger/selectByJournal"
+              errorMessage={ledgerId?.message}
+            />
+          )}
+          {selectedOption === "Credit" && (
+            <SelectFromDb
+              control={control}
+              name="ledgerId"
+              label="Select Ledger"
+              path="/acLedger/selectByJournal"
+              errorMessage={ledgerId?.message}
+            />
+          )}
+          <Input
             name="particulars"
             label="Particulars"
             type="text"
+            register={register}
             errorMessage={particulars?.message}
           />
-          <SaveButton btnText="Save" disabled={submitting} />
+          {selectedOption === "Debit" && (
+            <Input
+              name="dr"
+              label="Amount Dr"
+              type="number"
+              register={register}
+              errorMessage={dr?.message}
+            />
+          )}
+          {selectedOption === "Credit" && (
+            <Input
+              name="cr"
+              label="Amount Cr"
+              type="number"
+              register={register}
+              errorMessage={cr?.message}
+            />
+          )}
+          <div className="my-auto md:pt-5">
+            <button
+              className="w-28 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full"
+              type="submit"
+            >
+              Add
+            </button>
+          </div>
         </div>
-      </form>
+
+        {/* <SaveButton btnText={btnText} disabled={submitting} /> */}
+      </form>{" "}
     </div>
   );
 };

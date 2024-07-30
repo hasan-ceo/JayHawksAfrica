@@ -16,8 +16,6 @@ const PreviousYearBranchList = () => {
 
   if (isError) return <Error message={error?.message} />;
 
-  console.log(list.data);
-
   return (
     <div className="mt-2">
       <div className="list-wrapper">

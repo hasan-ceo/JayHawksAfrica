@@ -14,7 +14,7 @@ import { useNavigate } from "react-router";
 const schema = yup.object({
   requisitionApproveId: yup.string(),
   entryBy: yup.string().required("Required.").max(250),
-  particulars: yup.string().required("Required.").max(4000),
+  particulars: yup.string().required("Required.").max(250),
   approvedBy: yup.string().required("Required.").max(20),
   workDate: yup.string().required("Required."),
   amount: yup

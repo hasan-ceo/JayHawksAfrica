@@ -7,7 +7,6 @@ const RadioButtons = ({ register, options, label, name, errorMessage }) => {
       <label>{label}</label>
       {options.map((value) => (
         <label htmlFor={value} key={value}>
-          {" "}
           <input {...register(name)} type="radio" value={value} /> {value}
         </label>
       ))}

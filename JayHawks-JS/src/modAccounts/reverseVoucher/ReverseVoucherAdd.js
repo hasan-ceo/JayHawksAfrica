@@ -4,15 +4,7 @@ import ReverseVoucherForm from "./ReverseVoucherForm";
 
 const ReverseVoucherAdd = () => {
   const defaultValues = {
-    reverseVoucherAddId: "",
-    transactionDate: "",
-    vno: "",
-    subHeadName: "",
-    transactionType: "",
-    dr: "",
-    cr: "",
-    particulars: "",
-    voucherType: "",
+    voucherNumber: "",
   };
 
   return (

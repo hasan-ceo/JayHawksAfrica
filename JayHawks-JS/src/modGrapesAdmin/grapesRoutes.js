@@ -54,8 +54,16 @@ const grapesRoutes = (
       />
 
       <Route
+        path="grapes/settings/menu/assign/add"
+        element={<Grapes.MenuAssignAdd />}
+      />
+      <Route
         path="grapes/settings/menu/assign/list"
         element={<Grapes.MenuAssignList />}
+      />
+      <Route
+        path="grapes/settings/submenu/assign/add"
+        element={<Grapes.SubMenuAssignAdd />}
       />
       <Route
         path="grapes/settings/submenu/assign/list"

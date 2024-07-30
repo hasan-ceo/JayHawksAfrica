@@ -1,19 +1,19 @@
 import React from "react";
-import { HashLoading } from "../../components/Loading";
-import Error from "../../components/Error";
+// import { HashLoading } from "../../components/Loading";
+// import Error from "../../components/Error";
 import TopHeader from "../../components/TopHeader";
-import { useGetData } from "../../hooks/dataApi";
+// import { useGetData } from "../../hooks/dataApi";
 import { ListHeader, ListCol } from "../../components/ListColWithHeader";
 import DeleteButton from "../../components/button/DeleteButton";
 
 const RequisitionApproveList = () => {
-  const {
-    data: list,
-    error,
-    isLoading,
-    isError,
-    refetch,
-  } = useGetData("requisitionApprove", "/ac/requisitionApprove/list");
+  // const {
+  //   data: list,
+  //   error,
+  //   isLoading,
+  //   isError,
+  //   refetch,
+  // } = useGetData("requisitionApprove", "/ac/requisitionApprove/list");
 
   const data = [
     {
@@ -27,9 +27,9 @@ const RequisitionApproveList = () => {
     },
   ];
 
-  if (isLoading) return <HashLoading />;
+  // if (isLoading) return <HashLoading />;
 
-  if (isError) return <Error message={error.message} />;
+  // if (isError) return <Error message={error.message} />;
 
   return (
     <div className="card w-full max-w-screen-xl">
@@ -62,7 +62,7 @@ const RequisitionApproveList = () => {
               <ListCol label="Work Date:" value={item.workDate} />
               <div className="flex justify-end space-x-2">
                 <DeleteButton
-                  action={refetch}
+                  // action={refetch}
                   path={`/receiveVoucher/delete/${item.receiveVoucherId}`}
                 />
               </div>
@@ -71,7 +71,7 @@ const RequisitionApproveList = () => {
         <div className="list-footer">
           <div className="col-span-10"></div>
           <div className="flex justify-center">
-            <span className="font-semibold">Total : {list.data.length}</span>
+            <span className="font-semibold">Total : {data.length}</span>
           </div>
         </div>
       </div>

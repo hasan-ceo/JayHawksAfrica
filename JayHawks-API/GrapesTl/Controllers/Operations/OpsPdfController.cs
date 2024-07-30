@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using GrapesTl.Models;
+using GrapesTl.Models.Admin;
 using GrapesTl.Service;
 using GrapesTl.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -16,22 +17,112 @@ namespace GrapesTl.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class OpsPdfController : ControllerBase
+public class OpsPdfController(IUnitOfWork unitOfWork) : ControllerBase
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private string _userId;
 
-    public OpsPdfController(IUnitOfWork unitOfWork)
+    [HttpGet("MyReport/{fromDate}/{tillDate}")]
+    public async Task<IActionResult> MyReport([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
     {
-        _unitOfWork = unitOfWork;
+        try
+        {
+            _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+            var parameter = new DynamicParameters();
+            parameter.Add("@FromDate", fromDate);
+            parameter.Add("@TillDate", tillDate);
+            parameter.Add("@EmployeeId", user.EmployeeId);
+
+            var data = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitMyReport", parameter);
+
+            var sb = new StringBuilder();
+
+
+
+
+            sb.Append("<table style='width: 100%; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif;'>");
+            sb.Append("<thead style='display: table-header-group;'>");
+
+            sb.Append("<tr>");
+            sb.Append("<th colspan='11'>");
+            sb.Append("<table style='width: 100%'>");
+
+            sb.Append("<tbody>");
+
+            sb.Append("<tr>");
+            sb.Append("<td style='text-align: center; padding-top: 10px'>");
+            sb.Append("<img  src='" + SD.ReportImageUrl + "'/>");
+            sb.Append("</td >");
+            sb.Append("</tr>");
+            sb.Append("<tr>");
+            sb.Append("<td style='text-align: center; font-size: 25px;padding-bottom: 10px; padding-top: 10px;'>My Visit History</td>");
+
+            sb.Append("</tr>");
+            sb.Append("</tbody>");
+            sb.Append("</table>");
+
+            sb.Append("</th>");
+
+            sb.Append("</tr>");
+
+            sb.Append("<tr>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Visit Date</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Branch Name</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Employee</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Designation</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Visit Type</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Stay Overnight</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Branch Manager</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Manager</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Submit Remarks</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Accept Remarks</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Reject Remarks</th>");
+            sb.Append("</tr>");
+            sb.Append("</thead>");
+
+
+            foreach (var datum in data)
+            {
+                sb.Append("<tr style='border: 1px solid #000000;'>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EmployeeName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.DesignationName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitType}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.StayOvernight}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.ManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.AcceptRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.RejectRemarks}</td>");
+                sb.Append("</tr>");
+
+            }
+
+
+            sb.Append("</tr>");
+
+            sb.Append("</table>");
+
+
+            var htmlContent = sb.ToString();
+
+            var htmlToPdf = new HtmlToPdfConverter();
+            htmlToPdf.PageHeaderHtml = "<div style='padding-top: 30px'></div>";
+            htmlToPdf.PageFooterHtml = "<div class='page-footer' style='text-align: center; padding-bottom: 10px'>Page: <span class='page'></span></div>";
+            var pdfBytes = htmlToPdf.GeneratePdf(htmlContent);
+
+            return File(pdfBytes, "application/pdf", "VisitHistory.pdf");
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error creating PDF file: " + e.Message);
+        }
     }
 
-    [Authorize]
-    //[Authorize(Roles = "Super Admin, Regional Manager,Area Manager")]
-
-
     [HttpGet("Report/{fromDate}/{tillDate}")]
-    public async Task<IActionResult> ReportSearchPdf([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
+    public async Task<IActionResult> Report([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
     {
         try
         {
@@ -43,7 +134,7 @@ public class OpsPdfController : ControllerBase
             parameter.Add("@TillDate", tillDate);
             parameter.Add("@EmployeeId", user.EmployeeId);
 
-            var datas = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitReport", parameter);
+            var data = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitReport", parameter);
 
             var sb = new StringBuilder();
 
@@ -91,20 +182,109 @@ public class OpsPdfController : ControllerBase
             sb.Append("</thead>");
 
 
-            foreach (var data in datas)
+            foreach (var datum in data)
             {
                 sb.Append("<tr style='border: 1px solid #000000;'>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.BranchName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.EmployeeName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.DesignationName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitType}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.StayOvernight}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.ManagerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.SubmitDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.SubmitRemarks}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.AcceptRemarks}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.RejectRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EmployeeName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.DesignationName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitType}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.StayOvernight}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.ManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.AcceptRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.RejectRemarks}</td>");
+                sb.Append("</tr>");
+
+            }
+
+
+            sb.Append("</tr>");
+
+            sb.Append("</table>");
+
+
+            var htmlContent = sb.ToString();
+
+            var htmlToPdf = new HtmlToPdfConverter();
+            htmlToPdf.PageHeaderHtml = "<div style='padding-top: 30px'></div>";
+            htmlToPdf.PageFooterHtml = "<div class='page-footer' style='text-align: center; padding-bottom: 10px'>Page: <span class='page'></span></div>";
+            var pdfBytes = htmlToPdf.GeneratePdf(htmlContent);
+
+            return File(pdfBytes, "application/pdf", "VisitHistory.pdf");
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error creating PDF file: " + e.Message);
+        }
+    }
+
+    [HttpGet("MyVisitCount/{fromDate}/{tillDate}")]
+    public async Task<IActionResult> MyVisitCount([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
+    {
+        try
+        {
+            _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+            var parameter = new DynamicParameters();
+            parameter.Add("@FromDate", fromDate);
+            parameter.Add("@TillDate", tillDate);
+            parameter.Add("@EmployeeId", user.EmployeeId);
+
+            var data = await _unitOfWork.SP_Call.List<AllVisitCount>("OpsAllVisitCountMyReport", parameter);
+
+            var sb = new StringBuilder();
+
+
+
+
+            sb.Append("<table style='width: 100%; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif;'>");
+            sb.Append("<thead style='display: table-header-group;'>");
+
+            sb.Append("<tr>");
+            sb.Append("<th colspan='4'>");
+            sb.Append("<table style='width: 100%'>");
+
+            sb.Append("<tbody>");
+
+            sb.Append("<tr>");
+            sb.Append("<td style='text-align: center; padding-top: 10px'>");
+            sb.Append("<img  src='" + SD.ReportImageUrl + "'/>");
+            sb.Append("</td >");
+            sb.Append("</tr>");
+            sb.Append("<tr>");
+            sb.Append("<td style='text-align: center; font-size: 25px;padding-bottom: 10px; padding-top: 10px;'>My Visit Count</td>");
+
+            sb.Append("</tr>");
+            sb.Append("</tbody>");
+            sb.Append("</table>");
+
+            sb.Append("</th>");
+
+            sb.Append("</tr>");
+
+            sb.Append("<tr>");
+
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Visitor Name</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Designation</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Branch Name</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: right; padding: 8px;'>No. Of Visits</th>");
+
+            sb.Append("</tr>");
+            sb.Append("</thead>");
+
+
+            foreach (var datum in data)
+            {
+                sb.Append("<tr style='border: 1px solid #000000;'>");
+
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EmployeeName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.DesignationName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitCount}</td>");
+
                 sb.Append("</tr>");
 
             }
@@ -144,7 +324,7 @@ public class OpsPdfController : ControllerBase
             parameter.Add("@TillDate", tillDate);
             parameter.Add("@EmployeeId", user.EmployeeId);
 
-            var datas = await _unitOfWork.SP_Call.List<AllVisitCount>("OpsAllVisitCountReport", parameter);
+            var datums = await _unitOfWork.SP_Call.List<AllVisitCount>("OpsAllVisitCountReport", parameter);
 
             var sb = new StringBuilder();
 
@@ -155,7 +335,7 @@ public class OpsPdfController : ControllerBase
             sb.Append("<thead style='display: table-header-group;'>");
 
             sb.Append("<tr>");
-            sb.Append("<th colspan='11'>");
+            sb.Append("<th colspan='4'>");
             sb.Append("<table style='width: 100%'>");
 
             sb.Append("<tbody>");
@@ -166,7 +346,7 @@ public class OpsPdfController : ControllerBase
             sb.Append("</td >");
             sb.Append("</tr>");
             sb.Append("<tr>");
-            sb.Append("<td style='text-align: center; font-size: 25px;padding-bottom: 10px; padding-top: 10px;'>Number Of Visits</td>");
+            sb.Append("<td style='text-align: center; font-size: 25px;padding-bottom: 10px; padding-top: 10px;'>My Visit Count</td>");
 
             sb.Append("</tr>");
             sb.Append("</tbody>");
@@ -180,19 +360,21 @@ public class OpsPdfController : ControllerBase
 
             sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Visitor Name</th>");
             sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Designation</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Branch Name</th>");
             sb.Append("<th style='border: 1px solid #000000; text-align: right; padding: 8px;'>No. Of Visits</th>");
 
             sb.Append("</tr>");
             sb.Append("</thead>");
 
 
-            foreach (var data in datas)
+            foreach (var datum in datums)
             {
                 sb.Append("<tr style='border: 1px solid #000000;'>");
 
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.EmployeeName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.DesignationName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitCount}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EmployeeName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.DesignationName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitCount}</td>");
 
                 sb.Append("</tr>");
 
@@ -233,7 +415,7 @@ public class OpsPdfController : ControllerBase
             parameter.Add("@TillDate", tillDate);
             parameter.Add("@EmployeeId", user.EmployeeId);
 
-            var datas = await _unitOfWork.SP_Call.List<TravelingBillView>("OpsAllTravelReport", parameter);
+            var datums = await _unitOfWork.SP_Call.List<TravelingBillView>("OpsAllTravelReport", parameter);
 
             var sb = new StringBuilder();
 
@@ -244,7 +426,7 @@ public class OpsPdfController : ControllerBase
             sb.Append("<thead style='display: table-header-group;'>");
 
             sb.Append("<tr>");
-            sb.Append("<th colspan='11'>");
+            sb.Append("<th colspan='6'>");
             sb.Append("<table style='width: 100%'>");
 
             sb.Append("<tbody>");
@@ -271,19 +453,51 @@ public class OpsPdfController : ControllerBase
             sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Checked By</th>");
             sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Supervisor</th>");
             sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Short Description</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Status</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Bill Status</th>");
 
             sb.Append("</tr>");
             sb.Append("</thead>");
 
 
-            foreach (var data in datas)
+            foreach (var datum in datums)
             {
                 sb.Append("<tr style='border: 1px solid #000000;'>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.TravelingDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.EmployeeName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.CheckerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.ManagerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.Remarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.TravelingDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EmployeeName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.CheckerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.ManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.Remarks}</td>");
+                if (datum.IsSubmit == 0)
+                {
+                    sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>Not submitted</td>");
+                }
+                else if (datum.IsSubmit == 1)
+                {
+                    sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>Pending</td>");
+                }
+                else if (datum.IsSubmit == 2)
+                {
+                    sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>Checked By Approved</td>");
+                }
+                else if (datum.IsSubmit == 3)
+                {
+                    sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>Approved</td>");
+                }
+                else if (datum.IsSubmit == 4)
+                {
+                    sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>Return</td>");
+                }
+
+                if (datum.BillStatus == 1)
+                {
+                    sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>Paid</td>");
+                }
+                else
+                {
+                    sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>Unpaid</td>");
+                }
+
 
                 sb.Append("</tr>");
 
@@ -324,7 +538,7 @@ public class OpsPdfController : ControllerBase
             parameter.Add("@TillDate", tillDate);
             parameter.Add("@EmployeeId", user.EmployeeId);
 
-            var datas = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitGetByUser", parameter);
+            var datums = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitGetByUser", parameter);
 
             var sb = new StringBuilder();
 
@@ -373,21 +587,21 @@ public class OpsPdfController : ControllerBase
             sb.Append("</thead>");
 
 
-            foreach (var data in datas)
+            foreach (var datum in datums)
             {
                 sb.Append("<tr style='border: 1px solid #000000;'>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.BranchName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.EntryTime}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.ExitTime}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitType}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.StayOvernight}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.BranchManagerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.ManagerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.SubmitDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.SubmitRemarks}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.AcceptRemarks}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.RejectRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EntryTime}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.ExitTime}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitType}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.StayOvernight}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.ManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.AcceptRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.RejectRemarks}</td>");
                 sb.Append("</tr>");
 
             }
@@ -414,7 +628,6 @@ public class OpsPdfController : ControllerBase
     }
 
 
-
     [HttpGet("ListByBranchManager")]
     public async Task<IActionResult> ListByBranchManagerSearchPdf()
     {
@@ -427,7 +640,7 @@ public class OpsPdfController : ControllerBase
 
             parameter.Add("@EmployeeId", user.EmployeeId);
 
-            var datas = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitGetByBM", parameter);
+            var datums = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitGetByBM", parameter);
 
             var sb = new StringBuilder();
 
@@ -476,21 +689,21 @@ public class OpsPdfController : ControllerBase
             sb.Append("</thead>");
 
 
-            foreach (var data in datas)
+            foreach (var datum in datums)
             {
                 sb.Append("<tr style='border: 1px solid #000000;'>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.BranchName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.EmployeeName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.DesignationName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitType}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.StayOvernight}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.BranchManagerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.ManagerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.SubmitDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.SubmitRemarks}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.AcceptRemarks}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.RejectRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EmployeeName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.DesignationName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitType}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.StayOvernight}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.ManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.AcceptRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.RejectRemarks}</td>");
                 sb.Append("</tr>");
 
             }
@@ -517,8 +730,6 @@ public class OpsPdfController : ControllerBase
     }
 
 
-
-
     [HttpGet("ListByManager")]
     public async Task<IActionResult> ListByManagerSearchPdf()
     {
@@ -531,7 +742,7 @@ public class OpsPdfController : ControllerBase
 
             parameter.Add("@EmployeeId", user.EmployeeId);
 
-            var datas = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitGetByManager", parameter);
+            var datums = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitGetByManager", parameter);
 
             var sb = new StringBuilder();
 
@@ -580,21 +791,21 @@ public class OpsPdfController : ControllerBase
             sb.Append("</thead>");
 
 
-            foreach (var data in datas)
+            foreach (var datum in datums)
             {
                 sb.Append("<tr style='border: 1px solid #000000;'>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.BranchName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.EmployeeName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.DesignationName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.VisitType}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.StayOvernight}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.BranchManagerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.ManagerName}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.SubmitDate:dd/MM/yyyy}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.SubmitRemarks}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.AcceptRemarks}</td>");
-                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{data.RejectRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EmployeeName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.DesignationName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitType}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.StayOvernight}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.ManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.AcceptRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.RejectRemarks}</td>");
                 sb.Append("</tr>");
 
             }
@@ -613,6 +824,103 @@ public class OpsPdfController : ControllerBase
             var pdfBytes = htmlToPdf.GeneratePdf(htmlContent);
 
             return File(pdfBytes, "application/pdf", "VisitReceivedAsManagerList.pdf");
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error creating PDF file: " + e.Message);
+        }
+    }
+
+
+    [HttpGet("SupervisorReport/{fromDate}/{tillDate}")]
+    public async Task<IActionResult> SupervisorReport([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
+    {
+        try
+        {
+            _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+            var parameter = new DynamicParameters();
+            parameter.Add("@FromDate", fromDate);
+            parameter.Add("@TillDate", tillDate);
+            parameter.Add("@EmployeeId", user.EmployeeId);
+
+            var data = await _unitOfWork.SP_Call.List<AllVisitView>("OpsAllVisitSupervisorReport", parameter);
+
+
+            var sb = new StringBuilder();
+
+            sb.Append("<table style='width: 100%; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif;'>");
+            sb.Append("<thead style='display: table-header-group;'>");
+
+            sb.Append("<tr>");
+            sb.Append("<th colspan='11'>");
+            sb.Append("<table style='width: 100%'>");
+
+            sb.Append("<tbody>");
+
+            sb.Append("<tr>");
+            sb.Append("<td style='text-align: center; padding-top: 10px'>");
+            sb.Append("<img  src='" + SD.ReportImageUrl + "'/>");
+            sb.Append("</td >");
+            sb.Append("</tr>");
+            sb.Append("<tr>");
+            sb.Append("<td style='text-align: center; font-size: 25px;padding-bottom: 10px; padding-top: 10px;'>Visit History As Supervisor</td>");
+
+            sb.Append("</tr>");
+            sb.Append("</tbody>");
+            sb.Append("</table>");
+
+            sb.Append("</th>");
+          sb.Append("</tr>");
+
+            sb.Append("<tr>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'> Visit Date</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Branch Name</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Applicant</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Designation</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Visit Type</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Stay Overnight</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Branch Manager</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Supervisor</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Submit Remarks</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Accept Remarks</th>");
+            sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'>Reject Remarks</th>");
+            sb.Append("</tr>");
+            sb.Append("</thead>");
+
+
+            foreach (var datum in data)
+            {
+                sb.Append("<tr style='border: 1px solid #000000;'>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.BranchName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.EmployeeName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.DesignationName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.VisitType}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.StayOvernight}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.ManagerName}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitDate:dd/MM/yyyy}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.SubmitRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.AcceptRemarks}</td>");
+                sb.Append($"<td style='border: 1px solid #000000; text-align: left; padding: 8px;'>{datum.RejectRemarks}</td>");
+                sb.Append("</tr>");
+
+            }
+
+
+            sb.Append("</tr>");
+
+            sb.Append("</table>");
+
+
+            var htmlContent = sb.ToString();
+
+            var htmlToPdf = new HtmlToPdfConverter();
+            htmlToPdf.PageHeaderHtml = "<div style='padding-top: 30px'></div>";
+            htmlToPdf.PageFooterHtml = "<div class='page-footer' style='text-align: center; padding-bottom: 10px'>Page: <span class='page'></span></div>";
+            var pdfBytes = htmlToPdf.GeneratePdf(htmlContent);
+
+            return File(pdfBytes, "application/pdf", "VisitHistory.pdf");
         }
         catch (Exception e)
         {

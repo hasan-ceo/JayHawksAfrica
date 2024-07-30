@@ -6,10 +6,8 @@ const PrivateRoute = () => {
   const value = useGlobalContext();
   return value.user ? (
     value.role === "Super Admin" ||
-    value.role === "HR Manager" ||
-    value.role === "HR Executive" ||
-    value.role === "Accounts Manager" ||
-    value.role === "Accounts Executive" ? (
+    value.role === "Admin" ||
+    value.role === "Accountant" ? (
       <Outlet />
     ) : (
       <Navigate to="/dashboard" />

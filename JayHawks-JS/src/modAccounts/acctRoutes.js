@@ -7,40 +7,82 @@ const acctRoutes = (
   <Route path="/*" element={<PrivateRoute />}>
     <Route element={<Layout />}>
       <Route path="accounts" element={<Acct.Dashboard />} />
+
       <Route path="ac/sacco/withdraw/list" element={<Acct.SaccoList />} />
       <Route path="ac/sacco/withdraw" element={<Acct.SaccoAdd />} />
+
       <Route
         path="ac/paymentVoucher/list"
         element={<Acct.PaymentVoucherList />}
       />
       <Route
-        path="ac/paymentVoucher/add"
-        element={<Acct.PaymentVoucherAdd />}
+        path="ac/paymentVoucher/byBank"
+        element={<Acct.PaymentVoucherByBank />}
+      />
+      <Route
+        path="ac/paymentVoucher/byCash"
+        element={<Acct.PaymentVoucherByCash />}
       />
       <Route
         path="ac/receiveVoucher/list"
         element={<Acct.ReceiveVoucherList />}
       />
       <Route
-        path="ac/receiveVoucher/add"
-        element={<Acct.ReceiveVoucherAdd />}
+        path="ac/receiveVoucher/byBank"
+        element={<Acct.ReceiveVoucherByBank />}
       />
       <Route
-        path="ac/paymentParty/list"
-        element={<Acct.PaymentToPartyList />}
+        path="ac/receiveVoucher/byCash"
+        element={<Acct.ReceiveVoucherByCash />}
       />
-      <Route path="ac/paymentParty/add" element={<Acct.PaymentToPartyAdd />} />
+      <Route path="ac/paymentParty/list" element={<Acct.PaymentPartyList />} />
       <Route
-        path="ac/receiveParty/list"
-        element={<Acct.ReceiveFromPartyList />}
+        path="ac/paymentParty/byBank"
+        element={<Acct.PaymentPartyByBank />}
       />
       <Route
-        path="ac/receiveParty/add"
-        element={<Acct.ReceiveFromPartyAdd />}
+        path="ac/paymentParty/byCash"
+        element={<Acct.PaymentPartyByCash />}
       />
+      <Route path="ac/receiveParty/list" element={<Acct.ReceivePartyList />} />
+      <Route
+        path="ac/receiveParty/byBank"
+        element={<Acct.ReceivePartyByBank />}
+      />
+      <Route
+        path="ac/receiveParty/byCash"
+        element={<Acct.ReceivePartyByCash />}
+      />
+
       <Route
         path="ac/journalVoucher/list"
         element={<Acct.JournalVoucherList />}
+      />
+
+      <Route
+        path="ac/incomeVoucher/list"
+        element={<Acct.IncomeVoucherList />}
+      />
+      <Route
+        path="ac/incomeVoucher/byBank"
+        element={<Acct.IncomeVoucherByBank />}
+      />
+      <Route
+        path="ac/incomeVoucher/byCash"
+        element={<Acct.IncomeVoucherByCash />}
+      />
+
+      <Route
+        path="ac/expenseVoucher/byCash"
+        element={<Acct.ExpenseVoucherByCash />}
+      />
+      <Route
+        path="ac/expenseVoucher/byBank"
+        element={<Acct.ExpenseVoucherByBank />}
+      />
+      <Route
+        path="ac/expenseVoucher/list"
+        element={<Acct.ExpenseVoucherList />}
       />
       <Route
         path="ac/journalVoucher/add"
@@ -51,8 +93,32 @@ const acctRoutes = (
         element={<Acct.TransferVoucherList />}
       />
       <Route
-        path="ac/transferVoucher/add"
-        element={<Acct.TransferVoucherAdd />}
+        path="ac/transferVoucher/BankToBank"
+        element={<Acct.TransferBankToBank />}
+      />
+
+      <Route
+        path="ac/transferVoucher/BankToCash"
+        element={<Acct.TransferBankToCash />}
+      />
+
+      <Route
+        path="ac/transferVoucher/CashToBank"
+        element={<Acct.TransferCashToBank />}
+      />
+
+      <Route
+        path="ac/transferVoucher/CashToCash"
+        element={<Acct.TransferCashToCash />}
+      />
+
+      <Route
+        path="ac/reverseVoucher/list"
+        element={<Acct.ReverseVoucherList />}
+      />
+      <Route
+        path="ac/reverseVoucher/add"
+        element={<Acct.ReverseVoucherAdd />}
       />
       <Route
         path="ac/requisitionApprove/list"
@@ -65,41 +131,10 @@ const acctRoutes = (
       <Route path="ac/settings/ledger/list" element={<Acct.LedgerList />} />
       <Route path="ac/settings/ledger/add" element={<Acct.LedgerAdd />} />
       <Route path="ac/settings/ledger/edit/:id" element={<Acct.LedgerEdit />} />
-      <Route path="ac/settings/location/list" element={<Acct.LocationList />} />
-      <Route path="ac/settings/location/add" element={<Acct.LocationAdd />} />
-      <Route
-        path="ac/settings/location/edit/:id"
-        element={<Acct.LocationEdit />}
-      />
-
-      <Route path="ac/settings/project/list" element={<Acct.ProjectList />} />
-      <Route path="ac/settings/project/add" element={<Acct.ProjectAdd />} />
-      <Route
-        path="ac/settings/project/edit/:id"
-        element={<Acct.ProjectEdit />}
-      />
-
-      <Route path="ac/settings/mainhead/list" element={<Acct.MainHeadList />} />
-      <Route path="ac/settings/mainhead/add" element={<Acct.MainHeadAdd />} />
-      <Route
-        path="ac/settings/mainhead/edit/:id"
-        element={<Acct.MainHeadEdit />}
-      />
-
-      <Route path="ac/settings/subhead/list" element={<Acct.SubHeadList />} />
-      <Route path="ac/settings/subhead/add" element={<Acct.SubHeadAdd />} />
-      <Route
-        path="ac/settings/subhead/edit/:id"
-        element={<Acct.SubHeadEdit />}
-      />
 
       <Route path="ac/settings/forex/list" element={<Acct.ForexList />} />
       <Route path="ac/settings/forex/add" element={<Acct.ForexAdd />} />
       <Route path="ac/settings/forex/edit/:id" element={<Acct.ForexEdit />} />
-
-      <Route path="ac/settings/party/list" element={<Acct.PartyList />} />
-      <Route path="ac/settings/party/add" element={<Acct.PartyAdd />} />
-      <Route path="ac/settings/party/edit/:id" element={<Acct.PartyEdit />} />
 
       <Route path="ac/settings/expense/list" element={<Acct.ExpenseList />} />
       <Route path="ac/settings/expense/add" element={<Acct.ExpenseAdd />} />
@@ -113,13 +148,58 @@ const acctRoutes = (
       <Route path="ac/settings/bank/edit/:id" element={<Acct.BankEdit />} />
 
       <Route path="ac/settings" element={<Acct.Settings />} />
+
+      <Route path="ac/settings/group/list" element={<Acct.GroupList />} />
+      <Route path="ac/settings/group/add" element={<Acct.GroupAdd />} />
+      <Route path="ac/settings/group/edit/:id" element={<Acct.GroupEdit />} />
+
+      <Route path="ac/settings/subGroup/list" element={<Acct.SubGroupList />} />
+      <Route path="ac/settings/subGroup/add" element={<Acct.SubGroupAdd />} />
       <Route
-        path="ac/travelingBill/recommended"
-        element={<Acct.TravelingBillRecommended />}
+        path="ac/settings/subGroup/edit/:id"
+        element={<Acct.SubGroupEdit />}
+      />
+
+      <Route
+        path="ac/settings/subLedger/list"
+        element={<Acct.SubLedgerList />}
+      />
+      <Route path="ac/settings/subLedger/add" element={<Acct.SubLedgerAdd />} />
+      <Route
+        path="ac/settings/subLedger/edit/:id"
+        element={<Acct.SubLedgerEdit />}
+      />
+      <Route path="ac/reports/account" element={<Acct.Reports />} />
+      <Route
+        path="ac/report/balanceSheet"
+        element={<Acct.BalanceSheetList />}
+      />
+      <Route path="ac/report/day/book" element={<Acct.DayBookReport />} />
+      <Route path="ac/report/ledger" element={<Acct.LedgerReport />} />
+      <Route
+        path="ac/report/profitAndLoss"
+        element={<Acct.ProfitAndLossAccountList />}
       />
       <Route
-        path="ac/traveling/recommended/comments/:id"
-        element={<Acct.TravelingBillComments />}
+        path="ac/report/trial/balance"
+        element={<Acct.TrialBalanceReport />}
+      />
+      <Route
+        path="ac/report/ledgerBalance"
+        element={<Acct.LedgerBalanceReport />}
+      />
+      <Route path="ac/report/bankbook" element={<Acct.BankBookReport />} />
+      <Route path="ac/report/cashbook" element={<Acct.CashBookReport />} />
+
+      <Route path="settings/day/close" element={<Acct.DayClose />} />
+      {/* <Route path="settings/day/open" element={<Acct.DayOpen />} /> */}
+      <Route path="settings/day/list" element={<Acct.DayOpen />} />
+
+      <Route path="ac/settings/openning/list" element={<Acct.OpenningList />} />
+      <Route path="ac/settings/openning/add" element={<Acct.OpenningAdd />} />
+      <Route
+        path="ac/settings/openning/edit/:id"
+        element={<Acct.OpenningEdit />}
       />
     </Route>
   </Route>

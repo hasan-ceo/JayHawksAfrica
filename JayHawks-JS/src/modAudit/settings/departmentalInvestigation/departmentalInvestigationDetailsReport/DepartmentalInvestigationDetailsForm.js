@@ -52,10 +52,19 @@ const DepartmentalInvestigationDetailsForm = ({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  const { evidences,testConclusion,auditFinding,cause,implication,recommendation,controlOwnerResponse,managementAction,exceptions} = errors;
+  const {
+    evidences,
+    testConclusion,
+    auditFinding,
+    cause,
+    implication,
+    recommendation,
+    controlOwnerResponse,
+    managementAction,
+    exceptions,
+  } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
     var data = new FormData();
     data.append("investigationDetailsId", formData.investigationDetailsId);
@@ -145,7 +154,7 @@ const DepartmentalInvestigationDetailsForm = ({
           register={register}
           errorMessage={testConclusion?.message}
         />
-         <TextArea
+        <TextArea
           control={control}
           areaHeight="h-36"
           name="auditFinding"
@@ -176,46 +185,46 @@ const DepartmentalInvestigationDetailsForm = ({
           label="Recommendation"
           register={register}
           errorMessage={recommendation?.message}
-         />
-          <TextArea
+        />
+        <TextArea
           control={control}
           areaHeight="h-36"
           name="controlOwnerResponse"
           label="Control Owner Response"
           register={register}
           errorMessage={controlOwnerResponse?.message}
-         />
-         <Controller
+        />
+        <Controller
           control={control}
           name="implementationDate"
           render={({ field }) => (
             <DatePicker label="Implementation Date" field={field} />
           )}
         />
-          <TextArea
+        <TextArea
           control={control}
           areaHeight="h-36"
           name="managementAction"
           label="Management Action"
           register={register}
           errorMessage={managementAction?.message}
-          />
-          <TextArea
+        />
+        <TextArea
           control={control}
           areaHeight="h-36"
           name="exceptions"
           label="Exceptions"
           register={register}
           errorMessage={exceptions?.message}
-          />
-          <TextArea
+        />
+        <TextArea
           control={control}
           areaHeight="h-36"
           name="evidences"
           label="Evidences"
           register={register}
           errorMessage={evidences?.message}
-          />
+        />
       </div>
 
       <div className="from-cols mt-4">

@@ -20,8 +20,6 @@ const TicketEdit = () => {
 
   if (isError) return <Error message={error.message} />;
 
-  console.log(list.data);
-
   return (
     <div className="card w-full max-w-screen-xl">
       <TopHeader title="Edit Issue" btn="Return" path="/ticket/list" />

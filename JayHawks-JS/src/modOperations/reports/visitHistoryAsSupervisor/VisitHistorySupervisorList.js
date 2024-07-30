@@ -76,7 +76,7 @@ const VisitHistorySupervisorList = ({ dataForm }) => {
     <>
       <div className="flex justify-end items-center">
         <PdfButton
-          path={`/opsPdf/supervisorReport/${dataForm.fromDate}/${dataForm.tillDate}`}
+          path={`/OpsPdf/supervisorReport/${dataForm.fromDate}/${dataForm.tillDate}`}
         />
 
         <PrintHeader

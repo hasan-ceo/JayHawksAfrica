@@ -14,7 +14,7 @@ const LedgerList = () => {
     isLoading,
     isError,
     refetch,
-  } = useGetData("ledger", "/ledger/list");
+  } = useGetData("ledger", "/acledger/list");
 
   if (isLoading) return <HashLoading />;
 
@@ -25,37 +25,37 @@ const LedgerList = () => {
       <TopHeader title="Ledger" btn="Save" path={"/ac/settings/ledger/add"} />
       <div className="list-wrapper">
         <div className="md:grid grid-cols-9 list-header">
-          <ListHeader label="Main Head Name" />
-          <ListHeader label="Sub Head Name" />
-          <ListHeader label="Ledger Code" />
+          <ListHeader label="Main Name" />
+          <ListHeader label="Group Name" />
+          <ListHeader label="Sub Group Name" />
           <ListHeader label="Ledger Name" />
-          <ListHeader label="Description" />
-          <ListHeader label="Location" />
-          <ListHeader label="Project" />
-          <ListHeader label="Active" />
+          <ListHeader label="Ledger Code" />
+          <ListHeader label="Display At" />
+          <ListHeader label="Voucher Type" />
+          <ListHeader label="Account Type" />
           <ListHeader label="" />
         </div>
         {list.data.length > 0 &&
           list.data.map((item) => (
             <div
-              key={item.ledgerId}
+              key={item.searchId}
               className="grid grid-cols-1 md:grid-cols-9 list-body"
             >
-              <ListCol label="Main Head Name : " value={item.mainHeadName} />
-              <ListCol label="Sub Head Name : " value={item.subHeadName} />
-              <ListCol label="Ledger Code : " value={item.ledgerCode} />
+              <ListCol label="Main Name : " value={item.mainName} />
+              <ListCol label="Group Name : " value={item.groupName} />
+              <ListCol label="Sub Group Name : " value={item.subGroupName} />
               <ListCol label="Ledger Name : " value={item.ledgerName} />
-              <ListCol label="Descriptions : " value={item.descriptions} />
-              <ListCol label="Location : " value={item.locationName} />
-              <ListCol label="Project : " value={item.projectName} />
-              <ListCol label="Active : " value={item.isActive} />
+              <ListCol label="Ledger Code : " value={item.ledgerCode} />
+              <ListCol label="Display At : " value={item.displayAt} />
+              <ListCol label="Voucher Type : " value={item.voucherType} />
+              <ListCol label="Account Type : " value={item.accountType} />
               <div className="flex justify-end space-x-2">
                 <EditButton
-                  path={`/ac/settings/ledger/edit/${item.ledgerId}`}
+                  path={`/ac/settings/ledger/edit/${item.searchId}`}
                 />
                 <DeleteButton
                   action={refetch}
-                  path={`/ledger/delete/${item.ledgerId}`}
+                  path={`/acledger/delete/${item.searchId}`}
                 />
               </div>
             </div>

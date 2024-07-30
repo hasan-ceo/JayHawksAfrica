@@ -1,15 +1,15 @@
 import React from "react";
-import SettingsItem from "../../components/layout/SettingsItem";
-// import { menuOperations } from "../../data/menuOperations";
+import SettingsItemOnline from "../../components/layout/SettingsItemOnline";
 import { useGlobalContext } from "../../hooks/context";
 
 const Reports = () => {
-  // const data = menuOperations.reportsData;
   const value = useGlobalContext();
+
   const data = value.subMenus.filter((item) => {
     if (
-      item.moduleName.toLowerCase() === "CRM".toLowerCase() &&
-      item.menuName.toLowerCase() === "Reports".toLowerCase()
+      item.moduleName.toLowerCase() === "Operations".toLowerCase() &&
+      item.menuName.toLowerCase() === "Reports".toLowerCase() &&
+      item.section.toLowerCase() === "N/A".toLowerCase()
     )
       return item;
     else return null;
@@ -17,19 +17,18 @@ const Reports = () => {
 
   return (
     <div className="card w-full max-w-screen-xl gap-2">
-      <div className="flex justify-between px-0 py-2 items-center">
-        <h1 className="text-xl lg:text-2xl font-bold lg:text-semibold text-gray-600">
-          Monitoring Reports
-        </h1>
-      </div>
+      <h1 className="text-xl lg:text-2xl font-bold lg:text-semibold text-gray-600">
+        Monitoring Reports
+      </h1>
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {data.length > 0 &&
           data.map((item, index) => (
-            <SettingsItem
+            <SettingsItemOnline
               key={index}
-              name={item.name}
+              name={item.subMenuName}
               link={item.link}
-              Icon={item.Icon}
+              icon={item.icon}
             />
           ))}
       </div>

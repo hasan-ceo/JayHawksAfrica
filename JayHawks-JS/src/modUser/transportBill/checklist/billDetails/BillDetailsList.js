@@ -7,7 +7,6 @@ import { ListCol, ListHeader } from "../../../../components/ListColWithHeader";
 import EditButton from "../../../../components/button/EditButton";
 import DeleteButton from "../../../../components/button/DeleteButton";
 
-
 const BillDetailsList = ({ id, isSubmit }) => {
   const {
     data: list,
@@ -28,7 +27,7 @@ const BillDetailsList = ({ id, isSubmit }) => {
       .reduce((sum, val) => sum + val, 0);
   }
 
-  // console.log(list.data);
+  //
   return (
     <div>
       <TopHeader

@@ -12,13 +12,12 @@ using System.Threading.Tasks;
 
 namespace GrapesTl.Controllers;
 
-[Authorize(Roles = "Super Admin,HR Manager,HR Executive,Accounts Manager,Accounts Executive")]
+[Authorize(Roles = "Super Admin,Accounts Manager,Accounts Executive,HR Manager,HR Executive")]
 [Route("api/[controller]")]
 [ApiController]
 public class BanksController(IUnitOfWork unitOfWork) : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-
 
 
     [HttpGet("List")]
@@ -84,8 +83,8 @@ public class BanksController(IUnitOfWork unitOfWork) : ControllerBase
         {
             var parameter = new DynamicParameters();
             parameter.Add("@BankName", model.BankName);
-            parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
 
+            parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
             await _unitOfWork.SP_Call.Execute("acBankCreate", parameter);
 
             var message = parameter.Get<string>("Message");

@@ -29,7 +29,6 @@ function RoleForm({ defaultValues, action, btnText, path, returnPath }) {
   const { roleName } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
 
     // var data = new FormData();

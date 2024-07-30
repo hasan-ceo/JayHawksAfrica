@@ -24,8 +24,6 @@ const VisitCountList = ({ dataForm }) => {
 
   if (isError) return <Error message={error.message} />;
 
-  console.log(list.data);
-
   const data = list.data
     .filter((item) => {
       if (query === "") {

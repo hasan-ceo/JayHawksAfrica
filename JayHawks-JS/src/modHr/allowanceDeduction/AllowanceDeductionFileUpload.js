@@ -17,7 +17,6 @@ const AllowanceDeductionFileUpload = () => {
   } = useForm({});
 
   const onSubmit = async (formData) => {
-    console.log(formData)
     setSubmitting(true);
 
     var data = new FormData();
@@ -29,7 +28,7 @@ const AllowanceDeductionFileUpload = () => {
         path: "/fileUpload/empAllDed/upload",
         formData: data,
       });
-      console.log({ status });
+
       if (status === 201) {
         toast.success("Saved successfully!");
         setFile(null);

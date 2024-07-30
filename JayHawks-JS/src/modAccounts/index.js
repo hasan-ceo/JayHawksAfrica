@@ -2,9 +2,8 @@ import { lazy } from "react";
 
 const Dashboard = lazy(() => import("./dashboard/Dashboard"));
 
-const PartyList = lazy(() => import("./settings/party/PartyList"));
-const PartyAdd = lazy(() => import("./settings/party/PartyAdd"));
-const PartyEdit = lazy(() => import("./settings/party/PartyEdit"));
+const SaccoList = lazy(() => import("./sacco/SaccoList"));
+const SaccoAdd = lazy(() => import("./sacco/SaccoAdd"));
 
 const ExpenseList = lazy(() => import("./settings/expense/ExpenseList"));
 const ExpenseAdd = lazy(() => import("./settings/expense/ExpenseAdd"));
@@ -18,66 +17,95 @@ const ForexList = lazy(() => import("./settings/forex/ForexList"));
 const ForexAdd = lazy(() => import("./settings/forex/ForexAdd"));
 const ForexEdit = lazy(() => import("./settings/forex/ForexEdit"));
 
-const LocationList = lazy(() => import("./settings/location/LocationList"));
-const LocationAdd = lazy(() => import("./settings/location/LocationAdd"));
-const LocationEdit = lazy(() => import("./settings/location/LocationEdit"));
-
-const ProjectList = lazy(() => import("./settings/project/ProjectList"));
-const ProjectAdd = lazy(() => import("./settings/project/ProjectAdd"));
-const ProjectEdit = lazy(() => import("./settings/project/ProjectEdit"));
-
-const MainHeadList = lazy(() => import("./settings/mainHead/MainHeadList"));
-const MainHeadAdd = lazy(() => import("./settings/mainHead/MainHeadAdd"));
-const MainHeadEdit = lazy(() => import("./settings/mainHead/MainHeadEdit"));
-
-const SubHeadList = lazy(() => import("./settings/subHead/SubHeadList"));
-const SubHeadAdd = lazy(() => import("./settings/subHead/SubHeadAdd"));
-const SubHeadEdit = lazy(() => import("./settings/subHead/SubHeadEdit"));
-
 const Settings = lazy(() => import("./settings/Settings"));
 
 const PaymentVoucherList = lazy(() =>
   import("./paymentVoucher/PaymentVoucherList")
 );
-const PaymentVoucherAdd = lazy(() =>
-  import("./paymentVoucher/PaymentVoucherAdd")
+const PaymentVoucherByBank = lazy(() =>
+  import("./paymentVoucher/PaymentVoucherByBank")
+);
+const PaymentVoucherByCash = lazy(() =>
+  import("./paymentVoucher/PaymentVoucherByCash")
 );
 
 const ReceiveVoucherList = lazy(() =>
   import("./receiveVoucher/ReceiveVoucherList")
 );
-const ReceiveVoucherAdd = lazy(() =>
-  import("./receiveVoucher/ReceiveVoucherAdd")
+const ReceiveVoucherByBank = lazy(() =>
+  import("./receiveVoucher/ReceiveVoucherByBank")
+);
+const ReceiveVoucherByCash = lazy(() =>
+  import("./receiveVoucher/ReceiveVoucherByCash")
 );
 
-const PaymentToPartyList = lazy(() =>
-  import("./paymentToParty/PaymentToPartyList")
+const IncomeVoucherList = lazy(() =>
+  import("./incomeVoucher/IncomeVoucherList")
 );
-const PaymentToPartyAdd = lazy(() =>
-  import("./paymentToParty/PaymentToPartyAdd")
+const IncomeVoucherByBank = lazy(() =>
+  import("./incomeVoucher/IncomeVoucherByBank")
+);
+const IncomeVoucherByCash = lazy(() =>
+  import("./incomeVoucher/IncomeVoucherByCash")
 );
 
-const ReceiveFromPartyList = lazy(() =>
-  import("./receiveFromParty/ReceiveFromPartyList")
+const ExpenseVoucherList = lazy(() =>
+  import("./expenseVoucher/ExpenseVoucherList")
 );
-const ReceiveFromPartyAdd = lazy(() =>
-  import("./receiveFromParty/ReceiveFromPartyAdd")
+const ExpenseVoucherByBank = lazy(() =>
+  import("./expenseVoucher/ExpenseVoucherByBank")
+);
+const ExpenseVoucherByCash = lazy(() =>
+  import("./expenseVoucher/ExpenseVoucherByCash")
+);
+
+const PaymentPartyList = lazy(() => import("./paymentParty/PaymentPartyList"));
+const PaymentPartyByBank = lazy(() =>
+  import("./paymentParty/PaymentPartyByBank")
+);
+const PaymentPartyByCash = lazy(() =>
+  import("./paymentParty/PaymentPartyByCash")
+);
+
+const ReceivePartyList = lazy(() => import("./receiveParty/ReceivePartyList"));
+const ReceivePartyByBank = lazy(() =>
+  import("./receiveParty/ReceivePartyByBank")
+);
+const ReceivePartyByCash = lazy(() =>
+  import("./receiveParty/ReceivePartyByCash")
 );
 
 const JournalVoucherList = lazy(() =>
   import("./journalVoucher/JournalVoucherList")
 );
-const JournalVoucherAdd = lazy(() =>
-  import("./journalVoucher/JournalVoucherAdd")
-);
+const JournalVoucherAdd = lazy(() => import("./journalVoucher/JournalVoucher"));
 
 const TransferVoucherList = lazy(() =>
   import("./transferVoucher/TransferVoucherList")
 );
-const TransferVoucherAdd = lazy(() =>
-  import("./transferVoucher/TransferVoucherAdd")
+
+const TransferBankToBank = lazy(() =>
+  import("./transferVoucher/TransferBankToBank")
 );
 
+const TransferBankToCash = lazy(() =>
+  import("./transferVoucher/TransferBankToCash")
+);
+
+const TransferCashToBank = lazy(() =>
+  import("./transferVoucher/TransferCashToBank")
+);
+
+const TransferCashToCash = lazy(() =>
+  import("./transferVoucher/TransferCashToCash")
+);
+
+const ReverseVoucherList = lazy(() =>
+  import("./reverseVoucher/ReverseVoucherList")
+);
+const ReverseVoucherAdd = lazy(() =>
+  import("./reverseVoucher/ReverseVoucherAdd")
+);
 const RequisitionApproveList = lazy(() =>
   import("./requisitionApprove/RequisitionApproveList")
 );
@@ -89,34 +117,86 @@ const LedgerList = lazy(() => import("./settings/ledger/LedgerList"));
 const LedgerAdd = lazy(() => import("./settings/ledger/LedgerAdd"));
 const LedgerEdit = lazy(() => import("./settings/ledger/LedgerEdit"));
 
-const SaccoList = lazy(() => import("./sacco/SaccoList"));
-const SaccoAdd = lazy(() => import("./sacco/SaccoAdd"));
-const TravelingBillRecommended = lazy(() =>
-  import("./travelingBill/TravelingBillRecommended")
+const SubLedgerAdd = lazy(() => import("./settings/subLedger/SubLedgerAdd"));
+const SubLedgerList = lazy(() => import("./settings/subLedger/SubLedgerList"));
+const SubLedgerEdit = lazy(() => import("./settings/subLedger/SubLedgerEdit"));
+
+const GroupList = lazy(() => import("./settings/group/GroupList"));
+const GroupAdd = lazy(() => import("./settings/group/GroupAdd"));
+const GroupEdit = lazy(() => import("./settings/group/GroupEdit"));
+
+const SubGroupList = lazy(() => import("./settings/subGroup/SubGroupList"));
+const SubGroupAdd = lazy(() => import("./settings/subGroup/SubGroupAdd"));
+const SubGroupEdit = lazy(() => import("./settings/subGroup/SubGroupEdit"));
+
+const Reports = lazy(() => import("./reports/reports/Report"));
+
+const BalanceSheetList = lazy(() =>
+  import("./reports/reports/report/BalanceSheetList")
 );
-const TravelingBillComments = lazy(() =>
-  import("./travelingBill/TravelingBillComments")
+const DayBookReport = lazy(() =>
+  import("./reports/reports/report/DayBookReport")
+);
+const TrialBalanceReport = lazy(() =>
+  import("./reports/reports/report/TrialBalanceReport")
+);
+const LedgerReport = lazy(() =>
+  import("./reports/reports/report/LedgerReport")
+);
+const ProfitAndLossAccountList = lazy(() =>
+  import("./reports/reports/report/ProfitAndLossAccountList")
 );
 
+const LedgerBalanceReport = lazy(() =>
+  import("./reports/reports/report/LedgerBalanceReport")
+);
+
+const BankBookReport = lazy(() =>
+  import("./reports/reports/report/BankBookReport")
+);
+const CashBookReport = lazy(() =>
+  import("./reports/reports/report/CashBookReport")
+);
+
+const OpenningList = lazy(() => import("./openning/OpenningList"));
+const OpenningAdd = lazy(() => import("./openning/OpenningAdd"));
+const OpenningEdit = lazy(() => import("./openning/OpenningEdit"));
+const DayOpen = lazy(() => import("./settings/dayOpenClose/DayOpen"));
+const DayClose = lazy(() => import("./settings/dayOpenClose/DayClose"));
+const DayOpenList = lazy(() => import("./settings/dayOpenClose/DayOpenList"));
 export {
   Dashboard,
+  SaccoList,
+  SaccoAdd,
   PaymentVoucherList,
-  PaymentVoucherAdd,
+  PaymentVoucherByBank,
+  PaymentVoucherByCash,
   ReceiveVoucherList,
-  ReceiveVoucherAdd,
-  PaymentToPartyList,
-  PaymentToPartyAdd,
-  ReceiveFromPartyList,
-  ReceiveFromPartyAdd,
+  ReceiveVoucherByBank,
+  ReceiveVoucherByCash,
+  IncomeVoucherList,
+  IncomeVoucherByBank,
+  IncomeVoucherByCash,
+  ExpenseVoucherList,
+  ExpenseVoucherByBank,
+  ExpenseVoucherByCash,
+  PaymentPartyList,
+  PaymentPartyByBank,
+  PaymentPartyByCash,
+  ReceivePartyList,
+  ReceivePartyByBank,
+  ReceivePartyByCash,
   JournalVoucherList,
   JournalVoucherAdd,
   TransferVoucherList,
-  TransferVoucherAdd,
+  TransferBankToBank,
+  TransferBankToCash,
+  TransferCashToBank,
+  TransferCashToCash,
+  ReverseVoucherList,
+  ReverseVoucherAdd,
   RequisitionApproveList,
   RequisitionApproveAdd,
-  PartyList,
-  PartyAdd,
-  PartyEdit,
   ExpenseList,
   ExpenseAdd,
   ExpenseEdit,
@@ -126,24 +206,32 @@ export {
   ForexList,
   ForexAdd,
   ForexEdit,
-  LocationList,
-  LocationAdd,
-  LocationEdit,
-  ProjectList,
-  ProjectAdd,
-  ProjectEdit,
-  MainHeadList,
-  MainHeadAdd,
-  MainHeadEdit,
-  SubHeadList,
-  SubHeadAdd,
-  SubHeadEdit,
   LedgerList,
   LedgerAdd,
   LedgerEdit,
   Settings,
-  SaccoList,
-  SaccoAdd,
-  TravelingBillRecommended,
-  TravelingBillComments
+  GroupList,
+  GroupAdd,
+  GroupEdit,
+  SubGroupList,
+  SubGroupAdd,
+  SubGroupEdit,
+  SubLedgerAdd,
+  SubLedgerList,
+  SubLedgerEdit,
+  Reports,
+  BalanceSheetList,
+  DayBookReport,
+  LedgerReport,
+  ProfitAndLossAccountList,
+  TrialBalanceReport,
+  LedgerBalanceReport,
+  BankBookReport,
+  CashBookReport,
+  OpenningList,
+  OpenningAdd,
+  OpenningEdit,
+  DayOpenList,
+  DayOpen,
+  DayClose,
 };

@@ -44,7 +44,7 @@ public class UserCreateController(IUnitOfWork unitOfWork, IAuthService authServi
         try
         {
             var data = await _unitOfWork.SP_Call.List<UserSelect>("CaUserGetAllForSelect");
-            return Ok(data.Select(a => new { listId = a.UserId, listName =a.Role +" - "+ a.FullName }));
+            return Ok(data.Select(a => new { listId = a.UserId, listName = a.Role + " - " + a.FullName }));
         }
         catch (Exception e)
         {

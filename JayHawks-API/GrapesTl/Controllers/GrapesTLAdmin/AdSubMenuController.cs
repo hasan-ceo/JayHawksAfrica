@@ -17,7 +17,7 @@ namespace GrapesTl.Controllers;
 [ApiController]
 public class AdSubMenuController(IUnitOfWork unitOfWork) : ControllerBase
 {
-   
+
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     [HttpGet("List")]
@@ -86,7 +86,7 @@ public class AdSubMenuController(IUnitOfWork unitOfWork) : ControllerBase
         try
         {
             var parameter = new DynamicParameters();
-       
+
             parameter.Add("@MenuId", model.MenuId);
             parameter.Add("@SubMenuName", model.SubMenuName);
             parameter.Add("@Icon", model.Icon);

@@ -3099,10 +3099,13 @@ public class HrPdfReportController(IUnitOfWork unitOfWork) : ControllerBase
             sb.Append("<td style='font-weight: bold; border-bottom: 1px solid #000000;'>Particulars</td>");
             sb.Append("<td style='font-weight: bold; border-bottom: 1px solid #000000; text-align: right;'>Amount</td>");
             sb.Append("</tr>");
-            sb.Append("<tr>");
-            sb.Append("<td style='border-bottom: 1px solid #000000;'>Gross Salary USD:</td>");
-            sb.Append($"<td style='border-bottom: 1px solid #000000; text-align: right;'>{data.GrossSalaryUsd.ToString("N0")}</td>");
-            sb.Append("</tr>");
+            if (data.GrossSalaryUsd > 0)
+            {
+                sb.Append("<tr>");
+                sb.Append("<td style='border-bottom: 1px solid #000000;'>Gross Salary USD:</td>");
+                sb.Append($"<td style='border-bottom: 1px solid #000000; text-align: right;'>{data.GrossSalaryUsd.ToString("N0")}</td>");
+                sb.Append("</tr>");
+            }
             sb.Append("<tr>");
             sb.Append("<td style='border-bottom: 1px solid #000000;'>Gross Salary :</td>");
             sb.Append($"<td style='border-bottom: 1px solid #000000; text-align: right;'>{data.GrossSalary.ToString("N0")}</td>");

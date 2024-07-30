@@ -38,7 +38,6 @@ const MenuForm = ({ defaultValues, action, btnText, path, returnPath }) => {
   const { moduleId, menuName, link, icon, priority } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
     try {
       const { status } = await mutateAsync({

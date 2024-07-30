@@ -19,7 +19,7 @@ const AdvanceSalaryApplications = () => {
   if (isLoading) return <HashLoading />;
 
   if (isError) return <Error message={error.message} />;
-  // console.log(list.data)
+
   return (
     <div>
       <div className="flex justify-between px-0 pb-2 text-xl lg:text-2xl font-bold lg:text-semibold text-gray-600">

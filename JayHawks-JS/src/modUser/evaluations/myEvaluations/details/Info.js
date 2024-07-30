@@ -24,7 +24,7 @@ const Info = () => {
   if (isLoading) return <HashLoading />;
 
   if (isError) return <Error message={error.message} />;
-  console.log(list.data);
+
   switch (page) {
     case 1:
       return <ObjectivesList defaultValues={list.data} action={setPage} />;

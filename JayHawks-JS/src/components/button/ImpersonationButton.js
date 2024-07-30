@@ -26,9 +26,7 @@ const ImpersonationButton = ({ id }) => {
         value.setRole(data.role);
         value.setModules(data.modules);
         value.setMenus(data.menus);
-        value.setSubmenus(data.subMenus);
-
-        console.log("Module ken pawa jaitese na.",data.modules)
+        value.setSubmenus(data.subMenus)
 
         navigate(data.role === "Grapes Admin" ? "/grapes" : "/dashboard");
       } else {

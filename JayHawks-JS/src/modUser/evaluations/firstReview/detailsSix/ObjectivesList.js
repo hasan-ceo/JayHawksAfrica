@@ -66,7 +66,7 @@ const ObjectivesList = ({ defaultValues, action }) => {
   } = errors;
   const onSubmit = async (formData) => {
     setSubmitting(true);
-    console.log(formData);
+
     var data = new FormData();
     data.append("evaObjectivesId", formData.evaObjectivesId);
     data.append("evaluationId", defaultValues.evaluationId);

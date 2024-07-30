@@ -163,6 +163,9 @@ namespace GrapesTl.Controllers
 
             try
             {
+                _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+
                 var parameter = new DynamicParameters();
                 parameter.Add("@MemberId", model.MemberId);
                 parameter.Add("@MemberName", model.MemberName);
@@ -176,7 +179,7 @@ namespace GrapesTl.Controllers
                 parameter.Add("@LoanFromOtherMfi", model.LoanFromOtherMfi);
                 parameter.Add("@ExpectedLoanAmount", model.ExpectedLoanAmount);
                 parameter.Add("@PotentialForLoan", model.PotentialForLoan);
-
+                parameter.Add("@EmployeeId", user.EmployeeId);
                 parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
                 await _unitOfWork.SP_Call.Execute("crmMemberUpdate", parameter);
                 var message = parameter.Get<string>("Message");

@@ -22,6 +22,8 @@ const MyVisitCountList = ({ dataForm }) => {
 
   if (isError) return <Error message={error.message} />;
 
+  console.log(list.data);
+
   const data = list.data.map(
     ({ employeeName, designationName, branchName, visitCount }) => ({
       employeeName,
@@ -35,7 +37,7 @@ const MyVisitCountList = ({ dataForm }) => {
     <>
       <div className="flex justify-end items-center">
         <PdfButton
-          path={`/opsPdf/visitCount/${dataForm.fromDate}/${dataForm.tillDate}`}
+          path={`/opsPdf/myVisitCount/${dataForm.fromDate}/${dataForm.tillDate}`}
         />
 
         <PrintHeader title="" fileName="NumberOfVisitReport.csv" data={data} />
@@ -47,8 +49,8 @@ const MyVisitCountList = ({ dataForm }) => {
           <ListHeader label="Branch Name" />
           <ListHeader label="No. Of Visit" />
         </div>
-        {list.data.length > 0 &&
-          list.data.map((item, index) => (
+        {data.length > 0 &&
+          data.map((item, index) => (
             <div
               key={index}
               className="grid grid-cols-1 md:grid-cols-4 list-body"
@@ -63,7 +65,7 @@ const MyVisitCountList = ({ dataForm }) => {
         <div className="list-footer">
           <div className="col-span-10"></div>
           <div className="flex justify-center">
-            <span className="font-semibold">TOTAL : {list.data.length}</span>
+            <span className="font-semibold">TOTAL : {data.length}</span>
           </div>
         </div>
       </div>

@@ -71,7 +71,7 @@ const BillForm = ({ defaultValues, action, btnText, path, returnPath }) => {
         path: path,
         formData: tmpData,
       });
-      console.log(data);
+
       if (status === 201) {
         toast.success("Saved successfully!");
         reset();

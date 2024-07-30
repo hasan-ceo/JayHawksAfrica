@@ -8,14 +8,19 @@ import { usePostData } from "../../../hooks/dataApi";
 import SaveButton from "../../../components/button/SaveButton";
 import TextArea from "../../../components/TextArea";
 
-
 const schema = yup.object({
   queryId: yup.string(),
   query: yup.string().required("Required"),
 });
 
-function QueryExecuteForm ({ defaultValues, action, btnText, path, returnPath }) {
-//   const { t } = useTranslation(["components"]);
+function QueryExecuteForm({
+  defaultValues,
+  action,
+  btnText,
+  path,
+  returnPath,
+}) {
+  //   const { t } = useTranslation(["components"]);
   const navigate = useNavigate();
   const { mutateAsync } = usePostData();
   const [submitting, setSubmitting] = useState(false);
@@ -32,7 +37,6 @@ function QueryExecuteForm ({ defaultValues, action, btnText, path, returnPath })
   const { query } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
 
     var data = new FormData();
@@ -69,23 +73,22 @@ function QueryExecuteForm ({ defaultValues, action, btnText, path, returnPath })
 
   return (
     <div>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="hidden" {...register("queryId")} />
-      <div className="form-col">
-
-        <TextArea
-          control={control}
-          name="query"
-          label="Write your Query"
-          areaHeight="h-80"
-          errorMessage={query?.message}
-          isAutoFocus={true}
-        />
-      </div>
-      <div className="from-cols mt-4">
-        <SaveButton btnText={btnText} disabled={submitting} />
-      </div>
-    </form>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input type="hidden" {...register("queryId")} />
+        <div className="form-col">
+          <TextArea
+            control={control}
+            name="query"
+            label="Write your Query"
+            areaHeight="h-80"
+            errorMessage={query?.message}
+            isAutoFocus={true}
+          />
+        </div>
+        <div className="from-cols mt-4">
+          <SaveButton btnText={btnText} disabled={submitting} />
+        </div>
+      </form>
     </div>
   );
 }

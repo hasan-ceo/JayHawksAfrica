@@ -23,8 +23,6 @@ const InvestigationDetailsList = () => {
 
   const data = list.data;
 
-  console.log(list.data);
-
   return (
     <div className="card w-full max-w-screen-xl mt-2">
       <div className="list-wrapper">

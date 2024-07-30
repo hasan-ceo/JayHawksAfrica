@@ -23,7 +23,7 @@ const BmCheckList = ({ id, isSubmit, isManager, isBm }) => {
 
   if (isError) return <Error message={error.message} />;
 
-  // console.log(list.data);
+  //
 
   return (
     <>

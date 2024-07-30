@@ -44,11 +44,9 @@ function PreviousYearBranchForm({ path, returnPath }) {
 
     resolver: yupResolver(schema),
   });
-  const { yearName, auName, portfolioValue, par, numOfBorrower } =
-    errors;
+  const { yearName, auName, portfolioValue, par, numOfBorrower } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
 
     var data = new FormData();

@@ -1,31 +1,37 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { usePostData } from "../../hooks/dataApi";
 import toast from "react-hot-toast";
+import * as yup from "yup";
 import Input from "../../components/Input";
+import { SelectFromDb } from "../../components/SelectList";
 import TextArea from "../../components/TextArea";
 import SaveButton from "../../components/button/SaveButton";
-import { SelectFromDb, SelectFromOptions } from "../../components/SelectList";
+import { usePostData } from "../../hooks/dataApi";
 
 const schema = yup.object({
-  transferVoucherId: yup.string(),
-  transactionType: yup.string().required("Required."),
-  bank: yup.string().required("Required."),
-  amount: yup
+  bankOrCashId: yup
     .number()
     .min(0, "Must be greater than or equal to 0")
     .typeError("Positive number required"),
-  particulars: yup.string().required("Required.").max(4000),
+  ledgerId: yup
+    .number()
+    .min(0, "Must be greater than or equal to 0")
+    .typeError("Positive number required"),
+  amount: yup
+    .number()
+    .min(0, "Must be greater than or equal to 0")
+    .typeError("Positive number required")
+    .transform((o, v) => parseInt(v.replace(/,/g, ""))),
+  particulars: yup.string().max(250).required("Required"),
 });
 
 const TransferVoucherForm = ({
   defaultValues,
+  path,
+  selectPath,
   action,
   btnText,
-  path,
-  returnPath,
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const { mutateAsync } = usePostData();
@@ -39,14 +45,19 @@ const TransferVoucherForm = ({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  const { transactionType, bank, amount, particulars } = errors;
+  const { bankOrCashId, ledgerId, amount, particulars } = errors;
 
   const onSubmit = async (formData) => {
     setSubmitting(true);
+    var data = new FormData();
+    data.append("bankOrCashId", formData.bankOrCashId);
+    data.append("ledgerId", formData.ledgerId);
+    data.append("amount", formData.amount);
+    data.append("particulars", formData.particulars);
     try {
       const { status } = await mutateAsync({
-        path: "/accounts/journalVoucher",
-        formData: formData,
+        path: path,
+        formData: data,
       });
       if (status === 201) {
         toast.success("Saved successfully!");
@@ -70,43 +81,41 @@ const TransferVoucherForm = ({
   };
 
   return (
-    <div className="card w-full max-w-screen-xl">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-col">
-          <SelectFromDb
-            control={control}
-            label="Transaction Type"
-            // path="/accountHeadCr/select"
-            path={["Yes", "No"]}
-            name="transactionType"
-            errorMessage={transactionType?.message}
-          />
-          <SelectFromOptions
-            register={register}
-            options={["Bank"]}
-            label="Bank"
-            name="bank"
-            errorMessage={bank?.message}
-          />
-          <Input
-            name="amount"
-            label="Amount"
-            type="text"
-            register={register}
-            errorMessage={amount?.message}
-          />
-          <TextArea
-            control={control}
-            name="particulars"
-            label="Particulars"
-            type="text"
-            errorMessage={particulars?.message}
-          />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="form-col">
+        <SelectFromDb
+          control={control}
+          label="Select Bank Or Cash"
+          path={selectPath}
+          name="bankOrCashId"
+          errorMessage={bankOrCashId?.message}
+        />
+        <SelectFromDb
+          control={control}
+          label="Select Account Head"
+          path="/acLedger/selectByTransfer"
+          name="ledgerId"
+          errorMessage={ledgerId?.message}
+        />
 
-          <SaveButton btnText="Save" disabled={submitting} />
-        </div>
-      </form>
-    </div>
+        <Input
+          name="amount"
+          label="Amount"
+          type="text"
+          register={register}
+          errorMessage={amount?.message}
+        />
+        <TextArea
+          control={control}
+          name="particulars"
+          label="Particulars"
+          type="text"
+          errorMessage={particulars?.message}
+        />
+
+        <SaveButton btnText={btnText} disabled={submitting} />
+      </div>
+    </form>
   );
 };
 

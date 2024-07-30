@@ -22,7 +22,7 @@ const DepartmentalInvestigationDetailsList = () => {
 
   const data = list.data;
 
-  console.log(data);
+
 
   return (
     <div className="overflow-auto h-96">

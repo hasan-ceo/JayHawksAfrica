@@ -4,10 +4,11 @@ import { useGlobalContext } from "../../hooks/context";
 
 const Reports = () => {
   const value = useGlobalContext();
+
   const data = value.subMenus.filter((item) => {
     if (
       item.moduleName.toLowerCase() === "Audit".toLowerCase() &&
-      item.menuName.toLowerCase() === "Reports".toLowerCase()
+      item.menuName.toLowerCase() === "Other System Reports".toLowerCase()
     )
       return item;
     else return null;
@@ -20,7 +21,7 @@ const Reports = () => {
           Reports
         </h1>
       </div>
-      <div className="section-title">Report</div>
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {data.length > 0 &&
           data.map((item, index) => (

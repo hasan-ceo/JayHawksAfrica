@@ -140,7 +140,7 @@ public class ExpensesController(IUnitOfWork unitOfWork) : ControllerBase
         try
         {
             var parameter = new DynamicParameters();
-            parameter.Add("@ExpenseId", id);
+            parameter.Add("@GlId", id);
 
             parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
             await _unitOfWork.SP_Call.Execute("acExpenseDelete", parameter);

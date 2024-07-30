@@ -47,7 +47,6 @@ const BillForm = ({ defaultValues, action, btnText, path, returnPath }) => {
   const { travelingDate, remarks, managerId, filepath, title } = errors;
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     setSubmitting(true);
     var tmpData = new FormData();
     tmpData.append("travelId", formData.travelId);

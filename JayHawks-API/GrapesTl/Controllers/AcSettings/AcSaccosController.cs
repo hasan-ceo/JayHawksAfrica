@@ -9,7 +9,7 @@ using System;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace GrapesTl.Controllers;
+namespace GrapesTl.Controllers.AcSettings;
 
 [Authorize(Roles = "Super Admin,Accounts Manager,Accounts Executive")]
 [Route("api/[controller]")]

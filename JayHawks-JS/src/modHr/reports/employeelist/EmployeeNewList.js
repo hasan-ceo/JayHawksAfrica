@@ -9,7 +9,7 @@ import { format } from "date-fns";
 import PdfButton from "../../../components/button/PdfButton";
 
 const EmployeeNewList = ({ dataForm }) => {
-  console.log(dataForm);
+
   const [query, setQuery] = useState("");
   const {
     data: list,
@@ -24,8 +24,6 @@ const EmployeeNewList = ({ dataForm }) => {
   if (isLoading) return <HashLoading />;
 
   if (isError) return <Error message={error?.message} />;
-
-  console.log(list.data);
 
   const data = list.data
     .filter((item) => {

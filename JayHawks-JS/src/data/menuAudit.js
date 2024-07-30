@@ -55,6 +55,16 @@ export const menuAudit = {
       link: "/audit/departmentalInvestigationreport/list",
       Icon: FaBook,
     },
+    {
+      name: "Branch Department Audit Report",
+      link: "/audit/auditDepartmentReport/list",
+      Icon: FaBook,
+    },
+    {
+      name: "SpecialInvestigation Audit Report",
+      link: "/audit/auditSpecialInvestigationReport/list",
+      Icon: FaBook,
+    },
   ],
   settingMenuData: [
     {
