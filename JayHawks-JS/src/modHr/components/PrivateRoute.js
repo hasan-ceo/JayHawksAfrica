@@ -10,7 +10,7 @@ const PrivateRoute = () => {
     value.role === "HR Executive" ||
     value.role === "Accounts Manager" ||
     value.role === "Accounts Executive" ||
-    value.role === "Country Team Leader" ? (
+    value.role === "Country Team Lead" ? (
       <Outlet />
     ) : (
       <Navigate to="/dashboard" />

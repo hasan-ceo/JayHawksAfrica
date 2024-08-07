@@ -14,12 +14,14 @@ const AuditSpecialInvestigationReportEdit = () => {
     isLoading,
     isError,
     refetch,
-  } = useGetData("auditAuditBranchDepartmentAuditReport", `/auditSpecialInvestigationAuditReport/details/${id}`);
+  } = useGetData(
+    "auditAuditBranchDepartmentAuditReport",
+    `/auditSpecialInvestigationAuditReport/details/${id}`
+  );
 
   if (isLoading) return <HashLoading />;
 
   if (isError) return <Error message={error.message} />;
-
 
   return (
     <div className="card w-full max-w-screen-xl">
@@ -31,7 +33,8 @@ const AuditSpecialInvestigationReportEdit = () => {
 
       <AuditSpecialInvestigationReportForm
         defaultValues={{
-          specialInvestigationAuditReportId: list.data.specialInvestigationAuditReportId,
+          specialInvestigationAuditReportId:
+            list.data.specialInvestigationAuditReportId,
           year: list.data.year,
           reportingQuarter: list.data.reportingQuarter,
           monthOfAudit: list.data.monthOfAudit,
@@ -42,7 +45,8 @@ const AuditSpecialInvestigationReportEdit = () => {
           typeOfFraud: list.data.typeOfFraud,
           whoMightBeInvolved: list.data.whoMightBeInvolved,
           positionOfFraudster: list.data.positionOfFraudster,
-          howIsTheFraudBeingPerpetrated: list.data.howIsTheFraudBeingPerpetrated,
+          howIsTheFraudBeingPerpetrated:
+            list.data.howIsTheFraudBeingPerpetrated,
           numberOfOccurences: list.data.numberOfOccurences,
           potentialWitness: list.data.potentialWitness,
           Statements: list.data.Statements,
@@ -54,6 +58,7 @@ const AuditSpecialInvestigationReportEdit = () => {
           managementResponse: list.data.managementResponse,
           employeeId: list.data.employeeId,
           iaInCharge: list.data.iaInCharge,
+          lengthOfServiceOfFraudster: list.data.lengthOfServiceOfFraudster,
         }}
         action={refetch}
         btnText="Update"

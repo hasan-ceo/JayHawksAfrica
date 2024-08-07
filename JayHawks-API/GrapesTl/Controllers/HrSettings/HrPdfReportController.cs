@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace GrapesTl.Controllers;
 
-[Authorize(Roles = "Super Admin,HR Manager,HR Executive,Accounts Manager,Accounts Executive, Country Team Leader")]
+[Authorize(Roles = "Super Admin,HR Manager,HR Executive,Accounts Manager,Accounts Executive, Country Team Lead")]
 [Route("api/[controller]")]
 [ApiController]
 public class HrPdfReportController(IUnitOfWork unitOfWork) : ControllerBase

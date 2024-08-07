@@ -1,11 +1,11 @@
 import React from "react";
-import { HashLoading } from "../../components/Loading";
-import Error from "../../components/Error";
-import { useGetData } from "../../hooks/dataApi";
-import { ListCol } from "../../components/ListColWithHeader";
+import { HashLoading } from "../../../components/Loading";
+import Error from "../../../components/Error";
+import { useGetData } from "../../../hooks/dataApi";
+import { ListCol } from "../../../components/ListColWithHeader";
 
 const LedgerName = ({ ledgerId }) => {
-
+  //   console.log({ ledgerId });
   const {
     data: list,
     isLoading,

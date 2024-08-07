@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GrapesTl.Controllers;
@@ -17,8 +18,7 @@ namespace GrapesTl.Controllers;
 public class AuditSpecialInvestigationAuditReportController(IUnitOfWork unitOfWork) : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-
-
+    private string _userId;
 
     [Authorize(Roles = "Super Admin,Audit Manager,Audit Executive")]
     [HttpGet("List")]
@@ -71,6 +71,9 @@ public class AuditSpecialInvestigationAuditReportController(IUnitOfWork unitOfWo
 
         try
         {
+            _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+
             var parameter = new DynamicParameters();
             parameter.Add("@Year", model.Year);
             parameter.Add("@ReportingQuarter", model.ReportingQuarter);
@@ -82,6 +85,7 @@ public class AuditSpecialInvestigationAuditReportController(IUnitOfWork unitOfWo
             parameter.Add("@TypeOfFraud", model.TypeOfFraud);
             parameter.Add("@WhoMightBeInvolved", model.WhoMightBeInvolved);
             parameter.Add("@PositionOfFraudster", model.PositionOfFraudster);
+            parameter.Add("@LengthOfServiceOfFraudster", model.@LengthOfServiceOfFraudster);
             parameter.Add("@HowIsTheFraudBeingPerpetrated", model.HowIsTheFraudBeingPerpetrated);
             parameter.Add("@NumberOfOccurences", model.NumberOfOccurences);
             parameter.Add("@PotentialWitness", model.PotentialWitness);
@@ -92,7 +96,7 @@ public class AuditSpecialInvestigationAuditReportController(IUnitOfWork unitOfWo
             parameter.Add("@EstimatedFraudLoss", model.EstimatedFraudLoss);
             parameter.Add("@Recommendations", model.Recommendations);
             parameter.Add("@ManagementResponse", model.ManagementResponse);
-            parameter.Add("@EmployeeId", model.EmployeeId);
+            parameter.Add("@EmployeeId", user.EmployeeId);
             parameter.Add("@IAInCharge", model.IAInCharge);
 
             parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
@@ -146,6 +150,7 @@ public class AuditSpecialInvestigationAuditReportController(IUnitOfWork unitOfWo
             parameter.Add("@ManagementResponse", model.ManagementResponse);
             parameter.Add("@EmployeeId", model.EmployeeId);
             parameter.Add("@IAInCharge", model.IAInCharge);
+            parameter.Add("@LengthOfServiceOfFraudster", model.@LengthOfServiceOfFraudster);
 
             parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
             await _unitOfWork.SP_Call.Execute("AuditSpecialInvestigationReportUpdate", parameter);

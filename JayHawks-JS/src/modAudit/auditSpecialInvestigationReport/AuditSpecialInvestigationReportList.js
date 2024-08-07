@@ -5,6 +5,7 @@ import Error from "../../components/Error";
 import { HashLoading } from "../../components/Loading";
 import TopHeader from "../../components/TopHeader";
 import { useGetData } from "../../hooks/dataApi";
+import { AiOutlineFile } from "react-icons/ai";
 // import { format } from "date-fns";
 
 const AuditSpecialInvestigationReportList = () => {
@@ -64,6 +65,9 @@ const AuditSpecialInvestigationReportList = () => {
               </th>
               <th className="p-2 transform  whitespace-nowrap text-center">
                 Position of Fraudster
+              </th>
+              <th className="p-2 transform  whitespace-nowrap text-center">
+                Length of Service of fraudster
               </th>
               <th className="p-2 transform  whitespace-nowrap text-center">
                 How is the fraud being perpetrated?
@@ -148,6 +152,9 @@ const AuditSpecialInvestigationReportList = () => {
                     {item.positionOfFraudster}
                   </td>
                   <td className="p-2 align-top text-center">
+                    {item.lengthOfServiceOfFraudster}
+                  </td>
+                  <td className="p-2 align-top text-center">
                     {item.howIsTheFraudBeingPerpetrated}
                   </td>
                   <td className="p-2 align-top text-center">
@@ -157,9 +164,19 @@ const AuditSpecialInvestigationReportList = () => {
                     {item.potentialWitness}
                   </td>
                   <td className="p-2 align-top text-center">
-                    {item.statements}
+                    {item.statements && (
+                      <a href={item.statements} className="btn-sky w-12 h-10">
+                        <AiOutlineFile size={24} />
+                      </a>
+                    )}
                   </td>
-                  <td className="p-2 align-top text-center">{item.evidence}</td>
+                  <td className="p-2 align-top text-center">
+                    {item.evidence && (
+                      <a href={item.evidence} className="btn-sky w-12 h-10">
+                        <AiOutlineFile size={24} />
+                      </a>
+                    )}
+                  </td>
                   <td className="p-2 align-top text-center">
                     {item.observations}
                   </td>

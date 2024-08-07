@@ -15,6 +15,7 @@ const AuditDepartmentReportAdd = () => {
     TypeOfFraud: "",
     WhoMightBeInvolved: "",
     PositionOfFraudster: "",
+    lengthOfServiceOfFraudster: "",
     HowIsTheFraudBeingPerpetrated: "",
     NumberOfOccurences: "",
     PotentialWitness: "",
@@ -32,7 +33,7 @@ const AuditDepartmentReportAdd = () => {
   return (
     <div className="card w-full max-w-screen-xl">
       <TopHeader
-        title="Departmental Audit Report Create"
+        title="Special Investigation Audit Report Create"
         btn="Return"
         path="/audit/auditSpecialInvestigationReport/list"
       />

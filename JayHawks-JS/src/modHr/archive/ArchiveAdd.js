@@ -45,6 +45,7 @@ const ArchiveAdd = ({ employeeId, action }) => {
   });
   const { title, filepath } = errors;
   const onSubmit = async (formData) => {
+    console.log(formData);
     if (fileUrl === "") {
       toast.error("Upload not complete! Please wait.");
       return;

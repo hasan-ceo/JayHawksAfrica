@@ -7,12 +7,11 @@ import toast from "react-hot-toast";
 import { usePostData } from "../../hooks/dataApi";
 import SaveButton from "../../components/button/SaveButton";
 import Input from "../../components/Input";
-import moment from "moment";
 import DatePicker from "../../components/DatePicker";
-// import TextArea from "../../components/TextArea";
 import { selectOptions } from "../../data/selectOptions";
 import { SelectFromDb, SelectFromOptions } from "../../components/SelectList";
 import InputFileOther from "../../components/InputFileOther";
+import moment from "moment";
 
 const schema = yup.object({
   reportId: yup.string().max(255),
@@ -20,7 +19,7 @@ const schema = yup.object({
   reportingQuarter: yup.string().max(300),
   monthOfAudit: yup.string().max(300),
   departmentName: yup.string().max(300),
-  branchId: yup.string().max(300),
+  branchId: yup.string().max(300).required("Required."),
   region: yup.string().max(300),
   branchOverview: yup.string().max(300),
   areaOfreview: yup.string().max(300),
@@ -38,7 +37,6 @@ const schema = yup.object({
   repeatFinding: yup.string().max(300),
   followUpCommentIfAny: yup.string().max(300),
   iaInCharge: yup.string().max(300),
-  appendices: yup.string().max(300),
 });
 
 const AuditDepartmentReportForm = ({
@@ -49,9 +47,9 @@ const AuditDepartmentReportForm = ({
   returnPath,
 }) => {
   const navigate = useNavigate();
-  const { mutateAsync, reset } = usePostData();
+  const { mutateAsync } = usePostData();
   const [submitting, setSubmitting] = useState(false);
-  const [fileUrl, setFile] = useState(defaultValues?.attachment);
+  const [appendices, setPhoto] = useState("");
 
   const {
     register,
@@ -85,12 +83,15 @@ const AuditDepartmentReportForm = ({
     RepeatFinding,
     FollowUpCommentIfAny,
     iaInCharge,
-    Appendices,
+    filepath,
   } = errors;
 
   const onSubmit = async (formData) => {
+    console.log(formData);
+
     setSubmitting(true);
     var data = new FormData();
+    data.append("appendices", appendices);
     Object.keys(formData).forEach((key) => {
       if (key === "CommitmentDate") {
         data.append(
@@ -127,7 +128,6 @@ const AuditDepartmentReportForm = ({
     data.append("repeatFinding", formData.repeatFinding);
     data.append("followUpCommentIfAny", formData.followUpCommentIfAny);
     data.append("iaInCharge", formData.iaInCharge);
-    data.append("appendices", formData.appendices);
 
     try {
       const { status } = await mutateAsync({
@@ -316,12 +316,16 @@ const AuditDepartmentReportForm = ({
           errorMessage={iaInCharge?.message}
         />
         <InputFileOther
+          name="filepath"
+          label="Upload file"
+          accept="*/*"
           register={register}
-          action={setFile}
-          label="Appendices"
-          name="appendices"
-          errorMessage={Appendices?.message}
+          action={setPhoto}
+          errorMessage={filepath?.message}
         />
+        <div className="text-xs">
+          <label>{appendices}</label>
+        </div>
       </div>
 
       <div className="form-cols mt-4">

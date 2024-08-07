@@ -57,6 +57,7 @@ namespace GrapesTl.Controllers
                 parameter.Add("@MailPassword", model.MailPassword);
                 parameter.Add("@NssfEmployee", model.NssfEmployee);
                 parameter.Add("@NssfEmployer", model.NssfEmployer);
+                parameter.Add("@GoogleDriveKey", model.GoogleDriveKey);
 
                 parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
                 await _unitOfWork.SP_Call.Execute("adCompanyUpdate", parameter);

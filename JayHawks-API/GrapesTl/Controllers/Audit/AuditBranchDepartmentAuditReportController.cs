@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GrapesTl.Controllers;
@@ -17,6 +18,7 @@ namespace GrapesTl.Controllers;
 public class AuditBranchDepartmentAuditReportController(IUnitOfWork unitOfWork) : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private string _userId;
 
 
 
@@ -71,6 +73,9 @@ public class AuditBranchDepartmentAuditReportController(IUnitOfWork unitOfWork) 
 
         try
         {
+            _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
+
             var parameter = new DynamicParameters();
             parameter.Add("@Year", model.Year);
             parameter.Add("@ReportingQuarter", model.ReportingQuarter);
@@ -84,7 +89,7 @@ public class AuditBranchDepartmentAuditReportController(IUnitOfWork unitOfWork) 
             parameter.Add("@PrimaryRootCause", model.PrimaryRootCause);
             parameter.Add("@RiskImplication", model.RiskImplication);
             parameter.Add("@Recommendations", model.Recommendations);
-            parameter.Add("@EmployeeId", model.EmployeeId);
+            parameter.Add("@EmployeeId", user.EmployeeId);
             parameter.Add("@RiskCategory", model.RiskCategory);
             parameter.Add("@BranchResponse", model.BranchResponse);
             parameter.Add("@ManagementResponse", model.ManagementResponse);

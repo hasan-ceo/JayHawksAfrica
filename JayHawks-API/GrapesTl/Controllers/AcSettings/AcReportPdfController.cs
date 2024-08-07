@@ -78,7 +78,7 @@ public class AcReportPdfController(IUnitOfWork unitOfWork) : ControllerBase
             sb.Append("<th style='border: 1px solid #000000; text-align: center; padding: 8px;' colspan='1'>Particulars</th>");
             sb.Append("<th style='border: 1px solid #000000; text-align: center; padding: 8px;' colspan='1'>Debit Amount</th>");
             sb.Append("<th style='border: 1px solid #000000; text-align: center; padding: 8px;' colspan='1'>Credit Amount</th>");
-         
+
 
             sb.Append("</tr>");
             sb.Append("</thead>");

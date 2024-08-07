@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as yup from "yup";
 import InputNumber from "../../components/InputNumber";
-import { SelectFromDb } from "../../components/SelectList";
+import { DataListFromDb, SelectFromDb } from "../../components/SelectList";
 import TextArea from "../../components/TextArea";
 import SaveButton from "../../components/button/SaveButton";
 import { usePostData } from "../../hooks/dataApi";
@@ -14,10 +14,7 @@ const schema = yup.object({
     .number()
     .min(0, "Must be greater than or equal to 0")
     .typeError("Positive number required"),
-  ledgerId: yup
-    .number()
-    .min(0, "Must be greater than or equal to 0")
-    .typeError("Positive number required"),
+  ledgerNameCode: yup.string().required("Required.").max(50),
   amount: yup
     .number()
     .min(0, "Must be greater than or equal to 0")
@@ -47,13 +44,13 @@ const ReceiveVoucherForm = ({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  const { bankOrCashId, ledgerId, amount, particulars } = errors;
+  const { bankOrCashId, ledgerNameCode, amount, particulars } = errors;
 
   const onSubmit = async (formData) => {
     setSubmitting(true);
     var data = new FormData();
     data.append("bankOrCashId", formData.bankOrCashId);
-    data.append("ledgerId", formData.ledgerId);
+    data.append("ledgerNameCode", formData.ledgerNameCode);
     data.append("amount", formData.amount);
     data.append("particulars", formData.particulars);
     try {
@@ -93,12 +90,12 @@ const ReceiveVoucherForm = ({
             name="bankOrCashId"
             errorMessage={bankOrCashId?.message}
           />
-          <SelectFromDb
-            control={control}
+          <DataListFromDb
+            register={register}
             label="Select Account Head"
             path="/acLedger/selectByReceive"
-            name="ledgerId"
-            errorMessage={ledgerId?.message}
+            name="ledgerNameCode"
+            errorMessage={ledgerNameCode?.message}
           />
 
           <InputNumber

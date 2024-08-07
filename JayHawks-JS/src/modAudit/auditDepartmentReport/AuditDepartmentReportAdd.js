@@ -33,7 +33,7 @@ const AuditDepartmentReportAdd = () => {
   return (
     <div className="card w-full max-w-screen-xl">
       <TopHeader
-        title="Departmental Audit Report Create"
+        title="Special Investigation Report Create"
         btn="Return"
         path="/audit/auditDepartmentReport/list"
       />

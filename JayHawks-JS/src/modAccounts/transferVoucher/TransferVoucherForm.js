@@ -14,10 +14,7 @@ const schema = yup.object({
     .number()
     .min(0, "Must be greater than or equal to 0")
     .typeError("Positive number required"),
-  ledgerId: yup
-    .number()
-    .min(0, "Must be greater than or equal to 0")
-    .typeError("Positive number required"),
+  ledgerNameCode: yup.string().max(50).required("Required"),
   amount: yup
     .number()
     .min(0, "Must be greater than or equal to 0")
@@ -45,13 +42,13 @@ const TransferVoucherForm = ({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  const { bankOrCashId, ledgerId, amount, particulars } = errors;
+  const { bankOrCashId, ledgerNameCode, amount, particulars } = errors;
 
   const onSubmit = async (formData) => {
     setSubmitting(true);
     var data = new FormData();
     data.append("bankOrCashId", formData.bankOrCashId);
-    data.append("ledgerId", formData.ledgerId);
+    data.append("ledgerNameCode", formData.ledgerNameCode);
     data.append("amount", formData.amount);
     data.append("particulars", formData.particulars);
     try {
@@ -94,8 +91,8 @@ const TransferVoucherForm = ({
           control={control}
           label="Select Account Head"
           path="/acLedger/selectByTransfer"
-          name="ledgerId"
-          errorMessage={ledgerId?.message}
+          name="ledgerNameCode"
+          errorMessage={ledgerNameCode?.message}
         />
 
         <Input

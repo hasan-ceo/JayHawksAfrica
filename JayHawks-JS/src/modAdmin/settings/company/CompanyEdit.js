@@ -33,6 +33,7 @@ const CompanyEdit = () => {
           mailPassword: list.data.mailPassword,
           nssfEmployee: list.data.nssfEmployee,
           nssfEmployer: list.data.nssfEmployer,
+          googleDriveKey: list.data.googleDriveKey,
         }}
         action={refetch}
         btnText="Update"

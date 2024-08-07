@@ -1,11 +1,9 @@
 import React, { Fragment, useState } from "react";
-
 import { usePostData } from "../../hooks/dataApi";
 import { Dialog, Transition } from "@headlessui/react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../hooks/context";
-
 import { FaUserSecret } from "react-icons/fa";
 
 const ImpersonationButton = ({ id }) => {

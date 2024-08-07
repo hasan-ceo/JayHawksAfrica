@@ -7,7 +7,6 @@ const auditRoutes = (
   <Route path="/*" element={<PrivateRoute />}>
     <Route element={<Layout />}>
       <Route path="audit" element={<ModAudit.Dashboard />} />
-      <Route path="audit/reports" element={<ModAudit.Reports />} />
       <Route path="audit/closeList" element={<ModAudit.CloseList />} />
       <Route path="audit/list" element={<ModAudit.CreationList />} />
       <Route path="audit/add" element={<ModAudit.CreationAdd />} />
@@ -170,36 +169,6 @@ const auditRoutes = (
         element={<ModAudit.AuditPlaningDetailsEdit />}
       />
       {/* Report  */}
-      <Route path="audit/reports" element={<ModAudit.Reports />} />
-      <Route
-        path="audit/reports/employee/list"
-        element={<ModAudit.RptEmployeeList />}
-      />
-      <Route
-        path="audit/reports/employee/resign"
-        element={<ModAudit.RptEmployeeResign />}
-      />
-      <Route
-        path="audit/reports/employee/leave"
-        element={<ModAudit.RptEmployeeLeave />}
-      />
-      <Route
-        path="audit/reports/employee/transfer"
-        element={<ModAudit.RptEmployeeTransfer />}
-      />
-      <Route
-        path="audit/reports/employee/promotion"
-        element={<ModAudit.RptEmployeePromotion />}
-      />
-
-      <Route
-        path="audit/reports/employee/details/:id"
-        element={<ModAudit.EmployeeDetails />}
-      />
-      <Route
-        path="audit/reports/employee/resign/details/:id"
-        element={<ModAudit.EmployeeResignDetails />}
-      />
 
       <Route
         path="audit/settings/departmentAuditTest/list"
@@ -248,7 +217,7 @@ const auditRoutes = (
         path="audit/investigation/details/edit/:id/"
         element={<ModAudit.InvestigationDetailsEdit />}
       />
-       <Route
+      <Route
         path="audit/departmentalInvestigationreport/list"
         element={<ModAudit.DepartmentalInvestigationList />}
       />
@@ -261,7 +230,7 @@ const auditRoutes = (
         element={<ModAudit.DepartmentalInvestigationEdit />}
       />
 
-     <Route
+      <Route
         path="audit/departmentalInvestigation/details/:id"
         element={<ModAudit.DepartmentalInvestigationDetails />}
       />
@@ -270,9 +239,8 @@ const auditRoutes = (
         path="audit/departmentalInvestigation/details/edit/:id/"
         element={<ModAudit.DepartmentalInvestigationDetailsEdit />}
       />
-       
 
-       <Route
+      <Route
         path="audit/auditDepartmentReport/list"
         element={<ModAudit.AuditDepartmentReportList />}
       />
@@ -285,19 +253,25 @@ const auditRoutes = (
         element={<ModAudit.AuditDepartmentReportEdit />}
       />
 
-       <Route
+      <Route
         path="audit/auditSpecialInvestigationReport/list"
         element={<ModAudit.AuditSpecialInvestigationReportList />}
-       />
-       <Route
+      />
+      <Route
         path="audit/auditSpecialInvestigationReport/add"
         element={<ModAudit.AuditSpecialInvestigationReportAdd />}
-       />
-       <Route
+      />
+      <Route
         path="audit/AuditSpecialInvestigationAuditReport/edit/:id"
         element={<ModAudit.AuditSpecialInvestigationReportEdit />}
-       />
+      />
 
+      {/* audit Report  */}
+
+      <Route path="audit/planning/submenu" element={<ModAudit.Planning />} />
+      <Route path="audit/othersAudit" element={<ModAudit.OthersAudit />} />
+      <Route path="audit/execution" element={<ModAudit.Execution />} />
+      <Route path="audit/reporting" element={<ModAudit.Reporting />} />
     </Route>
   </Route>
 );

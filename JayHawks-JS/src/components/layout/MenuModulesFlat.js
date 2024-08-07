@@ -205,7 +205,7 @@
 //         </>
 //       )}
 
-//       {value.role === "Country Team Leader" && (
+//       {value.role === "Country Team Lead" && (
 //         <>
 //           <Link
 //             className="flex items-center justify-center p-1 md:p-2 rounded-lg hover:text-umojayellow"

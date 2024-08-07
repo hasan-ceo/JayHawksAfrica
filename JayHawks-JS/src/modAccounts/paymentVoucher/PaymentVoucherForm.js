@@ -4,21 +4,17 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as yup from "yup";
 import InputNumber from "../../components/InputNumber";
-import { SelectFromDb } from "../../components/SelectList";
+import { DataListFromDb, SelectFromDb } from "../../components/SelectList";
 import TextArea from "../../components/TextArea";
 import SaveButton from "../../components/button/SaveButton";
 import { usePostData } from "../../hooks/dataApi";
-// import Label from "../../components/Label";
 
 const schema = yup.object({
   bankOrCashId: yup
     .number()
     .min(0, "Must be greater than or equal to 0")
     .typeError("Positive number required"),
-  ledgerId: yup
-    .number()
-    .min(0, "Must be greater than or equal to 0")
-    .typeError("Positive number required"),
+  ledgerNameCode: yup.string().required("Required.").max(50),
   amount: yup
     .number()
     .min(0, "Must be greater than or equal to 0")
@@ -47,13 +43,13 @@ const PaymentVoucherForm = ({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  const { bankOrCashId, ledgerId, amount, particulars } = errors;
+  const { bankOrCashId, ledgerNameCode, amount, particulars } = errors;
 
   const onSubmit = async (formData) => {
     setSubmitting(true);
     var data = new FormData();
     data.append("bankOrCashId", formData.bankOrCashId);
-    data.append("ledgerId", formData.ledgerId);
+    data.append("ledgerNameCode", formData.ledgerNameCode);
     data.append("amount", formData.amount);
     data.append("particulars", formData.particulars);
     try {
@@ -83,17 +79,6 @@ const PaymentVoucherForm = ({
     <div className="">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-col">
-          {/* {defaultValues.bankOrCashId !== "" ? (
-            <Label label="Select Cash" value="Cash In Hand" />
-          ) : (
-            <SelectFromDb
-              control={control}
-              label={label}
-              path={selectPath}
-              name="bankOrCashId"
-              errorMessage={bankOrCashId?.message}
-            />
-          )} */}
           <SelectFromDb
             control={control}
             label={label}
@@ -101,14 +86,13 @@ const PaymentVoucherForm = ({
             name="bankOrCashId"
             errorMessage={bankOrCashId?.message}
           />
-          <SelectFromDb
-            control={control}
+          <DataListFromDb
+            register={register}
             label="Select Account Head"
             path="/acLedger/selectByPayment"
-            name="ledgerId"
-            errorMessage={ledgerId?.message}
+            name="ledgerNameCode"
+            errorMessage={ledgerNameCode?.message}
           />
-
           <InputNumber
             name="amount"
             label="Amount"
@@ -123,7 +107,6 @@ const PaymentVoucherForm = ({
             type="text"
             errorMessage={particulars?.message}
           />
-
           <SaveButton btnText={btnText} disabled={submitting} />
         </div>
       </form>

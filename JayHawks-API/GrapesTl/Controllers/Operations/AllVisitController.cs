@@ -24,7 +24,7 @@ public class AllVisitController(IUnitOfWork unitOfWork) : ControllerBase
 
 
     [Authorize]
-    [Authorize(Roles = "Super Admin,Operations Manager,Operations Head, Country Team Leader")]
+    [Authorize(Roles = "Super Admin,Operations Manager,Operations Head, Country Team Lead")]
     [HttpGet("List/{fromDate}/{tillDate}")]
     public async Task<IActionResult> List([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
     {
@@ -348,7 +348,7 @@ public class AllVisitController(IUnitOfWork unitOfWork) : ControllerBase
 
     [Authorize]
     [HttpGet("ListByManager")]
-    public async Task<IActionResult> ListByManager([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
+    public async Task<IActionResult> ListByManager()
     {
         try
         {
@@ -372,7 +372,7 @@ public class AllVisitController(IUnitOfWork unitOfWork) : ControllerBase
 
 
     [Authorize]
-    [Authorize(Roles = "Super Admin,Operations Manager,Operations Head, Country Team Leader")]
+    [Authorize(Roles = "Super Admin,Operations Manager,Operations Head, Country Team Lead")]
     [HttpGet("ListByApproved/{fromDate}/{tillDate}")]
     public async Task<IActionResult> ListByApproved([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
     {
@@ -414,7 +414,7 @@ public class AllVisitController(IUnitOfWork unitOfWork) : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager")]
+    [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager")]
     [HttpGet("History/{fromDate}/{tillDate}")]
     public async Task<IActionResult> History([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
     {
@@ -435,7 +435,7 @@ public class AllVisitController(IUnitOfWork unitOfWork) : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager")]
+    [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager")]
     [HttpGet("Summary/{fromDate}/{tillDate}")]
     public async Task<IActionResult> Summary([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
     {

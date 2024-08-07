@@ -96,12 +96,27 @@ import {
 import { ImAttachment } from "react-icons/im";
 import { GiIncomingRocket } from "react-icons/gi";
 import { SiHyperledger } from "react-icons/si";
-import { FaLayerGroup, FaObjectUngroup } from "react-icons/fa";
+import {
+  FaLayerGroup,
+  FaObjectUngroup,
+  FaBook,
+  FaFile,
+  FaUnlockAlt,
+  FaCube,
+} from "react-icons/fa";
 
 const Icons = ({ name, size = 30 }) => {
   switch (name) {
     case "IoTrailSignOutline":
       return <IoTrailSignOutline size={size} />;
+    case "FaCube":
+      return <FaCube size={size} />;
+    case "FaFile":
+      return <FaFile size={size} />;
+    case "FaUnlockAlt":
+      return <FaUnlockAlt size={size} />;
+    case "FaBook":
+      return <FaBook size={size} />;
     case "MdPayment":
       return <MdPayment size={size} />;
     case "FaObjectUngroup":

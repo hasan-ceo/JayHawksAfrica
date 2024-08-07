@@ -59,26 +59,12 @@ const ExpenseVoucherByCash = lazy(() =>
   import("./expenseVoucher/ExpenseVoucherByCash")
 );
 
-const PaymentPartyList = lazy(() => import("./paymentParty/PaymentPartyList"));
-const PaymentPartyByBank = lazy(() =>
-  import("./paymentParty/PaymentPartyByBank")
-);
-const PaymentPartyByCash = lazy(() =>
-  import("./paymentParty/PaymentPartyByCash")
-);
-
-const ReceivePartyList = lazy(() => import("./receiveParty/ReceivePartyList"));
-const ReceivePartyByBank = lazy(() =>
-  import("./receiveParty/ReceivePartyByBank")
-);
-const ReceivePartyByCash = lazy(() =>
-  import("./receiveParty/ReceivePartyByCash")
-);
-
 const JournalVoucherList = lazy(() =>
   import("./journalVoucher/JournalVoucherList")
 );
-const JournalVoucherAdd = lazy(() => import("./journalVoucher/JournalVoucher"));
+const JournalVoucherAdd = lazy(() =>
+  import("./journalVoucher/components/JournalVoucher")
+);
 
 const TransferVoucherList = lazy(() =>
   import("./transferVoucher/TransferVoucherList")
@@ -180,12 +166,6 @@ export {
   ExpenseVoucherList,
   ExpenseVoucherByBank,
   ExpenseVoucherByCash,
-  PaymentPartyList,
-  PaymentPartyByBank,
-  PaymentPartyByCash,
-  ReceivePartyList,
-  ReceivePartyByBank,
-  ReceivePartyByCash,
   JournalVoucherList,
   JournalVoucherAdd,
   TransferVoucherList,

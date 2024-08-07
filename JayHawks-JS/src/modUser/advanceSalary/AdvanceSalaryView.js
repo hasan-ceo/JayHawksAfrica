@@ -180,7 +180,7 @@ const AdvanceSalaryView = () => {
 
       <div className="my-5">
         <h3 className="font-bold text-center border-2 border-black">
-          Country Team Leader Approval
+          Country Team Lead Approval
         </h3>
         <div className="mt-3 lg:flex justify-between">
           <div>

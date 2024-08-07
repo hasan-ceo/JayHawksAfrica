@@ -40,8 +40,8 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("acLedgerGetAll");
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("acLedgerGetAll");
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -55,8 +55,8 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByName");
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByName");
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -70,9 +70,9 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByPayment");
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByPayment");
 
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -81,14 +81,16 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
         }
     }
 
+
+
     [HttpGet("SelectByReceive")]
     public async Task<IActionResult> SelectByReceive()
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByReceive");
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByReceive");
 
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -102,8 +104,8 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByTransfer");
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByTransfer");
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -117,9 +119,9 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByJournal");
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByJournal");
 
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -133,9 +135,9 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByIncome");
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByIncome");
 
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -149,9 +151,9 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByExpence");
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByExpence");
 
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -165,9 +167,9 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByBank");
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByBank");
 
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {
@@ -181,9 +183,9 @@ public class AcLedgerController(IUnitOfWork unitOfWork) : ControllerBase
     {
         try
         {
-            var data = await _unitOfWork.SP_Call.List<AcLedger>("AcLedgerSelectByCash");
+            var data = await _unitOfWork.SP_Call.List<AcLedgerView>("AcLedgerSelectByCash");
 
-            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerName }));
+            return Ok(data.Select(a => new { listId = a.LedgerId, listName = a.LedgerCode + " - " + a.LedgerName }));
         }
         catch (Exception e)
         {

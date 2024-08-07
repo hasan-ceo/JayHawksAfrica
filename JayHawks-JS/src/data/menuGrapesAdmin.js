@@ -1,6 +1,4 @@
 import {
-  AiOutlineSolution,
-  AiOutlineSetting,
   AiOutlineCluster,
   AiOutlineTeam,
   AiFillDelete,
@@ -15,14 +13,14 @@ export const menuGrapesAdmin = {
     {
       name: "Users",
       link: "/grapes/user",
-      Icon: AiOutlineSolution,
+      icon: "AiOutlineSolution",
     },
   ],
   settingMenuData: [
     {
       name: "Settings",
       link: "/grapes/settings",
-      Icon: AiOutlineSetting,
+      icon: "AiOutlineSetting",
     },
   ],
   subSettingMenuData: [

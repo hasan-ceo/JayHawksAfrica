@@ -5,7 +5,7 @@ import TopHeader from "../../components/TopHeader";
 const PaymentVoucherByCash = () => {
   const defaultValues = {
     bankOrCashId: "",
-    ledgerId: "",
+    ledgerNameCode: "",
     amount: "",
     particulars: "",
   };

@@ -22,7 +22,7 @@ namespace GrapesTl.Controllers
 
 
 
-        [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
+        [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
         [HttpGet("ListByLo")]
         public async Task<IActionResult> ListByLo()
         {
@@ -44,7 +44,7 @@ namespace GrapesTl.Controllers
             }
         }
 
-        [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager,Regional Manager,Area Manager,Branch Manager")]
+        [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager,Regional Manager,Area Manager,Branch Manager")]
         [HttpGet("List/{fromDate}/{tillDate}")]
         public async Task<IActionResult> List([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
         {
@@ -66,7 +66,7 @@ namespace GrapesTl.Controllers
             }
         }
 
-        [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager,Regional Manager,Area Manager,Branch Manager")]
+        [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager,Regional Manager,Area Manager,Branch Manager")]
         [HttpGet("Summary/{fromDate}/{tillDate}")]
         public async Task<IActionResult> Summary([FromRoute] DateTime fromDate, [FromRoute] DateTime tillDate)
         {
@@ -88,7 +88,7 @@ namespace GrapesTl.Controllers
             }
         }
 
-        [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
+        [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
         [HttpGet("Details/{id}")]
         public async Task<IActionResult> Details(string id)
         {
@@ -111,7 +111,7 @@ namespace GrapesTl.Controllers
             }
         }
 
-        [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
+        [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] CrmMember model)
         {
@@ -154,7 +154,7 @@ namespace GrapesTl.Controllers
             }
         }
 
-        [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
+        [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
         [HttpPost("Update")]
         public async Task<IActionResult> Update([FromBody] CrmMember model)
         {
@@ -196,7 +196,7 @@ namespace GrapesTl.Controllers
             }
         }
 
-        [Authorize(Roles = "Super Admin,Operations Head, Country Team Leader,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
+        [Authorize(Roles = "Super Admin,Operations Head, Country Team Lead,Operations Manager,Regional Manager,Area Manager,Branch Manager,Loan Officer")]
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {

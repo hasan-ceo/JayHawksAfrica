@@ -14,14 +14,12 @@ const schema = yup.object({
     .number()
     .min(0, "Must be greater than or equal to 0")
     .typeError("Positive number required"),
-  ledgerId: yup
-    .number()
-    .min(0, "Must be greater than or equal to 0")
-    .typeError("Positive number required"),
+  ledgerNameCode: yup.string().max(50).required("Required"),
   amount: yup
     .number()
     .min(0, "Must be greater than or equal to 0")
-    .typeError("Positive number required").transform((o, v) => parseInt(v.replace(/,/g, ''))),
+    .typeError("Positive number required")
+    .transform((o, v) => parseInt(v.replace(/,/g, ""))),
 
   particulars: yup.string().max(250).required("Required"),
 });
@@ -45,13 +43,13 @@ const TransferBankToCashForm = ({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  const { bankOrCashId, ledgerId, amount, particulars } = errors;
+  const { bankOrCashId, ledgerNameCode, amount, particulars } = errors;
 
   const onSubmit = async (formData) => {
     setSubmitting(true);
     var data = new FormData();
     data.append("bankOrCashId", formData.bankOrCashId);
-    data.append("ledgerId", formData.ledgerId);
+    data.append("ledgerNameCode", formData.ledgerNameCode);
     data.append("amount", formData.amount);
     data.append("particulars", formData.particulars);
     try {
@@ -85,17 +83,17 @@ const TransferBankToCashForm = ({
       <div className="form-col">
         <SelectFromDb
           control={control}
-          label="Select Withdraw From Bank"
+          label="Select transfer From"
           path={selectPath}
           name="bankOrCashId"
           errorMessage={bankOrCashId?.message}
         />
         <SelectFromDb
           control={control}
-          label="Select Cash Pay"
+          label="Select receive at"
           path="/acLedger/selectByCash"
-          name="ledgerId"
-          errorMessage={ledgerId?.message}
+          name="ledgerNameCode"
+          errorMessage={ledgerNameCode?.message}
         />
 
         <InputNumber
@@ -112,7 +110,6 @@ const TransferBankToCashForm = ({
           type="text"
           errorMessage={particulars?.message}
         />
-
 
         <SaveButton btnText={btnText} disabled={submitting} />
       </div>

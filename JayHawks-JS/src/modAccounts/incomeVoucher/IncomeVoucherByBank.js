@@ -5,7 +5,7 @@ import IncomeVoucherForm from "./IncomeVoucherForm";
 const IncomeVoucherByBank = () => {
   const defaultValues = {
     bankOrCashId: "",
-    ledgerId: "",
+    ledgerNameCode: "",
     amount: "",
     particulars: "",
   };

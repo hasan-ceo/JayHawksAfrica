@@ -6,6 +6,7 @@ import { HashLoading } from "../../components/Loading";
 import TopHeader from "../../components/TopHeader";
 import { useGetData } from "../../hooks/dataApi";
 import { format } from "date-fns";
+import { AiOutlineFile } from "react-icons/ai";
 
 const AuditDepartmentReportList = () => {
   const {
@@ -175,7 +176,11 @@ const AuditDepartmentReportList = () => {
                     {item.iaInCharge}
                   </td>
                   <td className="p-2 align-top text-center">
-                    {item.appendices}
+                    {item.appendices && (
+                      <a href={item.appendices} className="btn-sky w-12 h-10">
+                        <AiOutlineFile size={24} />
+                      </a>
+                    )}
                   </td>
                 </tr>
               ))}

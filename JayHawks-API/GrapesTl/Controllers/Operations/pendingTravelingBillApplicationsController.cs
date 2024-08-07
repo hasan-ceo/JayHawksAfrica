@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace GrapesTl.Controllers;
 
-[Authorize(Roles = "IT Manager,Area Manager,Operations Manager,Super Admin,Branch Manager,Regional Manager,Operations Head, Country Team Leader,HR Manager,Audit Manager,Accounts Manager")]
+[Authorize(Roles = "IT Manager,Area Manager,Operations Manager,Super Admin,Branch Manager,Regional Manager,Operations Head, Country Team Lead,HR Manager,Audit Manager,Accounts Manager")]
 [Route("api/[controller]")]
 [ApiController]
 public class PendingTravelingBillApplicationsController(IUnitOfWork unitOfWork, IMailSender mailSender, ILogger<PendingAdvanceApplicationsController> logger) : ControllerBase

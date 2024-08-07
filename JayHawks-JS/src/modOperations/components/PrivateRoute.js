@@ -14,7 +14,7 @@ const PrivateRoute = () => {
     value.role === "FMPO Executive" ||
     value.role === "FMPO Manager" ||
     value.role === "Branch Manager" ||
-    value.role === "Country Team Leader" ? (
+    value.role === "Country Team Lead" ? (
       <Outlet />
     ) : (
       <Navigate to="/dashboard" />

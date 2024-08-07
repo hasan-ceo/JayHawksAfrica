@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 namespace GrapesTl.Models;
 
-public record MainCart
+public record AcJournals
 {
-    [JsonProperty("items")]
-    public List<AcItems> Items { get; init; }
+    [JsonProperty("journals")]
+    public List<Journal> Journals { get; init; }
 }
 
-public record AcItems
+public record Journal
 {
+    //[JsonProperty("trId")]
+    public string TrId { get; set; }
     [JsonProperty("ledgerId")]
     public string LedgerId { get; set; }
     [JsonProperty("particulars")]
@@ -20,23 +22,3 @@ public record AcItems
     [JsonProperty("cr")]
     public double Cr { get; set; }
 }
-
-//public class AcCartItems
-//{
-//    public List<AcItems> CartItems { get; set; }
-//}
-//public class AcCart1
-//{
-//    public string GlId { get; set; }
-//    public DateTime WorkDate { get; set; }
-//    public string VoucherType { get; set; }
-//    public string VoucherNumber { get; set; }
-//    public string TransType { get; set; }
-//    public string Particulars { get; set; }
-//    public bool IsReverse { get; set; }
-//    public string LedgerName { get; set; }
-//    public string LedgerId { get; set; }
-//    public float Dr { get; set; }
-//    public float Cr { get; set; }
-//    public IEnumerable<AcItems> AcItems { get; set; }
-//}

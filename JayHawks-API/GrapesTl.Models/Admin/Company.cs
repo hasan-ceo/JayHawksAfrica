@@ -32,4 +32,5 @@ public class Company
     public int NssfEmployee { get; set; }
     [Required]
     public int NssfEmployer { get; set; }
+    public string GoogleDriveKey { get; set; }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GrapesTl.Controllers;
 
-[Authorize(Roles = "Super Admin,HR Manager,HR Executive, Accounts Executive, Accounts Manager, Country Team Leader")]
+[Authorize(Roles = "Super Admin,HR Manager,HR Executive, Accounts Executive, Accounts Manager, Country Team Lead")]
 [Route("api/[controller]")]
 [ApiController]
 public class EmpAllDedController(IUnitOfWork unitOfWork) : ControllerBase

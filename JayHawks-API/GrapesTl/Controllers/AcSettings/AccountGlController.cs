@@ -170,7 +170,7 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
 
             var parameter = new DynamicParameters();
             parameter.Add("@BankOrCashId", model.BankOrCashId);
-            parameter.Add("@LedgerId", model.LedgerId);
+            parameter.Add("@LedgerNameCode", model.LedgerNameCode);
             parameter.Add("@Amount", model.Amount);
             parameter.Add("@Particulars", string.IsNullOrWhiteSpace(model.Particulars) == true ? "" : model.Particulars);
             parameter.Add("@FullName", user.FullName);
@@ -180,6 +180,9 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
             var message = parameter.Get<string>("Message");
 
             if (message == "Already exists")
+                return BadRequest(message);
+
+            if (message == "Select Correct Accounts Code")
                 return BadRequest(message);
 
             return Created("", SD.Message_Save);
@@ -204,7 +207,7 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
 
             var parameter = new DynamicParameters();
             parameter.Add("@BankOrCashId", model.BankOrCashId);
-            parameter.Add("@LedgerId", model.LedgerId);
+            parameter.Add("@LedgerNameCode", model.LedgerNameCode);
             parameter.Add("@Amount", model.Amount);
             parameter.Add("@Particulars", string.IsNullOrWhiteSpace(model.Particulars) == true ? "" : model.Particulars);
             parameter.Add("@FullName", user.FullName);
@@ -214,6 +217,9 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
             var message = parameter.Get<string>("Message");
 
             if (message == "Already exists")
+                return BadRequest(message);
+
+            if (message == "Select Correct Accounts Code")
                 return BadRequest(message);
 
             return Created("", SD.Message_Save);
@@ -239,7 +245,7 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
 
             var parameter = new DynamicParameters();
             parameter.Add("@BankOrCashId", model.BankOrCashId);
-            parameter.Add("@LedgerId", model.LedgerId);
+            parameter.Add("@LedgerNameCode", model.LedgerNameCode);
             parameter.Add("@Amount", model.Amount);
             parameter.Add("@Particulars", string.IsNullOrWhiteSpace(model.Particulars) == true ? "" : model.Particulars);
             parameter.Add("@FullName", user.FullName);
@@ -249,6 +255,9 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
             var message = parameter.Get<string>("Message");
 
             if (message == "Already exists")
+                return BadRequest(message);
+
+            if (message == "Select Correct Accounts Code")
                 return BadRequest(message);
 
             return Created("", SD.Message_Save);
@@ -273,7 +282,7 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
 
             var parameter = new DynamicParameters();
             parameter.Add("@BankOrCashId", model.BankOrCashId);
-            parameter.Add("@LedgerId", model.LedgerId);
+            parameter.Add("@LedgerNameCode", model.LedgerNameCode);
             parameter.Add("@Amount", model.Amount);
             parameter.Add("@Particulars", string.IsNullOrWhiteSpace(model.Particulars) == true ? "" : model.Particulars);
             parameter.Add("@FullName", user.FullName);
@@ -283,6 +292,9 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
             var message = parameter.Get<string>("Message");
 
             if (message == "Already exists")
+                return BadRequest(message);
+
+            if (message == "Select Correct Accounts Code")
                 return BadRequest(message);
 
             return Created("", SD.Message_Save);
@@ -308,7 +320,7 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
 
             var parameter = new DynamicParameters();
             parameter.Add("@BankOrCashId", model.BankOrCashId);
-            parameter.Add("@LedgerId", model.LedgerId);
+            parameter.Add("@LedgerNameCode", model.LedgerNameCode);
             parameter.Add("@Amount", model.Amount);
             parameter.Add("@Particulars", string.IsNullOrWhiteSpace(model.Particulars) == true ? "" : model.Particulars);
             parameter.Add("@FullName", user.FullName);
@@ -329,38 +341,6 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
         }
     }
 
-    [HttpPost("ReverseCreate")]
-    public async Task<IActionResult> ReverseCreate([FromForm] AccountGlEntry model)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(SD.Message_Model_Error);
-
-        try
-        {
-            _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
-
-            var parameter = new DynamicParameters();
-            //parameter.Add("@VoucherNumber", model.VoucherNumber);
-            parameter.Add("@FullName", user.FullName);
-            parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
-            await _unitOfWork.SP_Call.Execute("ActGLReverseCreate", parameter);
-
-            var message = parameter.Get<string>("Message");
-
-            if (message == "Already exists")
-                return BadRequest(message);
-
-            return Created("", SD.Message_Save);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError,
-           "Error saving data." + e.Message);
-        }
-    }
-
-
 
     [HttpPost("OpeningCreate")]
     public async Task<IActionResult> OpeningCreate([FromForm] AccountGlEntry model)
@@ -374,7 +354,7 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
             var user = await _unitOfWork.ApplicationUser.GetFirstOrDefaultAsync(a => a.Id == _userId);
 
             var parameter = new DynamicParameters();
-            parameter.Add("@LedgerId", model.LedgerId);
+            parameter.Add("@LedgerNameCode", model.LedgerNameCode);
             parameter.Add("@Amount", model.Amount);
             parameter.Add("@Particulars", string.IsNullOrWhiteSpace(model.Particulars) == true ? "" : model.Particulars);
             parameter.Add("@FullName", user.FullName);
@@ -398,7 +378,7 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
 
 
     [HttpPost("JournalCreate")]
-    public async Task<IActionResult> JournalCreate([FromBody] MainCart cartItems)
+    public async Task<IActionResult> JournalCreate([FromBody] AcJournals model)
     {
         if (!ModelState.IsValid)
             return BadRequest(SD.Message_Model_Error);
@@ -426,15 +406,15 @@ public class AccountGlController(IUnitOfWork unitOfWork) : ControllerBase
                 return BadRequest(message);
 
 
-            foreach (var Items in cartItems.Items)
+            foreach (var journal in model.Journals)
             {
                 parameter = new DynamicParameters();
 
                 parameter.Add("@GlId", gl);
-                parameter.Add("@LedgerId", Items.LedgerId);
-                parameter.Add("@Particulars", Items.Particulars);
-                parameter.Add("@Dr", Items.Dr);
-                parameter.Add("@Cr", Items.Cr);
+                parameter.Add("@LedgerId", journal.LedgerId);
+                parameter.Add("@Particulars", journal.Particulars);
+                parameter.Add("@Dr", journal.Dr);
+                parameter.Add("@Cr", journal.Cr);
                 parameter.Add("@Message", "", dbType: DbType.String, direction: ParameterDirection.Output);
                 await _unitOfWork.SP_Call.Execute("ActGLJournalMultiItemCreate", parameter);
             }

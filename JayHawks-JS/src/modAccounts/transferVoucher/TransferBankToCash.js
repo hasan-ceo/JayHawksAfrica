@@ -7,7 +7,7 @@ import TransferBankToCashForm from "./TransferBankToCashForm";
 const TransferVoucherBankToCash = () => {
   const defaultValues = {
     bankOrCashId: "",
-    ledgerId: "",
+    ledgerNameCode: "",
     amount: "",
     particulars: "",
   };

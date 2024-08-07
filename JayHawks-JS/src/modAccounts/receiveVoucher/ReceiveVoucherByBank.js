@@ -5,7 +5,7 @@ import TopHeader from "../../components/TopHeader";
 const ReceiveVoucherByBank = () => {
   const defaultValues = {
     bankOrCashId: "",
-    ledgerId: "",
+    ledgerNameCode: "",
     amount: "",
     particulars: "",
   };

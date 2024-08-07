@@ -5,7 +5,7 @@ import TransferBankToBankForm from "./TransferBankToBankForm";
 const TransferBankToBank = () => {
   const defaultValues = {
     bankOrCashId: "",
-    ledgerId: "",
+    ledgerNameCode: "",
     amount: "",
     particulars: "",
   };

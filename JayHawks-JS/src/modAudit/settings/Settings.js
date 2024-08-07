@@ -1,21 +1,28 @@
 import React from "react";
-import SettingsItem from "../../components/layout/SettingsItem";
-import TopHeader from "../../components/TopHeader";
-import { menuAudit } from "../../data/menuAudit";
+import SettingsItemOnline from "../../components/layout/SettingsItemOnline";
+import { useGlobalContext } from "../../hooks/context";
 
 const Settings = () => {
-  const data = menuAudit;
+  const value = useGlobalContext();
+  const data = value.subMenus.filter((item) => {
+    if (
+      item.moduleName.toLowerCase() === "Audit".toLowerCase() &&
+      item.menuName.toLowerCase() === "Settings".toLowerCase()
+    )
+      return item;
+    else return null;
+  });
+
   return (
     <div className="card w-full max-w-screen-xl">
-      <TopHeader title="Settings" />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {data.subSettingMenuData.length > 0 &&
-          data.subSettingMenuData.map((item, index) => (
-            <SettingsItem
+        {data.length > 0 &&
+          data.map((item, index) => (
+            <SettingsItemOnline
               key={index}
-              name={item.name}
+              name={item.subMenuName}
               link={item.link}
-              Icon={item.Icon}
+              icon={item.icon}
             />
           ))}
       </div>

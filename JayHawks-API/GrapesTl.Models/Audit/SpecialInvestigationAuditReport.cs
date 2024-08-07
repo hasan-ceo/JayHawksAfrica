@@ -19,6 +19,7 @@ public class SpecialInvestigationAuditReport
 
     public string WhoMightBeInvolved { get; set; }
     public string PositionOfFraudster { get; set; }
+    public string @LengthOfServiceOfFraudster { get; set; }
 
     public string HowIsTheFraudBeingPerpetrated { get; set; }
     public string NumberOfOccurences { get; set; }

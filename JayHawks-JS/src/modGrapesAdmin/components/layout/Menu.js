@@ -14,18 +14,24 @@ const Menu = () => {
                 key={index}
                 name={item.name}
                 link={item.link}
-                Icon={item.Icon}
+                icon={item.icon}
               />
             ))}
         </div>
         <div className="flex flex-col items-center mt-2 pt-2 border-t border-gray-700">
           {data.settingMenuData.length > 0 &&
             data.settingMenuData.map((item, index) => (
+              // <MainMenu
+              //   key={index}
+              //   name={item.name}
+              //   link={item.link}
+              //   icon={item.icon}
+              // />
               <MainMenu
                 key={index}
                 name={item.name}
                 link={item.link}
-                Icon={item.Icon}
+                icon={item.icon}
               />
             ))}
         </div>

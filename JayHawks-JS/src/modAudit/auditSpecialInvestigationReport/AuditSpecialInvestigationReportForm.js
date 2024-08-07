@@ -17,17 +17,16 @@ const schema = yup.object({
   reportingQuarter: yup.string().max(300),
   monthOfAudit: yup.string().max(300),
   departmentName: yup.string().max(300),
-  branchId: yup.string().max(300),
+  branchId: yup.string().max(30).required("Required."),
   region: yup.string().max(300),
   detectionMethod: yup.string().max(300),
   typeOfFraud: yup.string().max(300),
   whoMightBeInvolved: yup.string().max(300),
   positionOfFraudster: yup.string().max(300),
+  lengthOfServiceOfFraudster: yup.string().max(50),
   howIsTheFraudBeingPerpetrated: yup.string().max(300),
   numberOfOccurences: yup.string().max(300),
   potentialWitness: yup.string().max(300),
-  statements: yup.string().max(300),
-  evidence: yup.string().max(300),
   observations: yup.string().max(300),
   defectiveControlsIdentified: yup.string().max(300),
   estimatedFraudLoss: yup.string().max(300),
@@ -45,9 +44,10 @@ const AuditSpecialInvestigationReportForm = ({
   returnPath,
 }) => {
   const navigate = useNavigate();
-  const { mutateAsync, reset } = usePostData();
+  const { mutateAsync } = usePostData();
   const [submitting, setSubmitting] = useState(false);
-  const [fileUrl, setFile] = useState(defaultValues?.attachment);
+  const [statements, setPhoto] = useState("");
+  const [evidence, setEvidence] = useState("");
 
   const {
     register,
@@ -70,11 +70,10 @@ const AuditSpecialInvestigationReportForm = ({
     TypeOfFraud,
     WhoMightBeInvolved,
     PositionOfFraudster,
+    lengthOfServiceOfFraudster,
     HowIsTheFraudBeingPerpetrated,
     NumberOfOccurences,
     PotentialWitness,
-    Statements,
-    Evidence,
     Observations,
     DefectiveControlsIdentified,
     EstimatedFraudLoss,
@@ -82,11 +81,15 @@ const AuditSpecialInvestigationReportForm = ({
     ManagementResponse,
     EmployeeId,
     iaInCharge,
+    filepath,
+    fileevidence,
   } = errors;
 
   const onSubmit = async (formData) => {
     setSubmitting(true);
     var data = new FormData();
+    data.append("statements", statements);
+    data.append("evidence", evidence);
     data.append(
       "specialInvestigationAuditReportId",
       formData.specialInvestigationAuditReportId
@@ -102,12 +105,15 @@ const AuditSpecialInvestigationReportForm = ({
     data.append("whoMightBeInvolved", formData.whoMightBeInvolved);
     data.append("positionOfFraudster", formData.positionOfFraudster);
     data.append(
+      "lengthOfServiceOfFraudster",
+      formData.lengthOfServiceOfFraudster
+    );
+    data.append(
       "howIsTheFraudBeingPerpetrated",
       formData.howIsTheFraudBeingPerpetrated
     );
     data.append("numberOfOccurences", formData.numberOfOccurences);
     data.append("potentialWitness", formData.potentialWitness);
-    data.append("statements", formData.statements);
     data.append("evidence", formData.evidence);
     data.append("observations", formData.observations);
     data.append(
@@ -223,6 +229,13 @@ const AuditSpecialInvestigationReportForm = ({
           errorMessage={PositionOfFraudster?.message}
         />
         <Input
+          name="lengthOfServiceOfFraudster"
+          label="Length of Service of fraudster(Month)"
+          type="text"
+          register={register}
+          errorMessage={lengthOfServiceOfFraudster?.message}
+        />
+        <Input
           name="howIsTheFraudBeingPerpetrated"
           label="How is the fraud being perpetrated?"
           type="text"
@@ -244,19 +257,27 @@ const AuditSpecialInvestigationReportForm = ({
           errorMessage={PotentialWitness?.message}
         />
         <InputFileOther
+          name="filepath"
+          label="Upload file"
+          accept="*/*"
           register={register}
-          action={setFile}
-          label="Statements"
-          name="statements"
-          errorMessage={Statements?.message}
+          action={setPhoto}
+          errorMessage={filepath?.message}
         />
+        <div className="text-xs">
+          <label>{statements}</label>
+        </div>
         <InputFileOther
+          name="fileevidence"
+          label="Upload file"
+          accept="*/*"
           register={register}
-          action={setFile}
-          label="Evidence"
-          name="evidence"
-          errorMessage={Evidence?.message}
+          action={setEvidence}
+          errorMessage={fileevidence?.message}
         />
+        <div className="text-xs">
+          <label>{evidence}</label>
+        </div>
         <Input
           name="observations"
           label="Observations"
@@ -287,7 +308,7 @@ const AuditSpecialInvestigationReportForm = ({
         />
         <Input
           name="managementResponse"
-          label="Management Response"
+          label="Measures taken by Management"
           type="text"
           register={register}
           errorMessage={ManagementResponse?.message}
@@ -303,7 +324,7 @@ const AuditSpecialInvestigationReportForm = ({
           register={register}
           options={selectOptions.iAInCharge}
           name="iaInCharge"
-          label="IA In Charge"
+          label="Investigated By"
           errorMessage={iaInCharge?.message}
         />
       </div>

@@ -20,7 +20,9 @@ const JournalVoucherList = () => {
   let sumWithdraw = 0;
 
   if (list.data.length > 0) {
-    sumDeposit = list.data.map((item) => item.dr).reduce((sum, val) => sum + val, 0);
+    sumDeposit = list.data
+      .map((item) => item.dr)
+      .reduce((sum, val) => sum + val, 0);
     sumWithdraw = list.data
       .map((item) => item.cr)
       .reduce((sum, val) => sum + val, 0);
@@ -28,7 +30,7 @@ const JournalVoucherList = () => {
   return (
     <div className="card w-full max-w-screen-xl">
       <TopHeader
-        title="Journal Voucher"
+        title="Journal Voucher..."
         btn="Save"
         path={"/ac/journalVoucher/add"}
       />

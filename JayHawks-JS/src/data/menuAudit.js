@@ -1,14 +1,14 @@
 import {
   AiOutlineSetting,
-  AiOutlineFontColors,
   AiFillCarryOut,
   AiOutlineCluster,
-  AiOutlineSolution,
   AiOutlineTeam,
   AiOutlineUserDelete,
   AiOutlineBgColors,
-  AiOutlineCoffee,
-  AiOutlineCarryOut,
+  // AiOutlineSolution,
+  // AiOutlineFontColors,
+  // AiOutlineCoffee,
+  // AiOutlineCarryOut,
 } from "react-icons/ai";
 import { FaBook, FaCube, FaFile, FaUnlockAlt } from "react-icons/fa";
 import { MdSummarize } from "react-icons/md";
@@ -16,54 +16,24 @@ import { MdSummarize } from "react-icons/md";
 export const menuAudit = {
   menuData: [
     {
-      name: "Other System Reports",
-      link: "/audit/reports",
-      Icon: AiOutlineSolution,
+      name: "Planning",
+      link: "/audit/planning/submenu",
+      icon: "AiOutlineFontColors",
     },
     {
-      name: "Branch Audit",
-      link: "/audit/list",
-      Icon: AiOutlineFontColors,
+      name: "Execution",
+      link: "/audit/execution",
+      icon: "AiOutlineSolution",
     },
     {
-      name: "Closed Audit",
-      link: "/audit/closeList",
-      Icon: AiFillCarryOut,
+      name: "Reporting",
+      link: "/audit/reporting",
+      icon: "AiFillCarryOut",
     },
     {
-      name: "Audit Workplan Summary",
-      link: "/audit/workplanSummary/list",
-      Icon: MdSummarize,
-    },
-    {
-      name: "Audit Workplan",
-      link: "/audit/workplan/list",
-      Icon: AiFillCarryOut,
-    },
-    {
-      name: "Audit Planning",
-      link: "/audit/planning",
-      Icon: FaBook,
-    },
-    {
-      name: "Ongoing Investigations",
-      link: "/audit/investigation/list",
-      Icon: FaCube,
-    },
-    {
-      name: "Departmental Audit",
-      link: "/audit/departmentalInvestigationreport/list",
-      Icon: FaBook,
-    },
-    {
-      name: "Branch Department Audit Report",
-      link: "/audit/auditDepartmentReport/list",
-      Icon: FaBook,
-    },
-    {
-      name: "SpecialInvestigation Audit Report",
-      link: "/audit/auditSpecialInvestigationReport/list",
-      Icon: FaBook,
+      name: "Others",
+      link: "/audit/othersAudit",
+      icon: "MdSummarize",
     },
   ],
   settingMenuData: [
@@ -87,7 +57,7 @@ export const menuAudit = {
     {
       name: "Inherent Risk",
       link: "/audit/settings/inherentrisk/list",
-      Icon: AiOutlineCluster,
+      Icon: AiOutlineBgColors,
     },
     {
       name: "Residual Risk",
@@ -112,34 +82,63 @@ export const menuAudit = {
     {
       name: "Special Investigation",
       link: "/audit/settings/specialInvestigation/list",
+      Icon: MdSummarize,
+    },
+  ],
+  planningMenuData: [
+    {
+      name: "Audit Workplan",
+      link: "/audit/workplan/list",
+      Icon: AiFillCarryOut,
+    },
+    {
+      name: "Audit Planning",
+      link: "/audit/planning",
+      Icon: FaBook,
+    },
+  ],
+
+  executionMenuData: [
+    {
+      name: "Branch Audits",
+      link: "/audit/list",
+      Icon: AiOutlineCluster,
+    },
+    {
+      name: "Departmental Audit",
+      link: "/audit/departmentalInvestigationreport/list",
+      Icon: FaUnlockAlt,
+    },
+    {
+      name: "Special Investigation",
+      link: "/audit/investigation/list",
       Icon: AiOutlineCluster,
     },
   ],
-  reportsData: [
+
+  reportingMenuData: [
     {
-      name: "Employee List",
-      link: "/audit/reports/employee/list",
+      name: "Branch / Department Audit Reports",
+      link: "/audit/auditDepartmentReport/list",
+      Icon: FaBook,
+    },
+    {
+      name: "Special Investigation Audit Report",
+      link: "/audit/auditSpecialInvestigationReport/list",
+      Icon: FaCube,
+    },
+  ],
+  othersMenuData: [
+    {
+      name: "Audit Workplan Summary",
+      link: "/audit/workplanSummary/list",
       Icon: AiOutlineTeam,
     },
+
     {
-      name: "Resign List",
-      link: "/audit/reports/employee/resign",
+      name: "Closed Audits",
+      link: "/audit/closeList",
       Icon: AiOutlineUserDelete,
-    },
-    {
-      name: "Transfer List",
-      link: "/audit/reports/employee/transfer",
-      Icon: AiOutlineBgColors,
-    },
-    {
-      name: "Leave List",
-      link: "/audit/reports/employee/leave",
-      Icon: AiOutlineCoffee,
-    },
-    {
-      name: "Promotion List",
-      link: "/audit/reports/employee/promotion",
-      Icon: AiOutlineCarryOut,
     },
   ],
 };

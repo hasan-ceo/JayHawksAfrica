@@ -35,24 +35,6 @@ const acctRoutes = (
         path="ac/receiveVoucher/byCash"
         element={<Acct.ReceiveVoucherByCash />}
       />
-      <Route path="ac/paymentParty/list" element={<Acct.PaymentPartyList />} />
-      <Route
-        path="ac/paymentParty/byBank"
-        element={<Acct.PaymentPartyByBank />}
-      />
-      <Route
-        path="ac/paymentParty/byCash"
-        element={<Acct.PaymentPartyByCash />}
-      />
-      <Route path="ac/receiveParty/list" element={<Acct.ReceivePartyList />} />
-      <Route
-        path="ac/receiveParty/byBank"
-        element={<Acct.ReceivePartyByBank />}
-      />
-      <Route
-        path="ac/receiveParty/byCash"
-        element={<Acct.ReceivePartyByCash />}
-      />
 
       <Route
         path="ac/journalVoucher/list"

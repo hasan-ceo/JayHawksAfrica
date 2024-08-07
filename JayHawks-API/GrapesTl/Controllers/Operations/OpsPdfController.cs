@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using GrapesTl.Models;
-using GrapesTl.Models.Admin;
 using GrapesTl.Service;
 using GrapesTl.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -871,7 +870,7 @@ public class OpsPdfController(IUnitOfWork unitOfWork) : ControllerBase
             sb.Append("</table>");
 
             sb.Append("</th>");
-          sb.Append("</tr>");
+            sb.Append("</tr>");
 
             sb.Append("<tr>");
             sb.Append("<th style='border: 1px solid #000000; text-align: left; padding: 8px;'> Visit Date</th>");

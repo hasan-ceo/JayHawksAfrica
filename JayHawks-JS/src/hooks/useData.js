@@ -15,6 +15,31 @@ const useData = () => {
   const [menus, setMenus] = useMenusState(null);
   const [subMenus, setSubmenus] = useSubMenusState(null);
   const [cartItems, setCartItems] = useCartState([]);
+  const [isDayOpen, setIsDayOpen] = useState(null);
+
+  const addToCart = (currentProduct) => {
+    const alreadyAdded = cartItems.find(
+      (cartProduct) => cartProduct.trId === currentProduct.trId
+    );
+    if (alreadyAdded) {
+      const newItems = cartItems.map((cartItem) => {
+        return cartItem.trId === alreadyAdded.trId ? currentProduct : cartItem;
+      });
+      setCartItems(newItems);
+    } else {
+      setCartItems([...cartItems, currentProduct]);
+    }
+  };
+
+  const quantityIncreaseOrDecrease = (trId, quantity) => {
+    const newCartItems = cartItems.map((cartItem) => {
+      if (cartItem.trId === trId) {
+        cartItem.quantity = quantity;
+      }
+      return cartItem;
+    });
+    setCartItems(newCartItems);
+  };
 
   const deleteCartItem = (trId) => {
     const newCartItems = cartItems.filter((item) => item.trId !== trId);
@@ -28,6 +53,7 @@ const useData = () => {
   const signOut = () => {
     setUser(null);
     setRole(null);
+    setIsDayOpen(null);
   };
 
   return {
@@ -47,7 +73,11 @@ const useData = () => {
     cartItems,
     setCartItems,
     deleteCartItem,
-    deleteCartItems
+    deleteCartItems,
+    addToCart,
+    quantityIncreaseOrDecrease,
+    isDayOpen,
+    setIsDayOpen,
   };
 };
 

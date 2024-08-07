@@ -143,12 +143,14 @@ export const DataListFromDb = ({
       <label>{label}</label>
 
       <input
+        type="text"
         list="browsers"
         {...register(name)}
         className={
           "form-control " + (isDisabled === true ? "bg-gray-100" : "bg-white")
         }
         autoFocus={autoFocus}
+        autocomplete="off"
       />
       <datalist id="browsers">
         {lists?.data.map((item) => (

@@ -38,7 +38,7 @@ const LedgerList = () => {
         {list.data.length > 0 &&
           list.data.map((item) => (
             <div
-              key={item.searchId}
+              key={item.ledgerId}
               className="grid grid-cols-1 md:grid-cols-9 list-body"
             >
               <ListCol label="Main Name : " value={item.mainName} />
@@ -51,11 +51,11 @@ const LedgerList = () => {
               <ListCol label="Account Type : " value={item.accountType} />
               <div className="flex justify-end space-x-2">
                 <EditButton
-                  path={`/ac/settings/ledger/edit/${item.searchId}`}
+                  path={`/ac/settings/ledger/edit/${item.ledgerId}`}
                 />
                 <DeleteButton
                   action={refetch}
-                  path={`/acledger/delete/${item.searchId}`}
+                  path={`/acledger/delete/${item.ledgerId}`}
                 />
               </div>
             </div>

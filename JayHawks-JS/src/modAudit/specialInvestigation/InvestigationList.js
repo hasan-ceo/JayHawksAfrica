@@ -26,7 +26,7 @@ const InvestigationList = () => {
   return (
     <div className="card w-full max-w-screen-xl">
       <TopHeader
-        title="Ongoing Investigations"
+        title="Special Investigation"
         btn="Save"
         path="/audit/investigation/add"
       />

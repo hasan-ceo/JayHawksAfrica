@@ -16,6 +16,7 @@ const schema = yup.object({
   mailAlias: yup.string().required("Required.").max(50),
   mailUserName: yup.string().required("Required.").max(50),
   mailPassword: yup.string().required("Required.").max(50),
+  googleDriveKey: yup.string().required("Required.").max(50),
 });
 
 const CompanyForm = ({ defaultValues, action, btnText, path }) => {
@@ -39,6 +40,7 @@ const CompanyForm = ({ defaultValues, action, btnText, path }) => {
     mailPassword,
     nssfEmployee,
     nssfEmployer,
+    googleDriveKey,
   } = errors;
 
   const onSubmit = async (formData) => {
@@ -140,6 +142,14 @@ const CompanyForm = ({ defaultValues, action, btnText, path }) => {
           register={register}
           isAutoFocus={true}
           errorMessage={nssfEmployer?.message}
+        />
+        <Input
+          name="googleDriveKey"
+          label="Google Drive Key"
+          type="text"
+          register={register}
+          isAutoFocus={true}
+          errorMessage={googleDriveKey?.message}
         />
         <SaveButton btnText={btnText} disabled={submitting} />
       </div>

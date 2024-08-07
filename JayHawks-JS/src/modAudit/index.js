@@ -129,29 +129,6 @@ const AuditPlaningDetailsEdit = lazy(() =>
   import("./settings/auditPlaning/AuditPlaningDetailsEdit")
 );
 
-// Report
-const RptEmployeeList = lazy(() =>
-  import("./reports/employeelist/EmployeeList")
-);
-const RptEmployeeResign = lazy(() =>
-  import("./reports/employeelist/EmployeeResign")
-);
-const EmployeeResignDetails = lazy(() =>
-  import("./reports/employeelist/resignDetails/Details")
-);
-const EmployeeDetails = lazy(() =>
-  import("./reports/employeelist/employee/Details")
-);
-const RptEmployeeTransfer = lazy(() =>
-  import("./reports/employeelist/EmployeeTransfer")
-);
-const RptEmployeeLeave = lazy(() =>
-  import("./reports/employeelist/EmployeeLeave")
-);
-const RptEmployeePromotion = lazy(() =>
-  import("./reports/employeelist/EmployeePromotion")
-);
-
 const DepartmentAuditTestAdd = lazy(() =>
   import("./settings/auditDepartmentAuditTest/DepartmentAuditTestAdd")
 );
@@ -204,7 +181,6 @@ const DepartmentalInvestigationDetails = lazy(() =>
   )
 );
 
-
 const DepartmentalInvestigationAdd = lazy(() =>
   import("./settings/departmentalInvestigation/DepartmentalInvestigationAdd")
 );
@@ -228,12 +204,20 @@ const AuditSpecialInvestigationReportAdd = lazy(() =>
   import("./auditSpecialInvestigationReport/AuditSpecialInvestigationReportAdd")
 );
 const AuditSpecialInvestigationReportEdit = lazy(() =>
-  import("./auditSpecialInvestigationReport/AuditSpecialInvestigationReportEdit")
+  import(
+    "./auditSpecialInvestigationReport/AuditSpecialInvestigationReportEdit"
+  )
 );
 const AuditSpecialInvestigationReportList = lazy(() =>
-  import("./auditSpecialInvestigationReport/AuditSpecialInvestigationReportList")
+  import(
+    "./auditSpecialInvestigationReport/AuditSpecialInvestigationReportList"
+  )
 );
 
+const Planning = lazy(() => import("./auditPlanning/Planning"));
+const OthersAudit = lazy(() => import("./others/OthersAudit"));
+const Execution = lazy(() => import("./auditExecution/Execution"));
+const Reporting = lazy(() => import("./auditReporting/Reporting"));
 
 export {
   Dashboard,
@@ -298,13 +282,6 @@ export {
   PreviousYearBranchFileUpload,
   AuditPlan,
   AuditPlaningDetailsEdit,
-  RptEmployeeList,
-  RptEmployeeResign,
-  RptEmployeeTransfer,
-  RptEmployeeLeave,
-  RptEmployeePromotion,
-  EmployeeResignDetails,
-  EmployeeDetails,
   SpecialInvestigationAdd,
   SpecialInvestigationEdit,
   SpecialInvestigationList,
@@ -327,4 +304,8 @@ export {
   AuditSpecialInvestigationReportList,
   AuditSpecialInvestigationReportEdit,
   AuditSpecialInvestigationReportAdd,
+  Planning,
+  OthersAudit,
+  Execution,
+  Reporting,
 };
