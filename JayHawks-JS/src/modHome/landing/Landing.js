@@ -8,11 +8,10 @@ export default function Landing() {
       <div className="text-white grid">
         <p className="uppercase tracking-loose">All in one place</p>
         <h1 className="font-bold text-2xl lg:text-4xl my-4 text-umojayellow">
-          MyUmoja
+          Jayhawks
         </h1>
         <p className="leading-normal mb-4 text-md break-words">
-          Smart online Human Resources, Accounting, Microfinance, Monitoring,
-          Auditing and Customer Relationship Management Software.
+          Smart online Human Resources, Accounting!
         </p>
         <Signin />
         <div className="grid place-content-center mt-2">

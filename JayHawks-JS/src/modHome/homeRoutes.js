@@ -6,7 +6,7 @@ import * as Home from "./index";
 const homeRoutes = (
   <Route path="/*" element={<PublicRoute />}>
     <Route element={<Layout />}>
-      <Route path="" element={<Home.Landing />} />
+      <Route path="backoffice" element={<Home.Landing />} />
       <Route path="forgot-password" element={<Home.ForgotPassword />} />
       <Route path="reset-password/:id" element={<Home.ResetPassword />} />
       <Route path="exitinterview/:id" element={<Home.ExitInterview />} />

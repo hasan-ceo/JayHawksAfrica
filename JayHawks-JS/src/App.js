@@ -13,6 +13,7 @@ import userRoutes from "./modUser/userRoutes";
 import crmRoutes from "./modCrm/crmRoutes";
 import homeRoutes from "./modHome/homeRoutes";
 import grapesRoutes from "./modGrapesAdmin/grapesRoutes";
+import frontPageRoutes from "./modFrontPage/frontPageRoutes";
 
 //test
 function App() {
@@ -28,6 +29,7 @@ function App() {
     <Suspense fallback={<FallbackLoading />}>
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
+        {frontPageRoutes}
         {homeRoutes}
         {crmRoutes}
         {userRoutes}
