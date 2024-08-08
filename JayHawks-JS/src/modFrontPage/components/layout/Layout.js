@@ -6,13 +6,11 @@ import Footer from "./Footer";
 
 const Layout = () => {
   return (
-    <div className="bg-white bg-no-repeat bg-fixed w-screen h-screen grid grid-cols-1 grid-rows-threeRows xl:max-w-screen-3xl mx-auto">
+    <div className="bg-white bg-no-repeat bg-fixed w-screen h-screen grid grid-cols-1 grid-rows-threeRows  xl:max-w-screen-3xl  mx-auto">
       <Header />
-      <div className="grid grid-cols-1 content-center overflow-hidden">
-        <div className="overflow-y-auto">
-          <Outlet />
-        </div>
-      </div>
+
+      <Outlet />
+
       <Footer />
     </div>
   );
