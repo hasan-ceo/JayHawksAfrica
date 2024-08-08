@@ -5,7 +5,7 @@
         public const string Proc_RptTenantList1 = "RptTenantList";
         public const string CompanyName = "Umoja Microfinance Limited";
         public const string Role_SuperAdmin = "Super Admin";
-        public const string ReportImageUrl = "https://umug.umoja-international.com/pdfimages/reportLogo.jpg";
+        public const string ReportImageUrl = "https://jayhawksafrica.com/pdfimages/reportLogo.jpg";
         public const string Role_User = "User";
         public const string Password = "Umoja1234$";
         public const string BccEmail = "hr@umojamicrofinance.com";

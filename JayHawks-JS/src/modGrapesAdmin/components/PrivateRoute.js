@@ -12,7 +12,7 @@ const PrivateRoute = () => {
       <Navigate to="/grapes" />
     )
   ) : (
-    <Navigate to="/" />
+    <Navigate to="/backoffice" />
   );
 };
 

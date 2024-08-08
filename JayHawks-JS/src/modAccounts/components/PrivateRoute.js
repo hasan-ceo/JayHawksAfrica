@@ -13,7 +13,7 @@ const PrivateRoute = () => {
       <Navigate to="/dashboard" />
     )
   ) : (
-    <Navigate to="/" />
+    <Navigate to="/backoffice" />
   );
 };
 

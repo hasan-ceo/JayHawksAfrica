@@ -4,7 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const PrivateRoute = () => {
   const value = useGlobalContext();
-  return value.user ? <Outlet /> : <Navigate to="/" />;
+  return value.user ? <Outlet /> : <Navigate to="/backoffice" />;
 };
 
 export default PrivateRoute;
